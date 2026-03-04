@@ -7,9 +7,10 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .concert {
-      padding: 12px 0;
-      border-bottom: 1px solid #e8e6e1;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f1ef;
     }
+    .concert:last-child { border-bottom: none; }
 
     .concert-header {
       display: flex;
@@ -19,39 +20,40 @@
     }
 
     .concert-date {
-      color: #a09b93;
-      font-size: 0.85rem;
+      color: #b4b4b0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
 
     .concert-venue {
-      color: #a09b93;
-      font-size: 0.85rem;
+      color: #b4b4b0;
+      font-size: 0.8125rem;
       white-space: nowrap;
     }
 
     .concert-pieces {
       list-style: none;
-      margin-top: 6px;
+      margin-top: 4px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .concert-piece {
-      font-size: 0.95rem;
-      color: #3d3d3d;
+      font-size: 0.9375rem;
+      color: #55534e;
     }
 
     .concert-piece .composer {
-      color: #1a1a1a;
+      color: #37352f;
       font-weight: 500;
     }
 
     .concert-piece .artist {
-      color: #a09b93;
-      font-size: 0.85rem;
+      color: #b4b4b0;
+      font-size: 0.8125rem;
     }
 
     @media (max-width: 520px) {

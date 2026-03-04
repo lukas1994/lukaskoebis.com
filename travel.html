@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .map-wrap {
-      margin-top: 40px;
+      margin-top: 32px;
       position: relative;
     }
     .map-container {
-      width: calc(100% + 80px);
-      margin-left: -40px;
+      width: calc(100% + 48px);
+      margin-left: -24px;
       position: relative;
     }
     .map-container svg {
@@ -22,86 +22,67 @@
     }
     .map-container svg path,
     .map-container svg polygon {
-      fill: #e8e5df;
-      stroke: #faf9f7;
+      fill: #f1f1ef;
+      stroke: #fff;
       stroke-width: 0.4;
-      transition: fill 0.25s ease;
+      transition: fill 0.2s ease;
     }
     .map-container svg .visited {
-      fill: #6b6560;
+      fill: #37352f;
       cursor: pointer;
     }
     .map-container svg .visited:hover {
-      fill: #1a1a1a;
+      fill: #787774;
     }
 
-    /* Tooltip */
     .map-tooltip {
       position: fixed;
       pointer-events: none;
-      background: #1a1a1a;
-      color: #faf9f7;
+      background: #37352f;
+      color: #fff;
       font-size: 0.75rem;
-      letter-spacing: 0.04em;
-      padding: 5px 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity 0.1s ease;
       z-index: 50;
       white-space: nowrap;
     }
-    .map-tooltip.visible {
-      opacity: 1;
-    }
+    .map-tooltip.visible { opacity: 1; }
 
-    /* Stats */
     .travel-stat {
-      margin-top: 28px;
+      margin-top: 24px;
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 8px;
     }
     .travel-stat .num {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 3rem;
-      font-weight: 300;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
       line-height: 1;
-      color: #1a1a1a;
-      letter-spacing: -0.02em;
+      color: #37352f;
     }
     .travel-stat .label {
-      font-size: 0.8rem;
-      color: #a09b93;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: 0.8125rem;
+      color: #b4b4b0;
     }
 
-    /* Country grid */
-    .country-section {
-      margin-top: 48px;
-    }
+    .country-section { margin-top: 40px; }
     .country-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-      border-top: 1px solid #e8e6e1;
     }
     .country-grid span {
-      font-size: 0.85rem;
-      color: #3d3d3d;
-      padding: 9px 0;
-      border-bottom: 1px solid #e8e6e1;
-      transition: color 0.2s;
+      font-size: 0.875rem;
+      color: #55534e;
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f1ef;
     }
-    .country-grid span:nth-child(odd) {
-      padding-right: 16px;
-    }
-    .country-grid span:nth-child(even) {
-      padding-left: 16px;
-      border-left: 1px solid #e8e6e1;
-    }
-    .country-grid span:hover {
-      color: #1a1a1a;
-    }
+    .country-grid span:nth-child(odd) { padding-right: 12px; }
+    .country-grid span:nth-child(even) { padding-left: 12px; }
+    .country-grid span:hover { color: #37352f; }
   </style>
 </head>
 <body>

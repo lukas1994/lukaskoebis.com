@@ -6,32 +6,32 @@
   <title>Photography – Lukas Koebis</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .album { margin-top: 64px; }
+    .album { margin-top: 56px; }
     .album:first-of-type { margin-top: 0; }
 
     .album-header {
       display: flex;
       align-items: baseline;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     .album-header h2 {
-      font-size: 0.7rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #a09b93;
+      letter-spacing: 0.06em;
+      color: #b4b4b0;
       margin: 0;
     }
     .album-date {
       font-size: 0.75rem;
-      color: #c4c0b8;
+      color: #d3d1cb;
     }
 
     .photo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4px;
+      gap: 3px;
     }
     .photo-grid img {
       width: 100%;
@@ -39,27 +39,28 @@
       object-fit: cover;
       display: block;
       cursor: pointer;
-      transition: opacity 0.15s;
+      border-radius: 2px;
+      transition: opacity 0.12s;
     }
-    .photo-grid img:hover { opacity: 0.9; }
+    .photo-grid img:hover { opacity: 0.85; }
     .photo-grid img.cover {
       grid-column: 1 / -1;
       aspect-ratio: 3/2;
     }
 
     .load-more {
-      margin-top: 12px;
-      background: none;
-      border: 1px solid #d4d0c8;
-      color: #7a756d;
-      font-size: 0.8rem;
-      padding: 7px 18px;
+      margin-top: 10px;
+      background: #f7f7f5;
+      border: none;
+      color: #787774;
+      font-size: 0.8125rem;
+      padding: 6px 14px;
       cursor: pointer;
-      letter-spacing: 0.04em;
       font-family: inherit;
-      transition: border-color 0.2s, color 0.2s;
+      border-radius: 4px;
+      transition: background 0.12s, color 0.12s;
     }
-    .load-more:hover { border-color: #a09b93; color: #1a1a1a; }
+    .load-more:hover { background: #f1f1ef; color: #37352f; }
 
     /* Lightbox */
     #lb {

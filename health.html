@@ -7,73 +7,52 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .health-intro {
-      margin-top: 24px;
-      font-size: 0.975rem;
-      color: #3d3d3d;
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      color: #55534e;
     }
     .health-intro a {
-      color: #1a1a1a;
-      text-decoration: none;
-      border-bottom: 1px solid #d4d0c8;
-      padding-bottom: 1px;
-      transition: border-color 0.2s;
+      color: #37352f;
+      text-decoration: underline;
+      text-decoration-color: #d3d1cb;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      transition: text-decoration-color 0.15s;
     }
-    .health-intro a:hover { border-color: #1a1a1a; }
-
-    .metrics {
-      margin-top: 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-    }
-    .metric {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .metric .value {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 2.8rem;
-      font-weight: 300;
-      line-height: 1;
-      color: #1a1a1a;
-      letter-spacing: -0.02em;
-    }
-    .metric .unit {
-      font-size: 0.75rem;
-      color: #a09b93;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
+    .health-intro a:hover { text-decoration-color: #37352f; }
 
     .goals-table {
       width: 100%;
       border-collapse: collapse;
     }
     .goals-table tr {
-      border-bottom: 1px solid #e8e6e1;
+      border-bottom: 1px solid #f1f1ef;
     }
+    .goals-table tr:last-child { border-bottom: none; }
     .goals-table td {
-      padding: 9px 0;
-      font-size: 0.9rem;
-      color: #3d3d3d;
+      padding: 8px 0;
+      font-size: 0.9375rem;
+      color: #37352f;
     }
     .goals-table td:first-child {
-      color: #a09b93;
-      font-size: 0.85rem;
-      width: 120px;
+      color: #b4b4b0;
+      font-size: 0.8125rem;
+      width: 100px;
     }
     .goals-table td:last-child {
       text-align: right;
-      color: #a09b93;
-      font-size: 0.85rem;
+      color: #b4b4b0;
+      font-size: 0.8125rem;
     }
     .goals-table .current {
-      color: #1a1a1a;
+      color: #37352f;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.875rem;
     }
     .goals-table .goal {
-      color: #a09b93;
+      color: #b4b4b0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem;
     }
   </style>
 </head>
@@ -81,7 +60,6 @@
   <script src="nav.js"></script>
 
   <h1>Health</h1>
-
   <p class="health-intro">I'm into triathlons and track my training on <a href="https://strava.app.link/BMYM9b1ze1b" target="_blank">Strava</a>.</p>
 
   <section>
