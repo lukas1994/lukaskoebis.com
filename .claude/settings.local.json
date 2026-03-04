@@ -13,7 +13,9 @@
       "Bash(git -C /Users/lukaskoebis/lukaskoebis.com push)",
       "Bash(git -C /Users/lukaskoebis/lukaskoebis.com log --oneline -5)",
       "Bash(git -C /Users/lukaskoebis/lukaskoebis.com add -A)",
-      "Bash(git -C /Users/lukaskoebis/lukaskoebis.com commit -m \"Add investments + photography pages, shared CSS, update links\")"
+      "Bash(git -C /Users/lukaskoebis/lukaskoebis.com commit -m \"Add investments + photography pages, shared CSS, update links\")",
+      "Bash(python3:*)",
+      "Bash(git -C /Users/lukaskoebis/lukaskoebis.com status --short)"
     ]
   }
 }

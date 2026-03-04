@@ -5,6 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Photography – Lukas Koebis</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .album-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-bottom: 48px;
+    }
+    .album-filter a {
+      font-size: 0.85rem;
+      color: #999;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .album-filter a:hover { color: #111; }
+
+    .album { margin-top: 64px; }
+    .album:first-of-type { margin-top: 0; }
+
+    .album-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .album-header h2 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #999;
+      margin: 0;
+    }
+    .album-date {
+      font-size: 0.75rem;
+      color: #ccc;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    .photo-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .photo-grid img:hover { opacity: 0.9; }
+    .photo-grid img.cover {
+      grid-column: 1 / -1;
+      aspect-ratio: 3/2;
+    }
+
+    /* Lightbox */
+    #lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    #lb.open { display: flex; }
+    #lb img {
+      max-width: min(92vw, 900px);
+      max-height: 90vh;
+      object-fit: contain;
+    }
+    #lb-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.7;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    #lb-close:hover { opacity: 1; }
+    #lb-prev, #lb-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.6;
+      background: none;
+      border: none;
+      padding: 12px;
+      line-height: 1;
+    }
+    #lb-prev:hover, #lb-next:hover { opacity: 1; }
+    #lb-prev { left: 16px; }
+    #lb-next { right: 16px; }
+  </style>
 </head>
 <body>
   <nav>
@@ -14,18 +115,245 @@
   </nav>
 
   <h1>Photography</h1>
-  <p class="tagline">Moments worth keeping.</p>
+  <p class="tagline">Places and moments.</p>
 
-  <section>
-    <h2>Photos</h2>
+  <div class="album-filter" style="margin-top:24px;">
+    <a href="#val-thorens">Val Thorens</a>
+    <a href="#baden-baden">Baden-Baden</a>
+    <a href="#poland">Poland</a>
+    <a href="#japan-honeymoon">Japan Honeymoon</a>
+    <a href="#wedding">Wedding</a>
+    <a href="#saltmarsh">Saltmarsh</a>
+    <a href="#athens">Athens</a>
+    <a href="#las-vegas">Las Vegas</a>
+    <a href="#new-york">New York</a>
+    <a href="#palais-garnier">Palais Garnier</a>
+    <a href="#ethiopia">Ethiopia</a>
+    <a href="#zimbabwe">Zimbabwe</a>
+    <a href="#maldives">Maldives</a>
+  </div>
+
+  
+  <section class="album" id="val-thorens">
+    <div class="album-header">
+      <h2>Val Thorens</h2>
+      <span class="album-date">February 2026</span>
+    </div>
     <div class="photo-grid">
-      <!-- Drop your images into an /img folder and update the src attributes -->
-      <img src="img/photo1.jpg" alt="" />
-      <img src="img/photo2.jpg" alt="" />
-      <img src="img/photo3.jpg" alt="" />
-      <img src="img/photo4.jpg" alt="" />
-      <img src="img/photo5.jpg" alt="" />
+      <img src="img/val-thorens/17931252420192835.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/val-thorens/18053805935456367.jpg" alt="" loading="lazy">
+      <img src="img/val-thorens/17936174175173909.jpg" alt="" loading="lazy">
+      <img src="img/val-thorens/17925037830075024.jpg" alt="" loading="lazy">
     </div>
   </section>
+
+  <section class="album" id="baden-baden">
+    <div class="album-header">
+      <h2>Baden-Baden</h2>
+      <span class="album-date">January 2026</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/baden-baden/18020241902795984.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/baden-baden/18103444714756029.jpg" alt="" loading="lazy">
+      <img src="img/baden-baden/17882715204431113.jpg" alt="" loading="lazy">
+      <img src="img/baden-baden/17897265513371861.jpg" alt="" loading="lazy">
+      <img src="img/baden-baden/18055286216657946.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="poland">
+    <div class="album-header">
+      <h2>Poland</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/poland/18098388565876310.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/poland/18196029079329880.jpg" alt="" loading="lazy">
+      <img src="img/poland/18405840049125183.jpg" alt="" loading="lazy">
+      <img src="img/poland/18065288606635567.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="japan-honeymoon">
+    <div class="album-header">
+      <h2>Japan Honeymoon</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/japan-honeymoon/18092848148504155.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/japan-honeymoon/18111932998621949.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/18002792507835741.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/18052926506667140.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/18054285356375916.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/17993540018908931.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/18036433409737397.jpg" alt="" loading="lazy">
+      <img src="img/japan-honeymoon/17996978417716658.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="wedding">
+    <div class="album-header">
+      <h2>Wedding</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/wedding/17943409430965856.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/wedding/17905586361164290.jpg" alt="" loading="lazy">
+      <img src="img/wedding/17929833924176321.jpg" alt="" loading="lazy">
+      <img src="img/wedding/17930221947175629.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="saltmarsh">
+    <div class="album-header">
+      <h2>Saltmarsh</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/saltmarsh/18087584738082749.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/saltmarsh/17850770295583391.jpg" alt="" loading="lazy">
+      <img src="img/saltmarsh/18092987420303999.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="athens">
+    <div class="album-header">
+      <h2>Athens</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/athens/18356467288161754.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/athens/17861588586561126.jpg" alt="" loading="lazy">
+      <img src="img/athens/18108757237630562.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="las-vegas">
+    <div class="album-header">
+      <h2>Las Vegas</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/las-vegas/18505985461076799.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/las-vegas/17995774430856457.jpg" alt="" loading="lazy">
+      <img src="img/las-vegas/18103568047753272.jpg" alt="" loading="lazy">
+      <img src="img/las-vegas/18099969922880999.jpg" alt="" loading="lazy">
+      <img src="img/las-vegas/18081155243466607.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="new-york">
+    <div class="album-header">
+      <h2>New York</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/new-york/17871109749483552.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/new-york/17862656130557320.jpg" alt="" loading="lazy">
+      <img src="img/new-york/18179482234367114.jpg" alt="" loading="lazy">
+      <img src="img/new-york/18090568102981866.jpg" alt="" loading="lazy">
+      <img src="img/new-york/17991175664913042.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="palais-garnier">
+    <div class="album-header">
+      <h2>Palais Garnier</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/palais-garnier/18043470869504451.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/palais-garnier/17857459434587733.jpg" alt="" loading="lazy">
+      <img src="img/palais-garnier/18088834297999740.jpg" alt="" loading="lazy">
+      <img src="img/palais-garnier/18152685526425608.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="ethiopia">
+    <div class="album-header">
+      <h2>Ethiopia</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/ethiopia/17909346861289738.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/ethiopia/18407868001184312.jpg" alt="" loading="lazy">
+      <img src="img/ethiopia/17844533559644728.jpg" alt="" loading="lazy">
+      <img src="img/ethiopia/18160063648410450.jpg" alt="" loading="lazy">
+      <img src="img/ethiopia/18120592834490064.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="zimbabwe">
+    <div class="album-header">
+      <h2>Zimbabwe</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/zimbabwe/18099057649665608.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/zimbabwe/18067403219627004.jpg" alt="" loading="lazy">
+      <img src="img/zimbabwe/17988119912921597.jpg" alt="" loading="lazy">
+      <img src="img/zimbabwe/17902312794345177.jpg" alt="" loading="lazy">
+      <img src="img/zimbabwe/18299543416275081.jpg" alt="" loading="lazy">
+      <img src="img/zimbabwe/17844533133647353.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <section class="album" id="maldives">
+    <div class="album-header">
+      <h2>Maldives</h2>
+      <span class="album-date">December 2025</span>
+    </div>
+    <div class="photo-grid">
+      <img src="img/maldives/18187891885351296.jpg" alt="" loading="lazy" class="cover">
+      <img src="img/maldives/17894575281245048.jpg" alt="" loading="lazy">
+      <img src="img/maldives/18077326580196821.jpg" alt="" loading="lazy">
+      <img src="img/maldives/18051362066429902.jpg" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lb">
+    <button id="lb-close">&#x2715;</button>
+    <button id="lb-prev">&#x2039;</button>
+    <img id="lb-img" src="" alt="" />
+    <button id="lb-next">&#x203a;</button>
+  </div>
+
+  <script>
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+    let allImgs = [], cur = 0;
+
+    document.querySelectorAll('.photo-grid img').forEach(img => {
+      img.addEventListener('click', () => {
+        allImgs = [...img.closest('.photo-grid').querySelectorAll('img')].map(i => i.src);
+        cur = allImgs.indexOf(img.src);
+        open(cur);
+      });
+    });
+
+    function open(i) {
+      cur = (i + allImgs.length) % allImgs.length;
+      lbImg.src = allImgs[cur];
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('lb-close').onclick = close;
+    document.getElementById('lb-prev').onclick = () => open(cur - 1);
+    document.getElementById('lb-next').onclick = () => open(cur + 1);
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') open(cur - 1);
+      if (e.key === 'ArrowRight') open(cur + 1);
+    });
+
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
 </body>
 </html>
