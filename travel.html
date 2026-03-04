@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel – Lukas Koebis</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .map-wrap {
+      margin-top: 40px;
+      position: relative;
+    }
+    .map-container {
+      width: calc(100% + 80px);
+      margin-left: -40px;
+      position: relative;
+    }
+    .map-container svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .map-container svg path,
+    .map-container svg polygon {
+      fill: #e8e5df;
+      stroke: #faf9f7;
+      stroke-width: 0.4;
+      transition: fill 0.25s ease;
+    }
+    .map-container svg .visited {
+      fill: #6b6560;
+      cursor: pointer;
+    }
+    .map-container svg .visited:hover {
+      fill: #1a1a1a;
+    }
+
+    /* Tooltip */
+    .map-tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: #1a1a1a;
+      color: #faf9f7;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      padding: 5px 10px;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 50;
+      white-space: nowrap;
+    }
+    .map-tooltip.visible {
+      opacity: 1;
+    }
+
+    /* Stats */
+    .travel-stat {
+      margin-top: 28px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .travel-stat .num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 3rem;
+      font-weight: 300;
+      line-height: 1;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+    }
+    .travel-stat .label {
+      font-size: 0.8rem;
+      color: #a09b93;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Country grid */
+    .country-section {
+      margin-top: 48px;
+    }
+    .country-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid #e8e6e1;
+    }
+    .country-grid span {
+      font-size: 0.85rem;
+      color: #3d3d3d;
+      padding: 9px 0;
+      border-bottom: 1px solid #e8e6e1;
+      transition: color 0.2s;
+    }
+    .country-grid span:nth-child(odd) {
+      padding-right: 16px;
+    }
+    .country-grid span:nth-child(even) {
+      padding-left: 16px;
+      border-left: 1px solid #e8e6e1;
+    }
+    .country-grid span:hover {
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <script src="nav.js"></script>
+
+  <h1>Travel</h1>
+
+  <div class="map-wrap">
+    <div class="map-container" id="map"></div>
+    <div class="map-tooltip" id="tooltip"></div>
+  </div>
+
+  <div class="travel-stat" id="stat"></div>
+
+  <section class="country-section">
+    <h2>Countries</h2>
+    <div class="country-grid" id="countries"></div>
+  </section>
+
+  <script>
+    const visited = [
+      { name: 'Australia', code: 'au' },
+      { name: 'Austria', code: 'at' },
+      { name: 'Belgium', code: 'be' },
+      { name: 'Bosnia and Herzegovina', code: 'ba' },
+      { name: 'Bulgaria', code: 'bg' },
+      { name: 'Canada', code: 'ca' },
+      { name: 'China', code: 'cn' },
+      { name: 'Costa Rica', code: 'cr' },
+      { name: 'Czech Republic', code: 'cz' },
+      { name: 'Denmark', code: 'dk' },
+      { name: 'Dominican Republic', code: 'do' },
+      { name: 'Ethiopia', code: 'et' },
+      { name: 'France', code: 'fr' },
+      { name: 'Germany', code: 'de' },
+      { name: 'Greece', code: 'gr' },
+      { name: 'Hungary', code: 'hu' },
+      { name: 'Iceland', code: 'is' },
+      { name: 'Indonesia', code: 'id' },
+      { name: 'Ireland', code: 'ie' },
+      { name: 'Israel', code: 'il' },
+      { name: 'Italy', code: 'it' },
+      { name: 'Japan', code: 'jp' },
+      { name: 'Liechtenstein', code: 'li' },
+      { name: 'Luxembourg', code: 'lu' },
+      { name: 'Maldives', code: 'mv' },
+      { name: 'Mexico', code: 'mx' },
+      { name: 'Monaco', code: 'mc' },
+      { name: 'Montenegro', code: 'me' },
+      { name: 'Netherlands', code: 'nl' },
+      { name: 'Norway', code: 'no' },
+      { name: 'Pakistan', code: 'pk' },
+      { name: 'Philippines', code: 'ph' },
+      { name: 'Poland', code: 'pl' },
+      { name: 'Portugal', code: 'pt' },
+      { name: 'Qatar', code: 'qa' },
+      { name: 'Romania', code: 'ro' },
+      { name: 'Russia', code: 'ru' },
+      { name: 'Serbia', code: 'rs' },
+      { name: 'Singapore', code: 'sg' },
+      { name: 'Slovakia', code: 'sk' },
+      { name: 'Slovenia', code: 'si' },
+      { name: 'Spain', code: 'es' },
+      { name: 'Sweden', code: 'se' },
+      { name: 'Switzerland', code: 'ch' },
+      { name: 'Thailand', code: 'th' },
+      { name: 'Turkey', code: 'tr' },
+      { name: 'United Arab Emirates', code: 'ae' },
+      { name: 'United Kingdom', code: 'gb' },
+      { name: 'United States', code: 'us' },
+      { name: 'Vatican City', code: 'va' },
+      { name: 'Zimbabwe', code: 'zw' },
+    ];
+
+    // Stat
+    document.getElementById('stat').innerHTML =
+      `<span class="num">${visited.length}</span><span class="label">countries visited</span>`;
+
+    // Country grid
+    document.getElementById('countries').innerHTML = visited
+      .map(c => `<span>${c.name}</span>`).join('');
+
+    // Tooltip
+    const tooltip = document.getElementById('tooltip');
+    const mapContainer = document.getElementById('map');
+
+    // Map
+    fetch('world-map.svg')
+      .then(r => r.text())
+      .then(svg => {
+        mapContainer.innerHTML = svg + '<div class="map-tooltip" id="tooltip"></div>';
+        const tip = document.getElementById('tooltip');
+        const codeToName = Object.fromEntries(visited.map(c => [c.code, c.name]));
+
+        visited.forEach(({ code, name }) => {
+          const el = document.getElementById(code);
+          if (!el) return;
+          if (el.tagName === 'g') {
+            el.querySelectorAll('path, polygon').forEach(p => {
+              p.classList.add('visited');
+              p.dataset.country = name;
+            });
+          } else {
+            el.classList.add('visited');
+            el.dataset.country = name;
+          }
+        });
+
+        // Tooltip events
+        mapContainer.addEventListener('mousemove', e => {
+          const target = e.target.closest('.visited');
+          if (target && target.dataset.country) {
+            tip.textContent = target.dataset.country;
+            tip.classList.add('visible');
+            tip.style.left = e.clientX + 12 + 'px';
+            tip.style.top = e.clientY - 28 + 'px';
+          } else {
+            tip.classList.remove('visible');
+          }
+        });
+        mapContainer.addEventListener('mouseleave', () => {
+          tip.classList.remove('visible');
+        });
+      });
+  </script>
+</body>
+</html>

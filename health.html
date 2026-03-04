@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health – Lukas Koebis</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .health-intro {
+      margin-top: 24px;
+      font-size: 0.975rem;
+      color: #3d3d3d;
+    }
+    .health-intro a {
+      color: #1a1a1a;
+      text-decoration: none;
+      border-bottom: 1px solid #d4d0c8;
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .health-intro a:hover { border-color: #1a1a1a; }
+
+    .metrics {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric .value {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      line-height: 1;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+    }
+    .metric .unit {
+      font-size: 0.75rem;
+      color: #a09b93;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .goals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .goals-table tr {
+      border-bottom: 1px solid #e8e6e1;
+    }
+    .goals-table td {
+      padding: 9px 0;
+      font-size: 0.9rem;
+      color: #3d3d3d;
+    }
+    .goals-table td:first-child {
+      color: #a09b93;
+      font-size: 0.85rem;
+      width: 120px;
+    }
+    .goals-table td:last-child {
+      text-align: right;
+      color: #a09b93;
+      font-size: 0.85rem;
+    }
+    .goals-table .current {
+      color: #1a1a1a;
+    }
+    .goals-table .goal {
+      color: #a09b93;
+    }
+  </style>
+</head>
+<body>
+  <script src="nav.js"></script>
+
+  <h1>Health</h1>
+
+  <p class="health-intro">I'm into triathlons and track my training on <a href="https://strava.app.link/BMYM9b1ze1b" target="_blank">Strava</a>.</p>
+
+  <div class="metrics">
+    <div class="metric">
+      <span class="value">48</span>
+      <span class="unit">VO2max</span>
+    </div>
+    <div class="metric">
+      <span class="value">52</span>
+      <span class="unit">RHR (bpm)</span>
+    </div>
+    <div class="metric">
+      <span class="value">77</span>
+      <span class="unit">Lean mass %</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Goals</h2>
+    <table class="goals-table">
+      <tr>
+        <td>VO2max</td>
+        <td class="current">48</td>
+        <td class="goal">&rarr; 55</td>
+      </tr>
+      <tr>
+        <td>RHR</td>
+        <td class="current">52 bpm</td>
+        <td class="goal">&rarr; 45 bpm</td>
+      </tr>
+      <tr>
+        <td>Lean mass</td>
+        <td class="current">77%</td>
+        <td class="goal">&rarr; 82%</td>
+      </tr>
+    </table>
+  </section>
+</body>
+</html>

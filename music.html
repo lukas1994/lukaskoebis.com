@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music – Lukas Koebis</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .year-group { margin-top: 56px; }
+
+    .concert {
+      padding: 12px 0;
+      border-bottom: 1px solid #e8e6e1;
+    }
+
+    .concert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .concert-date {
+      color: #a09b93;
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .concert-venue {
+      color: #a09b93;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .concert-pieces {
+      list-style: none;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .concert-piece {
+      font-size: 0.95rem;
+      color: #3d3d3d;
+    }
+
+    .concert-piece .composer {
+      color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    .concert-piece .artist {
+      color: #a09b93;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 520px) {
+      .concert-header {
+        flex-direction: column;
+        gap: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script src="nav.js"></script>
+
+  <h1>Music</h1>
+
+  <div id="concerts"></div>
+
+  <script>
+    const concerts = [
+      // 2023
+      {
+        date: '2023-04-23', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Mahler', work: 'Symphony No. 7' },
+        ]
+      },
+      {
+        date: '2023-08-10', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Mahler', work: 'Symphony No. 7' },
+        ]
+      },
+      {
+        date: '2023-08-30', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Dvořák', work: 'Symphony No. 9' },
+        ]
+      },
+      {
+        date: '2023-11-30', venue: 'Barbican',
+        pieces: [
+          { composer: 'Rachmaninoff', work: 'Piano Concerto No. 3' },
+        ]
+      },
+      {
+        date: '2023-12-25', venue: 'Bachkirche Arnstadt',
+        pieces: [
+          { composer: 'Bach', work: 'Weihnachtsoratorium' },
+        ]
+      },
+      // 2024
+      {
+        date: '2024-01-25', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Beethoven', work: 'Overture, Leonore No. 2' },
+          { composer: 'Beethoven', work: 'Piano Concerto No. 2', artist: 'Mitsuko Uchida' },
+        ]
+      },
+      {
+        date: '2024-02-07', venue: 'Royal Opera House',
+        pieces: [
+          { composer: null, work: 'Manon (ballet)' },
+        ]
+      },
+      {
+        date: '2024-02-08', venue: 'Barbican',
+        pieces: [
+          { composer: 'Bruckner', work: 'Symphony No. 7' },
+        ]
+      },
+      {
+        date: '2024-02-23', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Beethoven', work: 'Sonata in B-flat, Op. 106 "Hammerklavier"', artist: 'Marc-André Hamelin' },
+          { composer: 'Beethoven', work: 'Adélaïde, Op. 46 (arr. Liszt, S. 466)', artist: 'Marc-André Hamelin' },
+          { composer: 'Medtner', work: 'Sonata Reminiscenza, Op. 38 No. 1', artist: 'Marc-André Hamelin' },
+          { composer: 'Godowsky', work: 'Symphonic Metamorphosis on Strauss\' "Wine, Women & Song"', artist: 'Marc-André Hamelin' },
+          { composer: 'C.P.E. Bach', work: 'Encore: Rondo in C minor, Wq. 59/4', artist: 'Marc-André Hamelin' },
+          { composer: 'Marc-André Hamelin', work: 'Encore: Musicbox', artist: 'Marc-André Hamelin' },
+        ]
+      },
+      {
+        date: '2024-02-28', venue: 'Barbican',
+        pieces: [
+          { composer: 'Shostakovich', work: 'Symphony No. 4', artist: 'Sir Simon Rattle' },
+        ]
+      },
+      {
+        date: '2024-03-08', venue: 'Theater Erfurt',
+        pieces: [
+          { composer: 'Dvořák', work: 'Rusalka' },
+        ]
+      },
+      {
+        date: '2024-03-20', venue: 'Palau de la Música Catalana',
+        pieces: [
+          { composer: 'Tchaikovsky', work: 'Piano Concerto No. 1', artist: 'Uladzislau Khandohi' },
+          { composer: 'Rachmaninoff', work: 'Piano Concerto No. 3', artist: 'Chun Lam' },
+          { composer: 'Tchaikovsky', work: 'Piano Concerto No. 1', artist: 'Xiaolu Zang' },
+        ]
+      },
+      {
+        date: '2024-03-24', venue: 'Barbican',
+        pieces: [
+          { composer: 'Jörg Widmann', work: 'Towards Paradise (Labyrinth VI)', artist: 'Håkan Hardenberger' },
+          { composer: 'Mahler', work: 'Symphony No. 5' },
+        ]
+      },
+      {
+        date: '2024-03-27', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Smyth', work: 'Overture, The Wreckers', artist: 'Vasily Petrenko' },
+          { composer: 'Rachmaninoff', work: 'Piano Concerto No. 3', artist: 'Denis Kozhukhin' },
+          { composer: 'Tchaikovsky', work: 'In Church, Op. 39 No. 24', artist: 'Denis Kozhukhin' },
+        ]
+      },
+      {
+        date: '2024-05-12', venue: 'Barbican',
+        pieces: [
+          { composer: 'Mahler', work: 'Symphony No. 3', artist: 'Michael Tilson Thomas' },
+        ]
+      },
+      {
+        date: '2024-06-19', venue: 'Barbican',
+        pieces: [
+          { composer: 'Prokofiev', work: 'Symphony No. 7', artist: 'Gianandrea Noseda' },
+        ]
+      },
+      {
+        date: '2024-07-29', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Erkki-Sven Tüür', work: 'Aditus' },
+          { composer: 'Beethoven', work: 'Piano Concerto No. 5', artist: 'Yunchan Lim' },
+          { composer: 'Bruckner', work: 'Symphony No. 1' },
+        ]
+      },
+      {
+        date: '2024-09-09', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Vaughan Williams', work: 'Fantasia on "Greensleeves"', artist: 'Tarmo Peltokoski' },
+          { composer: 'Schoenberg', work: 'Violin Concerto', artist: 'Patricia Kopatchinskaja' },
+          { composer: 'Shostakovich', work: 'Symphony No. 5', artist: 'Tarmo Peltokoski' },
+        ]
+      },
+      {
+        date: '2024-09-15', venue: 'Barbican',
+        pieces: [
+          { composer: 'Berlioz', work: 'Roman Carnival' },
+          { composer: 'Rachmaninoff', work: 'Piano Concerto No. 1', artist: 'Yuja Wang' },
+          { composer: 'Saint-Saëns', work: 'Symphony No. 3 "Organ Symphony"', artist: 'Anna Lapwood' },
+        ]
+      },
+      {
+        date: '2024-09-19', venue: 'Barbican',
+        pieces: [
+          { composer: 'Szymanowski', work: 'Concert Overture' },
+          { composer: 'Chopin', work: 'Piano Concerto No. 2', artist: 'Yuja Wang' },
+          { composer: 'Mahler', work: 'Symphony No. 1' },
+        ]
+      },
+      {
+        date: '2024-09-22', venue: 'Wigmore Hall',
+        pieces: [
+          { composer: 'Chopin', work: 'From 12 Études, Op. 25 (Nos. 1, 2, 6, 5)', artist: 'Yoav Levanon' },
+          { composer: 'Liszt', work: 'Transcendental Études', artist: 'Yoav Levanon' },
+        ]
+      },
+      {
+        date: '2024-10-11', venue: 'Royal Opera House',
+        pieces: [
+          { composer: null, work: 'Alice\'s Adventures in Wonderland' },
+        ]
+      },
+      {
+        date: '2024-10-20', venue: 'Barbican',
+        pieces: [
+          { composer: 'Mahler', work: 'Symphony No. 2 "Resurrection"' },
+        ]
+      },
+      {
+        date: '2024-12-05', venue: 'Ronnie Scott\'s',
+        pieces: [
+          { composer: null, work: 'Nutcracker (jazz version)' },
+        ]
+      },
+      {
+        date: '2024-12-19', venue: 'Barbican',
+        pieces: [
+          { composer: 'Gershwin', work: 'Overture: Girl Crazy' },
+          { composer: 'Kapustin', work: 'Piano Concerto No. 4' },
+          { composer: 'Bernstein', work: 'Prelude, Fugue and Riffs' },
+          { composer: 'Tchaikovsky / Ellington & Strayhorn (arr. Tyzik)', work: 'The Nutcracker – Suite' },
+          { composer: 'Tchaikovsky', work: 'Selections from "The Nutcracker"' },
+          { composer: 'Leroy Anderson', work: 'Sleigh Ride' },
+        ]
+      },
+      {
+        date: '2024-12-31', venue: 'Royal Opera House',
+        pieces: [
+          { composer: null, work: 'Cinderella' },
+        ]
+      },
+      // 2025
+      {
+        date: '2025-01-30', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Tchaikovsky', work: 'Capriccio Italien' },
+          { composer: 'Chopin', work: 'Piano Concerto No. 1', artist: 'Nobuyuki Tsujii' },
+          { composer: 'Liszt', work: 'La Campanella', artist: 'Nobuyuki Tsujii' },
+          { composer: 'Bartók', work: 'Concerto for Orchestra' },
+        ]
+      },
+      {
+        date: '2025-02-02', venue: 'Barbican',
+        pieces: [
+          { composer: 'Schumann', work: 'Piano Concerto', artist: 'Daniil Trifonov' },
+          { composer: 'Mahler', work: 'Symphony No. 7' },
+        ]
+      },
+      {
+        date: '2025-02-15', venue: 'Deutsche Oper Berlin',
+        pieces: [
+          { composer: 'Verdi', work: 'La Traviata' },
+        ]
+      },
+      {
+        date: '2025-02-27', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Stravinsky', work: 'Petrushka' },
+          { composer: 'Tüür', work: 'Cello Concerto No. 2 "Labyrinths of Life"', artist: 'Nicolas Altstaedt' },
+          { composer: 'Stravinsky', work: 'The Firebird Suite' },
+        ]
+      },
+      {
+        date: '2025-03-20', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Mazzoli', work: 'These Worlds In Us' },
+          { composer: 'Mozart', work: 'Piano Concerto No. 25, K. 503', artist: 'Mao Fujita' },
+          { composer: 'Mendelssohn', work: 'Symphony No. 5 "Reformation"' },
+        ]
+      },
+      {
+        date: '2025-04-03', venue: 'Barbican',
+        pieces: [
+          { composer: 'Shostakovich', work: 'Festive Overture' },
+          { composer: 'James MacMillan', work: 'Violin Concerto No. 2', artist: 'Nicola Benedetti' },
+          { composer: 'Shostakovich', work: 'Symphony No. 12 "The Year 1917"' },
+        ]
+      },
+      {
+        date: '2025-05-10', venue: 'NYC Ballet',
+        pieces: [
+          { composer: 'George Balanchine', work: 'Ballet' },
+        ]
+      },
+      {
+        date: '2025-05-17', venue: 'Metropolitan Opera',
+        pieces: [
+          { composer: 'Richard Strauss', work: 'Salome' },
+        ]
+      },
+      {
+        date: '2025-07-25', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Brahms', work: 'Symphony No. 3' },
+          { composer: 'Schoenberg', work: 'Verklärte Nacht' },
+          { composer: 'Mahler', work: 'Kindertotenlieder' },
+        ]
+      },
+      {
+        date: '2025-08-01', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'John Adams', work: 'The Chairman Dances' },
+          { composer: 'Rachmaninoff', work: 'Piano Concerto No. 4 in G minor', artist: 'Yunchan Lim' },
+          { composer: 'Luciano Berio', work: 'Sinfonia' },
+        ]
+      },
+      {
+        date: '2025-08-08', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Dukas', work: 'La Péri – Poème dansé' },
+          { composer: 'Rachmaninoff', work: 'Rhapsody on a Theme of Paganini', artist: 'Beatrice Rana' },
+          { composer: 'Bartók', work: 'The Miraculous Mandarin' },
+        ]
+      },
+      {
+        date: '2025-09-10', venue: 'Royal Albert Hall',
+        pieces: [
+          { composer: 'Lili Boulanger', work: "D'un matin de printemps" },
+          { composer: 'Shostakovich', work: 'Cello Concerto No. 1 in E-flat major', artist: 'Anastasia Kobekina' },
+          { composer: 'Rachmaninoff', work: 'Symphony No. 2 in E minor' },
+        ]
+      },
+      {
+        date: '2025-09-25', venue: 'Southbank Centre',
+        pieces: [
+          { composer: 'Gabriela Ortiz', work: 'Si el oxígeno fuera verde' },
+          { composer: 'Beethoven', work: 'Piano Concerto No. 3', artist: 'Víkingur Ólafsson' },
+          { composer: 'Saint-Saëns', work: 'Symphony No. 3 in C minor "Organ"', artist: 'Olivier Latry' },
+        ]
+      },
+      {
+        date: '2025-11-17', venue: 'Berliner Philharmonie',
+        pieces: [
+          { composer: 'J.S. Bach', work: 'Das Wohltemperierte Klavier, Teil 1: Präludium und Fuge E-Dur, BWV 854', artist: 'Víkingur Ólafsson' },
+          { composer: 'J.S. Bach', work: 'Partita No. 6 in E minor, BWV 830', artist: 'Víkingur Ólafsson' },
+          { composer: 'Beethoven', work: 'Piano Sonata No. 27 in E minor, Op. 90', artist: 'Víkingur Ólafsson' },
+          { composer: 'Schubert', work: 'Piano Sonata in E minor, D. 566', artist: 'Víkingur Ólafsson' },
+          { composer: 'Beethoven', work: 'Piano Sonata No. 30 in E major, Op. 109', artist: 'Víkingur Ólafsson' },
+        ]
+      },
+      {
+        date: '2025-11-17', venue: 'Barbican',
+        pieces: [
+          { composer: 'Stravinsky', work: 'Divertimento from "The Fairy\'s Kiss"' },
+          { composer: 'Chopin', work: 'Piano Concerto No. 2', artist: 'Seong-Jin Cho' },
+          { composer: 'Borodin', work: 'Symphony No. 2' },
+        ]
+      },
+      // 2026
+      {
+        date: '2026-02-18', venue: 'Royal Opera House',
+        pieces: [
+          { composer: 'Mussorgsky', work: 'Boris Godunov' },
+        ]
+      },
+      {
+        date: '2026-03-01', venue: 'Barbican',
+        pieces: [
+          { composer: 'Rautavaara', work: 'Piano Concerto No. 1', artist: 'Yuja Wang' },
+          { composer: 'Wagner (arr. de Vlieger)', work: 'The Ring: An Orchestral Adventure' },
+        ]
+      },
+    ];
+
+    // Sort most recent first
+    concerts.sort((a, b) => b.date.localeCompare(a.date));
+
+    // Format date
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function fmtDate(iso) {
+      const d = new Date(iso + 'T00:00:00');
+      return `${d.getDate()} ${months[d.getMonth()]}`;
+    }
+
+    function getYear(iso) {
+      return iso.slice(0, 4);
+    }
+
+    // Render concerts
+    const concertsEl = document.getElementById('concerts');
+
+    function renderConcerts() {
+      // Group by year
+      const byYear = {};
+      for (const c of concerts) {
+        const y = getYear(c.date);
+        (byYear[y] = byYear[y] || []).push(c);
+      }
+
+      const years = Object.keys(byYear).sort((a, b) => b - a);
+
+      concertsEl.innerHTML = years.map(year => {
+        const items = byYear[year].map(c => {
+          const pieces = c.pieces.map(p => {
+              let label = p.composer
+                ? `<span class="composer">${p.composer}</span> – ${p.work}`
+                : p.work;
+              if (p.artist) label += ` <span class="artist">(${p.artist})</span>`;
+              return `<li class="concert-piece">${label}</li>`;
+            }).join('');
+
+          return `
+      <div class="concert">
+        <div class="concert-header">
+          <span class="concert-date">${fmtDate(c.date)}</span>
+          <span class="concert-venue">${c.venue}</span>
+        </div>
+        <ul class="concert-pieces">${pieces}</ul>
+      </div>`;
+        }).join('');
+
+        return `
+    <section class="year-group">
+      <h2>${year}</h2>
+      ${items}
+    </section>`;
+      }).join('');
+    }
+
+    renderConcerts();
+  </script>
+</body>
+</html>

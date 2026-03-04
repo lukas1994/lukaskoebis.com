@@ -6,20 +6,6 @@
   <title>Photography – Lukas Koebis</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .album-filter {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      margin-bottom: 48px;
-    }
-    .album-filter a {
-      font-size: 0.85rem;
-      color: #999;
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .album-filter a:hover { color: #111; }
-
     .album { margin-top: 64px; }
     .album:first-of-type { margin-top: 0; }
 
@@ -30,16 +16,16 @@
       margin-bottom: 12px;
     }
     .album-header h2 {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999;
+      letter-spacing: 0.1em;
+      color: #a09b93;
       margin: 0;
     }
     .album-date {
       font-size: 0.75rem;
-      color: #ccc;
+      color: #c4c0b8;
     }
 
     .photo-grid {
@@ -60,6 +46,20 @@
       grid-column: 1 / -1;
       aspect-ratio: 3/2;
     }
+
+    .load-more {
+      margin-top: 12px;
+      background: none;
+      border: 1px solid #d4d0c8;
+      color: #7a756d;
+      font-size: 0.8rem;
+      padding: 7px 18px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      font-family: inherit;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .load-more:hover { border-color: #a09b93; color: #1a1a1a; }
 
     /* Lightbox */
     #lb {
@@ -108,208 +108,11 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/">Lukas Koebis</a>
-    <a href="/investments.html">Investments</a>
-    <a href="/photography.html" class="active">Photography</a>
-  </nav>
+  <script src="nav.js"></script>
 
   <h1>Photography</h1>
-  <p class="tagline">Places and moments.</p>
 
-  <div class="album-filter" style="margin-top:24px;">
-    <a href="#val-thorens">Val Thorens</a>
-    <a href="#baden-baden">Baden-Baden</a>
-    <a href="#poland">Poland</a>
-    <a href="#japan-honeymoon">Japan Honeymoon</a>
-    <a href="#wedding">Wedding</a>
-    <a href="#saltmarsh">Saltmarsh</a>
-    <a href="#athens">Athens</a>
-    <a href="#las-vegas">Las Vegas</a>
-    <a href="#new-york">New York</a>
-    <a href="#palais-garnier">Palais Garnier</a>
-    <a href="#ethiopia">Ethiopia</a>
-    <a href="#zimbabwe">Zimbabwe</a>
-    <a href="#maldives">Maldives</a>
-  </div>
-
-  
-  <section class="album" id="val-thorens">
-    <div class="album-header">
-      <h2>Val Thorens</h2>
-      <span class="album-date">February 2026</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/val-thorens/17931252420192835.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/val-thorens/18053805935456367.jpg" alt="" loading="lazy">
-      <img src="img/val-thorens/17936174175173909.jpg" alt="" loading="lazy">
-      <img src="img/val-thorens/17925037830075024.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="baden-baden">
-    <div class="album-header">
-      <h2>Baden-Baden</h2>
-      <span class="album-date">January 2026</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/baden-baden/18020241902795984.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/baden-baden/18103444714756029.jpg" alt="" loading="lazy">
-      <img src="img/baden-baden/17882715204431113.jpg" alt="" loading="lazy">
-      <img src="img/baden-baden/17897265513371861.jpg" alt="" loading="lazy">
-      <img src="img/baden-baden/18055286216657946.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="poland">
-    <div class="album-header">
-      <h2>Poland</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/poland/18098388565876310.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/poland/18196029079329880.jpg" alt="" loading="lazy">
-      <img src="img/poland/18405840049125183.jpg" alt="" loading="lazy">
-      <img src="img/poland/18065288606635567.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="japan-honeymoon">
-    <div class="album-header">
-      <h2>Japan Honeymoon</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/japan-honeymoon/18092848148504155.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/japan-honeymoon/18111932998621949.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/18002792507835741.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/18052926506667140.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/18054285356375916.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/17993540018908931.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/18036433409737397.jpg" alt="" loading="lazy">
-      <img src="img/japan-honeymoon/17996978417716658.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="wedding">
-    <div class="album-header">
-      <h2>Wedding</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/wedding/17943409430965856.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/wedding/17905586361164290.jpg" alt="" loading="lazy">
-      <img src="img/wedding/17929833924176321.jpg" alt="" loading="lazy">
-      <img src="img/wedding/17930221947175629.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="saltmarsh">
-    <div class="album-header">
-      <h2>Saltmarsh</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/saltmarsh/18087584738082749.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/saltmarsh/17850770295583391.jpg" alt="" loading="lazy">
-      <img src="img/saltmarsh/18092987420303999.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="athens">
-    <div class="album-header">
-      <h2>Athens</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/athens/18356467288161754.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/athens/17861588586561126.jpg" alt="" loading="lazy">
-      <img src="img/athens/18108757237630562.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="las-vegas">
-    <div class="album-header">
-      <h2>Las Vegas</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/las-vegas/18505985461076799.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/las-vegas/17995774430856457.jpg" alt="" loading="lazy">
-      <img src="img/las-vegas/18103568047753272.jpg" alt="" loading="lazy">
-      <img src="img/las-vegas/18099969922880999.jpg" alt="" loading="lazy">
-      <img src="img/las-vegas/18081155243466607.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="new-york">
-    <div class="album-header">
-      <h2>New York</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/new-york/17871109749483552.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/new-york/17862656130557320.jpg" alt="" loading="lazy">
-      <img src="img/new-york/18179482234367114.jpg" alt="" loading="lazy">
-      <img src="img/new-york/18090568102981866.jpg" alt="" loading="lazy">
-      <img src="img/new-york/17991175664913042.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="palais-garnier">
-    <div class="album-header">
-      <h2>Palais Garnier</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/palais-garnier/18043470869504451.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/palais-garnier/17857459434587733.jpg" alt="" loading="lazy">
-      <img src="img/palais-garnier/18088834297999740.jpg" alt="" loading="lazy">
-      <img src="img/palais-garnier/18152685526425608.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="ethiopia">
-    <div class="album-header">
-      <h2>Ethiopia</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/ethiopia/17909346861289738.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/ethiopia/18407868001184312.jpg" alt="" loading="lazy">
-      <img src="img/ethiopia/17844533559644728.jpg" alt="" loading="lazy">
-      <img src="img/ethiopia/18160063648410450.jpg" alt="" loading="lazy">
-      <img src="img/ethiopia/18120592834490064.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="zimbabwe">
-    <div class="album-header">
-      <h2>Zimbabwe</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/zimbabwe/18099057649665608.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/zimbabwe/18067403219627004.jpg" alt="" loading="lazy">
-      <img src="img/zimbabwe/17988119912921597.jpg" alt="" loading="lazy">
-      <img src="img/zimbabwe/17902312794345177.jpg" alt="" loading="lazy">
-      <img src="img/zimbabwe/18299543416275081.jpg" alt="" loading="lazy">
-      <img src="img/zimbabwe/17844533133647353.jpg" alt="" loading="lazy">
-    </div>
-  </section>
-
-  <section class="album" id="maldives">
-    <div class="album-header">
-      <h2>Maldives</h2>
-      <span class="album-date">December 2025</span>
-    </div>
-    <div class="photo-grid">
-      <img src="img/maldives/18187891885351296.jpg" alt="" loading="lazy" class="cover">
-      <img src="img/maldives/17894575281245048.jpg" alt="" loading="lazy">
-      <img src="img/maldives/18077326580196821.jpg" alt="" loading="lazy">
-      <img src="img/maldives/18051362066429902.jpg" alt="" loading="lazy">
-    </div>
-  </section>
+  <div id="albums" style="margin-top:48px;"></div>
 
   <!-- Lightbox -->
   <div id="lb">
@@ -320,40 +123,264 @@
   </div>
 
   <script>
+    const albums = [
+      { id: 'val-thorens', title: 'Val Thorens', date: 'February 2026', photos: [
+        '17931252420192835', '18053805935456367', '17936174175173909', '17925037830075024'
+      ]},
+      { id: 'baden-baden', title: 'Baden-Baden', date: 'January 2026', photos: [
+        '18020241902795984', '18103444714756029', '17882715204431113', '17897265513371861', '18055286216657946'
+      ]},
+      { id: 'poland', title: 'Poland', date: 'December 2025', photos: [
+        '18098388565876310', '18196029079329880', '18405840049125183', '18065288606635567'
+      ]},
+      { id: 'japan-honeymoon', title: 'Japan Honeymoon', date: 'December 2025', photos: [
+        '18092848148504155', '18111932998621949', '18002792507835741', '18052926506667140',
+        '18054285356375916', '17993540018908931', '18036433409737397', '17996978417716658'
+      ]},
+      { id: 'wedding', title: 'Wedding', date: 'December 2025', photos: [
+        '17943409430965856', '17905586361164290', '17929833924176321', '17930221947175629'
+      ]},
+      { id: 'saltmarsh', title: 'Saltmarsh', date: 'December 2025', photos: [
+        '18087584738082749', '17850770295583391', '18092987420303999'
+      ]},
+      { id: 'athens', title: 'Athens', date: 'December 2025', photos: [
+        '18356467288161754', '17861588586561126', '18108757237630562'
+      ]},
+      { id: 'las-vegas', title: 'Las Vegas', date: 'December 2025', photos: [
+        '18505985461076799', '17995774430856457', '18103568047753272', '18099969922880999', '18081155243466607'
+      ]},
+      { id: 'new-york', title: 'New York', date: 'December 2025', photos: [
+        '17871109749483552', '17862656130557320', '18179482234367114', '18090568102981866', '17991175664913042'
+      ]},
+      { id: 'palais-garnier', title: 'Palais Garnier', date: 'December 2025', photos: [
+        '18043470869504451', '17857459434587733', '18088834297999740', '18152685526425608'
+      ]},
+      { id: 'ethiopia', title: 'Ethiopia', date: 'December 2025', photos: [
+        '17909346861289738', '18407868001184312', '17844533559644728', '18160063648410450', '18120592834490064'
+      ]},
+      { id: 'zimbabwe', title: 'Zimbabwe', date: 'December 2025', photos: [
+        '18099057649665608', '18067403219627004', '17988119912921597', '17902312794345177',
+        '18299543416275081', '17844533133647353'
+      ]},
+      { id: 'maldives', title: 'Maldives', date: 'December 2025', photos: [
+        '18187891885351296', '17894575281245048', '18077326580196821', '18051362066429902'
+      ]},
+      { id: 'paris-2024', title: 'Paris', date: 'September 2024', photos: [
+        '18043763375072100', '18008033780438245', '18047231194942713'
+      ]},
+      { id: 'costa-rica', title: 'Costa Rica', date: 'December 2022', photos: [
+        '17973299725816901', '18056628490363451', '18156454486284936', '17967325802047506',
+        '17922869768520558', '17973972946920449'
+      ]},
+      { id: 'israel', title: 'Israel', date: 'September 2022', photos: [
+        '17939569271239292', '17885851310706195', '18075529207310077', '17919529790608157',
+        '18007148551469560', '17941071932348771', '17960898403963192', '17896111010619634',
+        '17865548543788682', '17900612012606274', '17870214173773253', '18055981024342194',
+        '17973657277779296', '17909344262546121', '17859678956800438'
+      ]},
+      { id: 'usa-2022', title: 'USA', date: 'August 2022', photos: [
+        '17960418055806824', '17904361682636247', '17982161680587714', '17954171483055328',
+        '18002776639473624', '18312638791031043', '17955673958006884', '18181495552211459',
+        '17991935572524751', '18154259128255061', '17971886185737548', '17864899922773797',
+        '17882038892660114', '18049594348345429', '17955170449997731', '18063788596319924',
+        '17919496697554420'
+      ]},
+      { id: 'gran-canaria', title: 'Gran Canaria', date: 'April 2022', photos: [
+        '17919960191498248', '17937451685017802', '17937216671031330'
+      ]},
+      { id: 'paris-2022', title: 'Paris', date: 'April 2022', photos: [
+        '17920799078199398', '17929073921290550', '17887314620632382', '17917219070383504'
+      ]},
+      { id: 'dubai', title: 'Dubai', date: 'December 2021', photos: [
+        '18197160283131416', '18266014678046286', '17943739444636780', '18180757921195655',
+        '17946135025625093', '17925228940970233', '18155433340173546'
+      ]},
+      { id: 'karachi', title: 'Karachi', date: 'November 2021', photos: [
+        '17941523140663014', '17899856249468149', '17929789987766483', '17934041794827183',
+        '17895703823445889', '17883433514548254', '17875826318525178', '17889382406445093',
+        '17922714436969446', '17907844706330744', '17899243838299631', '18182196121154120'
+      ]},
+      { id: 'sochi', title: 'Sochi & Krasnodar', date: 'July 2021', photos: [
+        '17903049749051410', '17937793489557178', '17898928847018152', '17901020698984226',
+        '17907061117894230', '17912084230791538', '18172535557193801', '17912242171882316',
+        '17894097206182898', '17901539512975084', '17914009231766043'
+      ]},
+      { id: 'cliffs', title: 'Cliffs', date: 'April 2021', photos: [
+        '17921200975594690', '17886664133111232', '17901293206893925'
+      ]},
+      { id: 'lockdown', title: 'Lockdown', date: 'November 2020', photos: [
+        '17873985479056209', '17887338442770343', '17874961283016789', '17881226734907337',
+        '17861558930204524', '18128276437093347'
+      ]},
+      { id: 'misc-2019-2020', title: '2019\u20132020', date: '2019\u20132020', photos: [
+        '18005153203216552', '18090905404115942', '17852518168674449', '17847104890795327',
+        '17906295739414954', '17875912942713785'
+      ]},
+      { id: 'lisbon', title: 'Lisbon', date: 'August 2019', photos: [
+        '17843809681591702', '17850101770543763', '17859562528480115', '17905507045353587'
+      ]},
+      { id: 'algarve', title: 'Algarve', date: 'August 2019', photos: [
+        '18013549327227338', '18059179549179325', '18063550669084804'
+      ]},
+      { id: 'japan-indonesia', title: 'Japan & Indonesia', date: 'February 2019', photos: [
+        '18000166153173179', '18003405919161171', '18038980405034720', '18041096140043354',
+        '18038375392004431', '17973105622216972', '17945540542248475', '18011842687186842',
+        '17999587636173951', '17944561255256980', '18035007265068958', '18009385015181274'
+      ]},
+      { id: 'iceland', title: 'Iceland', date: 'November 2018', photos: [
+        '17975761699186929', '17972376256154786', '17987125057100466', '17972380129182766',
+        '17938954912211480', '17937609814220779', '17892778654300420', '17928788797227538',
+        '17937504298216898', '17975955238136288'
+      ]},
+      { id: 'north-america-2018', title: 'North America', date: '2018', photos: [
+        '17859068431214903', '17890241533149707', '17863251964211929', '17912358118113801',
+        '17920673203078444', '17914010299184390', '17941376668019049', '17941723396025636',
+        '17948417530111974', '17953110481142620', '17955249364162473', '17990348416023060',
+        '17974628170150386', '17875306987270797', '17878606960247905'
+      ]},
+      { id: 'chicago', title: 'Chicago', date: 'August 2018', photos: [
+        '17856323767282283', '17953649212095664', '17900846308229362', '17974187158003662',
+        '17954221726086851', '17960168488110397'
+      ]},
+      { id: 'europe-2017', title: 'Europe', date: '2017', photos: [
+        '17874933511007575', '17861435593093513', '17890639579043893', '17884147108036283',
+        '17883512914027364', '17887584652021616', '17889027451062505', '17878572658118604',
+        '17892528733076415', '17899875187015443', '17885276677167242'
+      ]},
+      { id: 'los-angeles', title: 'Los Angeles', date: 'November 2017', photos: [
+        '17892979480091604', '17893196485094865', '17883759442146050', '17846919280215128',
+        '17880811045153688', '17894683693123075', '17894922892122921', '17904089785068537'
+      ]},
+      { id: 'philippines', title: 'Philippines', date: 'October 2017', photos: [
+        '17881616548190335', '17906055298017773', '17893540855114298', '17880095872191249'
+      ]},
+      { id: 'saigon', title: 'Saigon', date: 'October 2017', photos: [
+        '17903636998033062', '17887955770086410', '17892088372102172', '17878104538185683',
+        '17878789087149973', '17892261352116183'
+      ]},
+      { id: 'barenboim', title: 'Barenboim', date: 'October 2017', photos: [
+        '17902548889021816', '17878169308136528'
+      ]},
+      { id: 'montenegro', title: 'Montenegro', date: 'August 2017', photos: [
+        '17868065794188892', '17868077377159750', '17868149947177175', '17871506662141690',
+        '17868280417165701', '17892191065035589', '17887751797069110', '17865607030173137',
+        '17892476722031809', '17883866431103333'
+      ]},
+      { id: 'istanbul', title: 'Istanbul', date: 'April 2017', photos: [
+        '17853342274163433', '17877128995031565', '17865484207122023', '17878259227018481',
+        '17878359379043408', '17855988874140389'
+      ]},
+      { id: 'paris-2017', title: 'Paris', date: 'January 2017', photos: [
+        '17846410549172192', '17868407257049468'
+      ]},
+      { id: 'europe-2016', title: 'Europe', date: '2015\u20132016', photos: [
+        '17852262226052338', '17845972774068444', '17845992298113097', '17847168091127007',
+        '17856654376056225', '17847501199097739', '17849096398102107', '17859561856012054',
+        '17861418256063114', '17860917118035592', '17854627291065211', '17851835533074771',
+        '17850460186101584', '17852968993079252', '17852768329111194', '17854761883077862',
+        '17862695734039790', '17854880293095948', '17845518313139188', '17867675365054215'
+      ]},
+      { id: 'italy-2016', title: 'Italy', date: 'June 2016', photos: [
+        '17858186557025640', '17858234056003080', '17861921683037171', '17849414521079291',
+        '17848948006105347'
+      ]},
+      { id: 'southeast-asia', title: 'Southeast Asia', date: 'April 2016', photos: [
+        '17847059236078661', '17846450335112569', '17849167738071640', '17847139834075751',
+        '17846595688111215', '17855502355034211', '17858643415011413'
+      ]},
+      { id: 'new-york-2016', title: 'New York', date: 'January 2016', photos: [
+        '17844041695123148', '17852837131044686', '17855965651006768', '17853329890002760',
+        '17852334676035154'
+      ]},
+      { id: 'usa-2015', title: 'USA', date: 'September 2015', photos: [
+        '17843531692037013', '17843575834037013', '17843676835037013', '17843678338037013',
+        '17843682622037013', '17843820163037013', '17843837788037013', '17843838922037013',
+        '17843876632037013', '17843891386037013'
+      ]},
+    ];
+
+    const VISIBLE_ALBUMS = 6;
+
+    // Render albums
+    const albumsEl = document.getElementById('albums');
+
+    function renderAlbum(a) {
+      const imgs = a.photos.map((p, i) =>
+        `<img src="img/${a.id}/${p}.jpg" alt="" loading="lazy"${i === 0 ? ' class="cover"' : ''}>`
+      ).join('\n      ');
+
+      return `
+  <section class="album" id="${a.id}">
+    <div class="album-header">
+      <h2>${a.title}</h2>
+      <span class="album-date">${a.date}</span>
+    </div>
+    <div class="photo-grid">
+      ${imgs}
+    </div>
+  </section>`;
+    }
+
+    let visibleCount = VISIBLE_ALBUMS;
+
+    function render() {
+      const visible = albums.slice(0, visibleCount);
+      albumsEl.innerHTML = visible.map(renderAlbum).join('\n');
+
+      // Remove old load-more button
+      const oldBtn = document.getElementById('load-more-albums');
+      if (oldBtn) oldBtn.remove();
+
+      if (visibleCount < albums.length) {
+        const btn = document.createElement('button');
+        btn.className = 'load-more';
+        btn.id = 'load-more-albums';
+        btn.textContent = `Load more (${albums.length - visibleCount} albums)`;
+        btn.addEventListener('click', () => {
+          visibleCount = Math.min(visibleCount + VISIBLE_ALBUMS, albums.length);
+          render();
+        });
+        albumsEl.after(btn);
+      }
+    }
+
+    render();
+
+    // Lightbox
     const lb = document.getElementById('lb');
     const lbImg = document.getElementById('lb-img');
-    let allImgs = [], cur = 0;
+    let lbImgs = [], lbCur = 0;
 
-    document.querySelectorAll('.photo-grid img').forEach(img => {
-      img.addEventListener('click', () => {
-        allImgs = [...img.closest('.photo-grid').querySelectorAll('img')].map(i => i.src);
-        cur = allImgs.indexOf(img.src);
-        open(cur);
-      });
+    document.getElementById('albums').addEventListener('click', e => {
+      if (e.target.tagName !== 'IMG') return;
+      const grid = e.target.closest('.photo-grid');
+      lbImgs = [...grid.querySelectorAll('img')].map(i => i.src);
+      lbCur = lbImgs.indexOf(e.target.src);
+      showLightbox(lbCur);
     });
 
-    function open(i) {
-      cur = (i + allImgs.length) % allImgs.length;
-      lbImg.src = allImgs[cur];
+    function showLightbox(i) {
+      lbCur = (i + lbImgs.length) % lbImgs.length;
+      lbImg.src = lbImgs[lbCur];
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
-    document.getElementById('lb-close').onclick = close;
-    document.getElementById('lb-prev').onclick = () => open(cur - 1);
-    document.getElementById('lb-next').onclick = () => open(cur + 1);
-    lb.addEventListener('click', e => { if (e.target === lb) close(); });
-    document.addEventListener('keydown', e => {
-      if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') open(cur - 1);
-      if (e.key === 'ArrowRight') open(cur + 1);
-    });
-
-    function close() {
+    function hideLightbox() {
       lb.classList.remove('open');
       document.body.style.overflow = '';
     }
+
+    document.getElementById('lb-close').onclick = hideLightbox;
+    document.getElementById('lb-prev').onclick = () => showLightbox(lbCur - 1);
+    document.getElementById('lb-next').onclick = () => showLightbox(lbCur + 1);
+    lb.addEventListener('click', e => { if (e.target === lb) hideLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') hideLightbox();
+      if (e.key === 'ArrowLeft') showLightbox(lbCur - 1);
+      if (e.key === 'ArrowRight') showLightbox(lbCur + 1);
+    });
   </script>
 </body>
 </html>
