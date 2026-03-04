@@ -14,7 +14,8 @@ navLinks.forEach(({ href, label }) => {
   const a = document.createElement('a');
   a.href = href;
   a.textContent = label;
-  if (path === href || (href !== '/' && path.endsWith(href))) {
+  const base = href.replace('.html', '');
+  if (path === href || path === base || (href !== '/' && (path.endsWith(href) || path.endsWith(base)))) {
     a.classList.add('active');
   }
   nav.appendChild(a);

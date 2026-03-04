@@ -6,8 +6,6 @@
   <title>Music – Lukas Koebis</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .year-group { margin-top: 56px; }
-
     .concert {
       padding: 12px 0;
       border-bottom: 1px solid #e8e6e1;
@@ -396,55 +394,30 @@
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     function fmtDate(iso) {
       const d = new Date(iso + 'T00:00:00');
-      return `${d.getDate()} ${months[d.getMonth()]}`;
-    }
-
-    function getYear(iso) {
-      return iso.slice(0, 4);
+      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
     }
 
     // Render concerts
     const concertsEl = document.getElementById('concerts');
 
-    function renderConcerts() {
-      // Group by year
-      const byYear = {};
-      for (const c of concerts) {
-        const y = getYear(c.date);
-        (byYear[y] = byYear[y] || []).push(c);
-      }
-
-      const years = Object.keys(byYear).sort((a, b) => b - a);
-
-      concertsEl.innerHTML = years.map(year => {
-        const items = byYear[year].map(c => {
-          const pieces = c.pieces.map(p => {
-              let label = p.composer
-                ? `<span class="composer">${p.composer}</span> – ${p.work}`
-                : p.work;
-              if (p.artist) label += ` <span class="artist">(${p.artist})</span>`;
-              return `<li class="concert-piece">${label}</li>`;
-            }).join('');
-
-          return `
-      <div class="concert">
-        <div class="concert-header">
-          <span class="concert-date">${fmtDate(c.date)}</span>
-          <span class="concert-venue">${c.venue}</span>
-        </div>
-        <ul class="concert-pieces">${pieces}</ul>
-      </div>`;
-        }).join('');
-
-        return `
-    <section class="year-group">
-      <h2>${year}</h2>
-      ${items}
-    </section>`;
+    concertsEl.innerHTML = concerts.map(c => {
+      const pieces = c.pieces.map(p => {
+        let label = p.composer
+          ? `<span class="composer">${p.composer}</span> – ${p.work}`
+          : p.work;
+        if (p.artist) label += ` <span class="artist">(${p.artist})</span>`;
+        return `<li class="concert-piece">${label}</li>`;
       }).join('');
-    }
 
-    renderConcerts();
+      return `
+    <div class="concert">
+      <div class="concert-header">
+        <span class="concert-date">${fmtDate(c.date)}</span>
+        <span class="concert-venue">${c.venue}</span>
+      </div>
+      <ul class="concert-pieces">${pieces}</ul>
+    </div>`;
+    }).join('');
   </script>
 </body>
 </html>
