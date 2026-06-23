@@ -444,6 +444,14 @@
           { composer: 'Tchaikovsky', work: 'Symphony No. 6 "Pathétique"', artist: 'Sir Antonio Pappano', rating: 4.5 },
         ]
       },
+      {
+        date: '2026-06-11', venue: 'Barbican',
+        url: 'https://www.lso.co.uk/whats-on/elgar-and-mahler-11-jun-26/',
+        pieces: [
+          { composer: 'Elgar', work: 'Variations on an Original Theme, “Enigma”', rating: 4 },
+          { composer: 'Mahler', work: 'Symphony No. 5', rating: 5 },
+        ]
+      },
     ];
 
     // Sort most recent first
@@ -468,11 +476,15 @@
         return `<li class="concert-piece">${label}</li>`;
       }).join('');
 
+      const venueLabel = c.url
+        ? `<a class="concert-venue" href="${c.url}" target="_blank" rel="noopener noreferrer">${c.venue}</a>`
+        : `<span class="concert-venue">${c.venue}</span>`;
+
       return `
     <div class="concert">
       <div class="concert-header">
         <span class="concert-date">${fmtDate(c.date)}</span>
-        <span class="concert-venue">${c.venue}</span>
+        ${venueLabel}
       </div>
       <ul class="concert-pieces">${pieces}</ul>
     </div>`;
