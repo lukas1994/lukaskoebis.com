@@ -7,14 +7,6 @@ const navLinks = [
   { href: '/music.html', label: 'Music' },
 ];
 
-if (!document.querySelector('link[rel="icon"]')) {
-  const favicon = document.createElement('link');
-  favicon.rel = 'icon';
-  favicon.type = 'image/png';
-  favicon.href = '/favicon.png';
-  document.head.appendChild(favicon);
-}
-
 const nav = document.createElement('nav');
 const path = location.pathname;
 
