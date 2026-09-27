@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review: Wat Pa Tam Wua – Lukas Koebis</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    body {
+      max-width: none;
+      padding: 0;
+      margin: 0;
+      background: #f7f7f5;
+    }
+    .review-shell {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) 1fr;
+      min-height: 100vh;
+    }
+    .panel {
+      background: #fff;
+      border-right: 1px solid #ecebe7;
+      display: flex;
+      flex-direction: column;
+      max-height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+    .panel-header {
+      padding: 20px 20px 12px;
+      border-bottom: 1px solid #f1f1ef;
+    }
+    .panel-header h1 {
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+    .panel-header p {
+      font-size: 0.8rem;
+      color: #787774;
+      line-height: 1.5;
+    }
+    .stats {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      font-size: 0.72rem;
+      color: #787774;
+      background: #f7f7f5;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .stat strong { color: #37352f; font-weight: 600; }
+    .proposal-list {
+      overflow: auto;
+      padding: 12px;
+      flex: 1;
+    }
+    .proposal {
+      border: 1px solid #ecebe7;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s;
+    }
+    .proposal:hover { border-color: #d3d1cb; }
+    .proposal.active {
+      border-color: #37352f;
+      box-shadow: 0 0 0 1px #37352f;
+    }
+    .proposal.approved { background: #f4faf4; border-color: #c7e0c7; }
+    .proposal.rejected { background: #faf4f4; border-color: #e0c7c7; }
+    .proposal.commented { background: #faf8f2; border-color: #e0d7c0; }
+    .proposal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .badge {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #787774;
+      font-weight: 600;
+    }
+    .status-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #b4b4b0;
+    }
+    .proposal.approved .status-label { color: #3d7a3d; }
+    .proposal.rejected .status-label { color: #9a3d3d; }
+    .proposal.commented .status-label { color: #8a6a20; }
+    .proposal h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #37352f;
+      margin: 0 0 4px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .proposal .section-name {
+      font-size: 0.75rem;
+      color: #b4b4b0;
+      margin-bottom: 8px;
+    }
+    .proposal .rationale {
+      font-size: 0.8rem;
+      color: #55534e;
+      line-height: 1.45;
+    }
+    .actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .actions button, .toolbar button, .feedback-box button {
+      font: inherit;
+      font-size: 0.75rem;
+      border: 1px solid #d3d1cb;
+      background: #fff;
+      color: #37352f;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .actions button:hover, .toolbar button:hover, .feedback-box button:hover {
+      background: #f1f1ef;
+    }
+    .actions button.approve { border-color: #9ccc9c; }
+    .actions button.reject { border-color: #e0a0a0; }
+    .actions button.primary-ish {
+      background: #37352f;
+      color: #fff;
+      border-color: #37352f;
+    }
+    .feedback-box {
+      margin-top: 10px;
+      display: none;
+    }
+    .feedback-box.open { display: block; }
+    .feedback-box textarea {
+      width: 100%;
+      min-height: 64px;
+      border: 1px solid #d3d1cb;
+      border-radius: 6px;
+      padding: 8px;
+      font: inherit;
+      font-size: 0.8rem;
+      resize: vertical;
+      color: #37352f;
+    }
+    .toolbar {
+      padding: 12px 20px;
+      border-top: 1px solid #f1f1ef;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: #fff;
+    }
+    .preview {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .preview-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: #fff;
+      border-bottom: 1px solid #ecebe7;
+    }
+    .preview-bar a {
+      font-size: 0.8rem;
+      color: #787774;
+      text-decoration: none;
+    }
+    .preview-bar a:hover { color: #37352f; }
+    .preview-bar .title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #37352f;
+    }
+    .preview iframe {
+      flex: 1;
+      width: 100%;
+      border: 0;
+      background: #fff;
+      min-height: calc(100vh - 49px);
+    }
+    .detail {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #f1f1ef;
+      display: none;
+    }
+    .proposal.active .detail { display: block; }
+    .diff {
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: #55534e;
+    }
+    .diff .label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #b4b4b0;
+      margin: 8px 0 4px;
+      font-weight: 600;
+    }
+    .diff .before, .diff .after {
+      background: #f7f7f5;
+      border-radius: 6px;
+      padding: 8px;
+      white-space: pre-wrap;
+    }
+    .diff .before { border-left: 3px solid #e0a0a0; }
+    .diff .after { border-left: 3px solid #9ccc9c; }
+    .export-note {
+      font-size: 0.72rem;
+      color: #b4b4b0;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    @media (max-width: 900px) {
+      .review-shell { grid-template-columns: 1fr; }
+      .panel {
+        position: relative;
+        max-height: none;
+        border-right: 0;
+        border-bottom: 1px solid #ecebe7;
+      }
+      .preview iframe { min-height: 70vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="review-shell">
+    <aside class="panel">
+      <div class="panel-header">
+        <h1>Edit proposals</h1>
+        <p id="intro">Loading…</p>
+        <div class="stats" id="stats"></div>
+      </div>
+      <div class="proposal-list" id="list"></div>
+      <div class="toolbar">
+        <button type="button" id="exportBtn">Copy decisions JSON</button>
+        <button type="button" id="downloadBtn">Download decisions</button>
+        <button type="button" id="resetBtn">Reset all</button>
+        <p class="export-note">After you decide, copy/download the JSON and paste it back in chat (or say “apply approved proposals”).</p>
+      </div>
+    </aside>
+    <section class="preview">
+      <div class="preview-bar">
+        <span class="title">Live preview</span>
+        <a id="openPost" href="/blog/wat-pa-tam-wua.html" target="_blank">Open post ↗</a>
+      </div>
+      <iframe id="frame" title="Post preview" src="/blog/wat-pa-tam-wua.html"></iframe>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'wat-pa-tam-wua-review-v1';
+    const listEl = document.getElementById('list');
+    const statsEl = document.getElementById('stats');
+    const introEl = document.getElementById('intro');
+    let proposals = [];
+    let decisions = {};
+    let activeId = null;
+
+    function loadDecisions() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+      catch { return {}; }
+    }
+
+    function saveDecisions() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
+      renderStats();
+    }
+
+    function statusOf(id) {
+      return decisions[id]?.status || 'pending';
+    }
+
+    function renderStats() {
+      const counts = { pending: 0, approved: 0, rejected: 0, commented: 0 };
+      proposals.forEach(p => {
+        const s = statusOf(p.id);
+        counts[s] = (counts[s] || 0) + 1;
+      });
+      statsEl.innerHTML = `
+        <span class="stat"><strong>${counts.pending || 0}</strong> pending</span>
+        <span class="stat"><strong>${counts.approved || 0}</strong> approved</span>
+        <span class="stat"><strong>${counts.rejected || 0}</strong> rejected</span>
+        <span class="stat"><strong>${counts.commented || 0}</strong> feedback</span>
+      `;
+    }
+
+    function setStatus(id, status) {
+      decisions[id] = {
+        ...(decisions[id] || {}),
+        id,
+        status,
+        updatedAt: new Date().toISOString(),
+      };
+      saveDecisions();
+      renderList();
+    }
+
+    function saveFeedback(id, text) {
+      decisions[id] = {
+        ...(decisions[id] || {}),
+        id,
+        status: text.trim() ? 'commented' : (decisions[id]?.status || 'pending'),
+        feedback: text,
+        updatedAt: new Date().toISOString(),
+      };
+      if (!text.trim() && decisions[id].status === 'commented') {
+        decisions[id].status = 'pending';
+      }
+      saveDecisions();
+      renderList();
+    }
+
+    function exportPayload() {
+      return {
+        post: '/blog/wat-pa-tam-wua.html',
+        exportedAt: new Date().toISOString(),
+        decisions: proposals.map(p => ({
+          id: p.id,
+          summary: p.summary,
+          status: statusOf(p.id),
+          feedback: decisions[p.id]?.feedback || '',
+          after: p.after,
+        })),
+      };
+    }
+
+    function renderList() {
+      listEl.innerHTML = '';
+      proposals.forEach(p => {
+        const status = statusOf(p.id);
+        const card = document.createElement('article');
+        card.className = `proposal ${status}${activeId === p.id ? ' active' : ''}`;
+        card.dataset.id = p.id;
+        const feedback = decisions[p.id]?.feedback || '';
+        card.innerHTML = `
+          <div class="proposal-top">
+            <span class="badge">${p.type}</span>
+            <span class="status-label">${status}</span>
+          </div>
+          <h3>${escapeHtml(p.summary)}</h3>
+          <div class="section-name">${escapeHtml(p.section)}</div>
+          <p class="rationale">${escapeHtml(p.rationale)}</p>
+          <div class="detail">
+            <div class="diff">
+              <div class="label">Before</div>
+              <div class="before">${escapeHtml(p.before)}</div>
+              <div class="label">Proposed</div>
+              <div class="after">${escapeHtml(p.after)}</div>
+            </div>
+            <div class="actions">
+              <button type="button" class="approve" data-act="approved">Approve</button>
+              <button type="button" class="reject" data-act="rejected">Reject</button>
+              <button type="button" data-act="pending">Clear</button>
+              <button type="button" data-act="toggle-feedback">Feedback</button>
+            </div>
+            <div class="feedback-box ${feedback ? 'open' : ''}">
+              <textarea placeholder="Optional feedback / alternate wording…">${escapeHtml(feedback)}</textarea>
+              <div class="actions">
+                <button type="button" data-act="save-feedback">Save feedback</button>
+              </div>
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('button') || e.target.closest('textarea')) return;
+          activeId = activeId === p.id ? null : p.id;
+          renderList();
+        });
+        card.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const act = btn.dataset.act;
+            if (act === 'toggle-feedback') {
+              card.querySelector('.feedback-box').classList.toggle('open');
+              return;
+            }
+            if (act === 'save-feedback') {
+              saveFeedback(p.id, card.querySelector('textarea').value);
+              return;
+            }
+            setStatus(p.id, act);
+          });
+        });
+        listEl.appendChild(card);
+      });
+      renderStats();
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    document.getElementById('exportBtn').addEventListener('click', async () => {
+      const text = JSON.stringify(exportPayload(), null, 2);
+      try {
+        await navigator.clipboard.writeText(text);
+        document.getElementById('exportBtn').textContent = 'Copied!';
+        setTimeout(() => { document.getElementById('exportBtn').textContent = 'Copy decisions JSON'; }, 1500);
+      } catch {
+        prompt('Copy this JSON:', text);
+      }
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(exportPayload(), null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'wat-pa-tam-wua-decisions.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (!confirm('Clear all approve/reject/feedback decisions?')) return;
+      decisions = {};
+      saveDecisions();
+      renderList();
+    });
+
+    decisions = loadDecisions();
+    fetch('./wat-pa-tam-wua-proposals.json')
+      .then(r => r.json())
+      .then(data => {
+        proposals = data.proposals || [];
+        introEl.textContent = data.notes || '';
+        activeId = proposals[0]?.id || null;
+        renderList();
+      })
+      .catch(err => {
+        introEl.textContent = 'Failed to load proposals: ' + err.message;
+      });
+  </script>
+</body>
+</html>

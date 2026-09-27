@@ -1,0 +1,116 @@
+{
+  "post": "/blog/wat-pa-tam-wua.html",
+  "title": "Wat Pa Tam Wua — edit proposals",
+  "updated": "2026-09-27",
+  "notes": "I lightly cleaned obvious typos in the draft (its/it's, Vipassana, monastery, etc.) and kept your voice. Bigger editorial calls are proposals below — approve, reject, or leave feedback. Media slots are placeholders until you upload /Users/lukaskoebis/Downloads/monastery.",
+  "proposals": [
+    {
+      "id": "p01",
+      "type": "grammar",
+      "section": "Monastery life",
+      "summary": "Fix 'helping running' → 'helping run'",
+      "before": "towards the end helped running the introduction sessions for new arrivals.",
+      "after": "towards the end helped run the introduction sessions for new arrivals.",
+      "rationale": "Small grammar fix; keeps the same meaning."
+    },
+    {
+      "id": "p02",
+      "type": "clarify",
+      "section": "Intro",
+      "summary": "Add one line naming the monastery + location up front",
+      "before": "I spent 8 days in a Buddhist monastery in the north of Thailand.",
+      "after": "I spent 8 days at Wat Pa Tam Wua, a Buddhist monastery in northern Thailand (near Mae Hong Son).",
+      "rationale": "Title is the monastery name, but the first sentence currently only says 'a Buddhist monastery'. Naming it early helps people who skim."
+    },
+    {
+      "id": "p03",
+      "type": "tone",
+      "section": "Meditation",
+      "summary": "Soften the Jhana claim",
+      "before": "I think on my last two nights I got into some kind of Jhana state.",
+      "after": "I think on my last two nights I got into some kind of absorption that felt like what people describe as a Jhana state — I'm not confident enough in the terminology to claim it was the real thing.",
+      "rationale": "Jhana is a loaded technical term; softening matches your 'I think' hedging and avoids overclaiming."
+    },
+    {
+      "id": "p04",
+      "type": "add",
+      "section": "Buddhism",
+      "summary": "Drop or reframe 'Buddhism is a philosophy not a religion'",
+      "before": "Buddhism is a philosophy not a religion — but in Thai culture and many other cultures it became more of a religion (temples, …).",
+      "after": "I mostly engaged with Buddhism as a philosophy / practice rather than a religion — though in Thai culture (and many others) it clearly functions as one (temples, …).",
+      "rationale": "The absolute 'is not a religion' line is contested and easy to argue with. Framing it as how you engaged with it is harder to attack and more accurate to your experience."
+    },
+    {
+      "id": "p05",
+      "type": "add",
+      "section": "Takeaways",
+      "summary": "Add your Kindle reading list (you left this as '…')",
+      "before": "(missing — draft had 'Here are some of the books I downloaded to my kindle: * …')",
+      "after": "Add a short bullet list under Takeaways. Suggested starter (edit freely):\n• Why Buddhism Is True — Robert Wright\n• The Little Book of Clarity — Jamie Smart\n• Walk to be the Knower — Wat Pa Tam Wua\n• Siddhartha — Hermann Hesse\n(+ whatever else you actually downloaded)",
+      "rationale": "You explicitly wanted a books section. I need the real Kindle list from you — please paste titles in feedback if approving."
+    },
+    {
+      "id": "p06",
+      "type": "expand",
+      "section": "Takeaways",
+      "summary": "Expand the Why Buddhism Is True / modular mind paragraph",
+      "before": "One part I found interesting is that the \"mind\" basically consists of a lot of independent parts — Robert Wright's Why Buddhism Is True goes into this via evolutionary psychology: modular minds, the illusion of a unified self, and how mindfulness can weaken the modules that generate craving and aversion.",
+      "after": "Keep the current short version for now, OR expand with 2–3 concrete examples from Wright (e.g. the feeling of a CEO-self is an illusion; modules compete; mindfulness lets you see a craving arise without acting on it). I left a short bridge in so the post isn't unfinished — say if you want the longer version.",
+      "rationale": "Your draft had 'explain some of the stuff from the book' but no specifics. Short bridge is live; longer version needs your preference."
+    },
+    {
+      "id": "p07",
+      "type": "structure",
+      "section": "Takeaways",
+      "summary": "Move Stoicism comparison into its own short subsection",
+      "before": "Inline under Takeaways as a brief bullet pair.",
+      "after": "Add an h3 'Stoicism vs Buddhism' so it doesn't feel buried in the closing.",
+      "rationale": "It's a clean standalone idea; currently it sits awkwardly between neuroscience and the China/London wrap-up."
+    },
+    {
+      "id": "p08",
+      "type": "cut",
+      "section": "Takeaways",
+      "summary": "Shorten the London lifestyle checklist",
+      "before": "11 bullets (phone, content, meditation, yoga, food, journal, reading, project, sensual desires, loving kindness, community)",
+      "after": "Keep ~6: phone/content, meditation, food/fasting, deep project, loving-kindness/community, re-read journal.",
+      "rationale": "The list is good but long for a closing. Trimming makes the ending punchier. Easy reject if you want the full personal checklist."
+    },
+    {
+      "id": "p09",
+      "type": "add",
+      "section": "Monastery life",
+      "summary": "Add practical visit details (clothes, what to bring)",
+      "before": "(not in draft)",
+      "after": "Optional short paragraph: white clothes required for guests, mosquito net/repellent useful, no need to book, donations on departure, English is spoken in teaching sessions.",
+      "rationale": "Useful if this post doubles as a recommendation. Skip if you want it more reflective than practical."
+    },
+    {
+      "id": "p10",
+      "type": "comment",
+      "section": "Meta",
+      "summary": "Confirm post date + whether to email Dave a slightly different version",
+      "before": "Currently dated September 2026. Draft said 'Send to: Dave Fontenot'.",
+      "after": "Keep one public blog version. Optionally send Dave the same link with a short personal note (not a separate page).",
+      "rationale": "Checking date accuracy and that Dave is a recipient of the link, not part of the post body."
+    },
+    {
+      "id": "p11",
+      "type": "media",
+      "section": "Media",
+      "summary": "Wire up photos + chanting audio once uploaded",
+      "before": "Placeholder boxes for monk / mountain / bed / walking / chanting.",
+      "after": "Replace placeholders with files from Downloads/monastery. Suggested order matches your draft markers.",
+      "rationale": "Blocked on upload — please attach the folder contents in chat."
+    },
+    {
+      "id": "p12",
+      "type": "tone",
+      "section": "Takeaways",
+      "summary": "Keep or cut the investing CTA at the end",
+      "before": "Please reach out if you have other reading recommendations, you're into these topics, or you're even building a company in that space (I'd love to invest!).",
+      "after": "Option A (keep): as written.\nOption B (softer): drop the investing line and just ask for reading recommendations / people into the topics.",
+      "rationale": "Fits your site (you invest), but some readers find it abrupt after a monastery post. Your call."
+    }
+  ]
+}
