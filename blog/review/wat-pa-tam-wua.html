@@ -260,8 +260,21 @@
       color: #37352f;
       border-bottom-color: #37352f;
     }
-    .panel-pane { display: none; flex: 1; overflow: auto; }
+    .panel-pane {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
     .panel-pane.active { display: block; }
+    #pane-proposals.active {
+      display: flex;
+      flex-direction: column;
+    }
+    #pane-proposals .proposal-list {
+      flex: 1;
+      min-height: 0;
+    }
     .comments-hint {
       font-size: 0.78rem;
       color: #787774;
