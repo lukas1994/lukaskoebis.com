@@ -238,6 +238,126 @@
     }
     .preview-bar .locate-status.ok { color: #3d7a3d; }
     .preview-bar .locate-status.miss { color: #9a3d3d; }
+    .panel-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #f1f1ef;
+      padding: 0 12px;
+    }
+    .panel-tabs button {
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #787774;
+      background: none;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      padding: 10px 12px;
+      cursor: pointer;
+      margin-bottom: -1px;
+    }
+    .panel-tabs button.active {
+      color: #37352f;
+      border-bottom-color: #37352f;
+    }
+    .panel-pane { display: none; flex: 1; overflow: auto; }
+    .panel-pane.active { display: block; }
+    .comments-hint {
+      font-size: 0.78rem;
+      color: #787774;
+      line-height: 1.45;
+      padding: 12px 12px 4px;
+    }
+    .inline-comment {
+      border: 1px solid #ecebe7;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 0 12px 10px;
+      background: #fffaf0;
+      cursor: pointer;
+    }
+    .inline-comment:hover { border-color: #d3d1cb; }
+    .inline-comment .quote {
+      font-size: 0.78rem;
+      color: #55534e;
+      border-left: 3px solid #e8b84a;
+      padding-left: 8px;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+    }
+    .inline-comment .note {
+      font-size: 0.85rem;
+      color: #37352f;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    .inline-comment .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .inline-comment .meta button {
+      font: inherit;
+      font-size: 0.72rem;
+      border: 1px solid #d3d1cb;
+      background: #fff;
+      border-radius: 6px;
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+    .comment-composer {
+      display: none;
+      position: fixed;
+      z-index: 40;
+      width: min(340px, calc(100vw - 24px));
+      background: #fff;
+      border: 1px solid #d3d1cb;
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+      padding: 12px;
+    }
+    .comment-composer.open { display: block; }
+    .comment-composer .quote {
+      font-size: 0.75rem;
+      color: #55534e;
+      border-left: 3px solid #e8b84a;
+      padding-left: 8px;
+      margin-bottom: 8px;
+      max-height: 72px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+    .comment-composer textarea {
+      width: 100%;
+      min-height: 72px;
+      border: 1px solid #d3d1cb;
+      border-radius: 6px;
+      padding: 8px;
+      font: inherit;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+    .comment-composer .actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .comment-composer .actions button {
+      font: inherit;
+      font-size: 0.75rem;
+      border: 1px solid #d3d1cb;
+      background: #fff;
+      color: #37352f;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .comment-composer .actions button.primary {
+      background: #37352f;
+      color: #fff;
+      border-color: #37352f;
+    }
     @media (max-width: 900px) {
       .review-shell { grid-template-columns: 1fr; }
       .panel {
@@ -258,7 +378,17 @@
         <p id="intro">Loading…</p>
         <div class="stats" id="stats"></div>
       </div>
-      <div class="proposal-list" id="list"></div>
+      <div class="panel-tabs">
+        <button type="button" class="active" data-tab="proposals">Proposals</button>
+        <button type="button" data-tab="comments">Highlights <span id="commentCount"></span></button>
+      </div>
+      <div class="panel-pane active" id="pane-proposals">
+        <div class="proposal-list" id="list"></div>
+      </div>
+      <div class="panel-pane" id="pane-comments">
+        <p class="comments-hint">In the preview on the right: select any text → click <strong>Comment</strong> → write feedback. Those highlights export with the decisions JSON.</p>
+        <div id="commentsList"></div>
+      </div>
       <div class="toolbar">
         <button type="button" id="exportBtn">Copy decisions JSON</button>
         <button type="button" id="downloadBtn">Download decisions</button>
@@ -266,6 +396,14 @@
         <p class="export-note">After you decide, copy/download the JSON and paste it back in chat (or say “apply approved proposals”). Style sheet: <a href="/blog/review/language-style.md" target="_blank">language-style.md</a>.</p>
       </div>
     </aside>
+    <div class="comment-composer" id="composer">
+      <div class="quote" id="composerQuote"></div>
+      <textarea id="composerNote" placeholder="What’s wrong / how to change this…"></textarea>
+      <div class="actions">
+        <button type="button" class="primary" id="composerSave">Save comment</button>
+        <button type="button" id="composerCancel">Cancel</button>
+      </div>
+    </div>
     <section class="preview">
       <div class="preview-bar">
         <span class="title">Live preview</span>
@@ -278,25 +416,44 @@
 
   <script>
     const STORAGE_KEY = 'wat-pa-tam-wua-review-v1';
+    const COMMENTS_KEY = 'wat-pa-tam-wua-inline-comments-v1';
     const HIGHLIGHT_STYLE_ID = 'review-highlight-style';
     const listEl = document.getElementById('list');
     const statsEl = document.getElementById('stats');
     const introEl = document.getElementById('intro');
     const frameEl = document.getElementById('frame');
     const locateStatusEl = document.getElementById('locateStatus');
+    const commentsListEl = document.getElementById('commentsList');
+    const commentCountEl = document.getElementById('commentCount');
+    const composerEl = document.getElementById('composer');
+    const composerQuoteEl = document.getElementById('composerQuote');
+    const composerNoteEl = document.getElementById('composerNote');
     let proposals = [];
     let decisions = {};
+    let inlineComments = [];
     let activeId = null;
     let frameReady = false;
+    let pendingQuote = '';
+    let selectionPopup = null;
 
     function loadDecisions() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
       catch { return {}; }
     }
 
+    function loadComments() {
+      try { return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]'); }
+      catch { return []; }
+    }
+
     function saveDecisions() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
       renderStats();
+    }
+
+    function saveComments() {
+      localStorage.setItem(COMMENTS_KEY, JSON.stringify(inlineComments));
+      renderComments();
     }
 
     function statusOf(id) {
@@ -314,7 +471,9 @@
         <span class="stat"><strong>${counts.approved || 0}</strong> approved</span>
         <span class="stat"><strong>${counts.rejected || 0}</strong> rejected</span>
         <span class="stat"><strong>${counts.commented || 0}</strong> feedback</span>
+        <span class="stat"><strong>${inlineComments.length}</strong> highlights</span>
       `;
+      commentCountEl.textContent = inlineComments.length ? `(${inlineComments.length})` : '';
     }
 
     function setStatus(id, status) {
@@ -354,8 +513,176 @@
           feedback: decisions[p.id]?.feedback || '',
           after: p.after,
         })),
+        highlights: inlineComments.map(c => ({
+          id: c.id,
+          quote: c.quote,
+          note: c.note,
+          createdAt: c.createdAt,
+        })),
       };
     }
+
+    function renderComments() {
+      commentsListEl.innerHTML = '';
+      if (!inlineComments.length) {
+        const empty = document.createElement('p');
+        empty.className = 'comments-hint';
+        empty.textContent = 'No highlights yet.';
+        commentsListEl.appendChild(empty);
+        renderStats();
+        return;
+      }
+      inlineComments.slice().reverse().forEach(c => {
+        const card = document.createElement('article');
+        card.className = 'inline-comment';
+        card.innerHTML = `
+          <div class="quote">${escapeHtml(c.quote)}</div>
+          <div class="note">${escapeHtml(c.note)}</div>
+          <div class="meta">
+            <button type="button" data-act="jump">Show in post</button>
+            <button type="button" data-act="delete">Delete</button>
+          </div>
+        `;
+        card.addEventListener('click', (e) => {
+          const act = e.target.closest('button')?.dataset.act;
+          if (act === 'delete') {
+            e.stopPropagation();
+            inlineComments = inlineComments.filter(x => x.id !== c.id);
+            saveComments();
+            return;
+          }
+          jumpToQuote(c.quote);
+        });
+        commentsListEl.appendChild(card);
+      });
+      renderStats();
+    }
+
+    function openComposer(quote, clientX, clientY) {
+      pendingQuote = quote;
+      composerQuoteEl.textContent = quote;
+      composerNoteEl.value = '';
+      composerEl.classList.add('open');
+      const pad = 12;
+      const w = composerEl.offsetWidth || 340;
+      const h = composerEl.offsetHeight || 180;
+      let left = clientX + 12;
+      let top = clientY + 12;
+      if (left + w > window.innerWidth - pad) left = window.innerWidth - w - pad;
+      if (top + h > window.innerHeight - pad) top = Math.max(pad, clientY - h - 12);
+      composerEl.style.left = `${Math.max(pad, left)}px`;
+      composerEl.style.top = `${Math.max(pad, top)}px`;
+      composerNoteEl.focus();
+    }
+
+    function closeComposer() {
+      composerEl.classList.remove('open');
+      pendingQuote = '';
+      hideSelectionPopup();
+    }
+
+    function hideSelectionPopup() {
+      if (selectionPopup) selectionPopup.style.display = 'none';
+    }
+
+    function ensureSelectionPopup(doc) {
+      if (selectionPopup && selectionPopup.isConnected) return selectionPopup;
+      ensureHighlightStyles(doc);
+      const btn = doc.createElement('button');
+      btn.type = 'button';
+      btn.id = 'review-comment-popup';
+      btn.textContent = 'Comment';
+      btn.style.cssText = `
+        position: absolute; z-index: 9999; display: none;
+        font: 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #37352f; color: #fff; border: 0; border-radius: 6px;
+        padding: 6px 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      `;
+      doc.body.appendChild(btn);
+      selectionPopup = btn;
+      btn.addEventListener('mousedown', (e) => e.preventDefault());
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const quote = pendingQuote || getFrameSelectionText();
+        if (!quote) return;
+        const rect = btn.getBoundingClientRect();
+        const frameRect = frameEl.getBoundingClientRect();
+        openComposer(quote, frameRect.left + rect.left, frameRect.top + rect.bottom);
+        hideSelectionPopup();
+      });
+      return btn;
+    }
+
+    function getFrameSelectionText() {
+      const doc = frameDoc();
+      if (!doc) return '';
+      const sel = doc.getSelection();
+      return sel ? sel.toString().replace(/\s+/g, ' ').trim() : '';
+    }
+
+    function onFrameSelection() {
+      const doc = frameDoc();
+      if (!doc) return;
+      const text = getFrameSelectionText();
+      const btn = ensureSelectionPopup(doc);
+      if (!text || text.length < 2) {
+        btn.style.display = 'none';
+        return;
+      }
+      pendingQuote = text;
+      const sel = doc.getSelection();
+      if (!sel || !sel.rangeCount) return;
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const top = rect.top + doc.documentElement.scrollTop - 36;
+      const left = rect.left + doc.documentElement.scrollLeft + rect.width / 2 - 36;
+      btn.style.top = `${Math.max(8, top)}px`;
+      btn.style.left = `${Math.max(8, left)}px`;
+      btn.style.display = 'block';
+    }
+
+    function jumpToQuote(quote) {
+      const doc = frameDoc();
+      if (!doc || !quote) return;
+      ensureHighlightStyles(doc);
+      clearHighlights(doc);
+      // Prefer wrapping exact text match via tree walker on text nodes
+      const needle = quote.slice(0, 120);
+      const el = findByText(doc, needle);
+      if (!el) {
+        setLocateStatus(false, 'Couldn’t find highlight');
+        return;
+      }
+      el.classList.add('review-highlight', 'review-highlight-pulse');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setLocateStatus(true, 'Showing highlight');
+      document.querySelector('[data-tab="comments"]')?.click();
+    }
+
+    document.querySelectorAll('.panel-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.panel-tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`pane-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    document.getElementById('composerSave').addEventListener('click', () => {
+      const note = composerNoteEl.value.trim();
+      if (!pendingQuote || !note) return;
+      inlineComments.push({
+        id: `h-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        quote: pendingQuote,
+        note,
+        createdAt: new Date().toISOString(),
+      });
+      saveComments();
+      closeComposer();
+      document.querySelector('[data-tab="comments"]')?.click();
+    });
+    document.getElementById('composerCancel').addEventListener('click', closeComposer);
 
     function renderList() {
       listEl.innerHTML = '';
@@ -458,6 +785,7 @@
           0% { background: rgba(255, 214, 102, 0.55); }
           100% { background: rgba(255, 214, 102, 0.28); }
         }
+        ::selection { background: rgba(255, 214, 102, 0.55); }
       `;
       doc.head.appendChild(style);
     }
@@ -593,6 +921,19 @@
 
     frameEl.addEventListener('load', () => {
       frameReady = true;
+      selectionPopup = null;
+      const doc = frameDoc();
+      if (doc) {
+        ensureHighlightStyles(doc);
+        ensureSelectionPopup(doc);
+        doc.addEventListener('mouseup', () => setTimeout(onFrameSelection, 10));
+        doc.addEventListener('keyup', () => setTimeout(onFrameSelection, 10));
+        doc.addEventListener('scroll', hideSelectionPopup, true);
+        doc.addEventListener('mousedown', (e) => {
+          if (e.target && e.target.id === 'review-comment-popup') return;
+          hideSelectionPopup();
+        });
+      }
       highlightActiveProposal();
     });
 
@@ -617,13 +958,17 @@
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
-      if (!confirm('Clear all approve/reject/feedback decisions?')) return;
+      if (!confirm('Clear all approve/reject/feedback decisions and highlights?')) return;
       decisions = {};
+      inlineComments = [];
       saveDecisions();
+      saveComments();
       renderList();
     });
 
     decisions = loadDecisions();
+    inlineComments = loadComments();
+    renderComments();
     fetch('./wat-pa-tam-wua-proposals.json')
       .then(r => r.json())
       .then(data => {

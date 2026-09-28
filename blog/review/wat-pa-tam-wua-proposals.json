@@ -1,67 +1,31 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 3",
+  "title": "Wat Pa Tam Wua — round 4",
   "updated": "2026-09-28",
-  "notes": "Round 2 applied (BC, cuts/rewrites, Stoicism h3, grouped checklist, Kalama note, more Wright). Also added a language style sheet from your other posts — please review: /blog/review/language-style.md",
+  "notes": "Round 3 applied (bridge between lists, sensual desires back, technique split, stripped pretty/quite/basically/kind of). New: select text in the preview → Comment → saved under the Highlights tab. Export JSON now includes a highlights[] array — paste that back in chat.",
   "proposals": [
     {
-      "id": "r3-01",
+      "id": "r4-01",
       "type": "comment",
       "section": "Meta",
-      "summary": "Review the language style sheet",
-      "before": "(new file)",
-      "after": "Read /blog/review/language-style.md. Approve as-is, or leave feedback on anything wrong / missing (British spelling, 10/10 vibes, BC, banned LLM words, …).",
-      "rationale": "You asked for a style sheet you can review. This becomes the reference for future edits.",
+      "summary": "Try the new highlight-to-comment flow",
+      "before": "(new feature)",
+      "after": "In the live preview: select a phrase → Comment → write a note. It shows under Highlights. Copy decisions JSON (includes highlights) and paste here when you want me to apply them.",
+      "rationale": "This is the main feedback channel for line-level notes while reading.",
       "locate": {
         "find": "I spent 8 days at Wat Pa Tam Wua"
       }
     },
     {
-      "id": "r3-02",
-      "type": "tone",
-      "section": "Buddhism",
-      "summary": "Kalama Sutta framing — keep, shorten, or drop the caveat?",
-      "before": "Monk's 'do you believe me?' story + note that the exact Q&A isn't in the suttas + link to Kalama Sutta.",
-      "after": "Option A: keep as written (honest about the paraphrase).\nOption B: drop the 'couldn't find exact Q&A' caveat and just say the monk pointed at the Kalama Sutta idea.\nOption C: shorter — one sentence on Kalama, no story.",
-      "rationale": "Checked: the dialogue form is a common teaching paraphrase; Kalama Sutta (and Vimamsaka Sutta) are the real sources. Wanted your call on how pedantic to be.",
+      "id": "r4-02",
+      "type": "comment",
+      "section": "Meta",
+      "summary": "Style sheet still pending your formal approve",
+      "before": "language-style.md (you already edited; soft-calibration words moved to avoid list)",
+      "after": "Approve r4-02 when the style sheet looks right, or leave more edits in the file / Highlights.",
+      "rationale": "r3-01 was left pending; keeping a reminder.",
       "locate": {
-        "find": "Kalama Sutta"
-      }
-    },
-    {
-      "id": "r3-03",
-      "type": "grammar",
-      "section": "Meditation",
-      "summary": "Tiny polish on the technique paragraph (optional)",
-      "before": "Current technique para (kept detailed per your note).",
-      "after": "Already lightly cleaned (fewer run-ons). Further option: split the nose-point parenthetical into its own sentence for mobile readability. Easy reject.",
-      "rationale": "You said keep the detail — only flagging one optional split.",
-      "locate": {
-        "find": "In terms of technique, what worked for me"
-      }
-    },
-    {
-      "id": "r3-04",
-      "type": "add",
-      "section": "Takeaways",
-      "summary": "Add control sensual desires back into the grouped checklist?",
-      "before": "Grouped 4 themes; dropped the explicit 'control sensual desires' line into Life/Practice implicitly.",
-      "after": "Put it back under Practice or Life if you still want it named.",
-      "rationale": "Was in your original list; grouping may have buried it.",
-      "locate": {
-        "find": "Back in London I want to keep some of the clarity"
-      }
-    },
-    {
-      "id": "r3-05",
-      "type": "structure",
-      "section": "Whole post",
-      "summary": "Anything still feel like notes?",
-      "before": "Eight Precepts + daily schedule are still full lists.",
-      "after": "Keep (practical for readers who might go) or collapse schedule into 'same every day from 5am solo sit through 6pm chanting'.",
-      "rationale": "Last obvious 'reference dump' blocks. I'd keep them — useful — but flagging.",
-      "locate": {
-        "find": "365 days a year the monastery follows the same schedule"
+        "find": "Clarity = Capacity"
       }
     }
   ]
