@@ -263,7 +263,7 @@
         <button type="button" id="exportBtn">Copy decisions JSON</button>
         <button type="button" id="downloadBtn">Download decisions</button>
         <button type="button" id="resetBtn">Reset all</button>
-        <p class="export-note">After you decide, copy/download the JSON and paste it back in chat (or say “apply approved proposals”).</p>
+        <p class="export-note">After you decide, copy/download the JSON and paste it back in chat (or say “apply approved proposals”). Style sheet: <a href="/blog/review/language-style.md" target="_blank">language-style.md</a>.</p>
       </div>
     </aside>
     <section class="preview">
@@ -631,6 +631,7 @@
         introEl.textContent = data.notes || '';
         activeId = proposals[0]?.id || null;
         renderList();
+        highlightActiveProposal();
       })
       .catch(err => {
         introEl.textContent = 'Failed to load proposals: ' + err.message;
