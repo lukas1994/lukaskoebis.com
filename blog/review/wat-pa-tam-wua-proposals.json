@@ -1,8 +1,8 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
   "title": "Wat Pa Tam Wua — round 2 suggestions",
-  "updated": "2026-09-27",
-  "notes": "Applied: photo cuts + chanting starts after the English bit. Below are structural / rewrite suggestions for the note-y parts — approve, reject, or leave feedback and I'll implement next.",
+  "updated": "2026-09-28",
+  "notes": "Applied: photo cuts + chanting starts after the English bit. Click a proposal to jump/highlight it in the preview. Approve, reject, or leave feedback.",
   "proposals": [
     {
       "id": "r2-01",
@@ -11,7 +11,11 @@
       "summary": "Cut the mental-defilements bullet list",
       "before": "The five hindrances listed as bullets (sense pleasures, ill-will, sloth, restlessness, sceptical doubt) + the 'only way beyond doubt' line.",
       "after": "Drop the whole block. It reads like course notes and isn't tied to anything you personally noticed at the monastery.",
-      "rationale": "Highest 'notes dump' smell in the Buddhism section. The Four Noble Truths + three characteristics carry the idea; this doesn't earn its space."
+      "rationale": "Highest 'notes dump' smell in the Buddhism section. The Four Noble Truths + three characteristics carry the idea; this doesn't earn its space.",
+      "locate": {
+        "find": "The mental defilements which hinder spiritual development are",
+        "through": "impermanent, conditioned mental states"
+      }
     },
     {
       "id": "r2-02",
@@ -20,7 +24,11 @@
       "summary": "Cut or collapse the Noble Eightfold Path bullets",
       "before": "Three bullets grouping the eight folds under Wisdom / Morality / Concentration.",
       "after": "Option A: one sentence — 'The path out is the Noble Eightfold Path (right view, speech, action, … — basically wisdom, ethics, and meditation practice).'\nOption B: keep as-is.",
-      "rationale": "Same notes vibe. Magga is already named in the Four Noble Truths; expanding it is encyclopedic unless you have a personal take."
+      "rationale": "Same notes vibe. Magga is already named in the Four Noble Truths; expanding it is encyclopedic unless you have a personal take.",
+      "locate": {
+        "find": "The Noble Eightfold Path:",
+        "includeNext": 1
+      }
     },
     {
       "id": "r2-03",
@@ -29,7 +37,11 @@
       "summary": "Merge the two 'questions to monks' paragraphs",
       "before": "Separate paras about asking the Abbot, then asking after Dharma talks — both end at 'figure it out yourself / practice more'.",
       "after": "One tighter paragraph, e.g.: 'I asked a bunch of questions after Dharma talks and to the Abbot. None of the answers were very concrete — it's years of practice, and your own body and mind are the teacher. Annoying at first if you want explanations, but that is kind of the point.'",
-      "rationale": "Currently says the same thing twice. One version keeps the frustration without the repetition."
+      "rationale": "Currently says the same thing twice. One version keeps the frustration without the repetition.",
+      "locate": {
+        "find": "I asked some questions to the Abbot",
+        "through": "figure things out yourself"
+      }
     },
     {
       "id": "r2-04",
@@ -38,7 +50,11 @@
       "summary": "Turn Knower vs Thinker bullets into 2–3 prose sentences",
       "before": "Four bullets under 'Knower vs Thinker mind'.",
       "after": "Fold into the walking-meditation paragraph or a short follow-on: you can't be knower and thinker at once; watching the mind knowing the breath is the move; you can't force the knower to appear.",
-      "rationale": "Bullets feel like flashcards mid-essay. Your voice is stronger in paragraphs."
+      "rationale": "Bullets feel like flashcards mid-essay. Your voice is stronger in paragraphs.",
+      "locate": {
+        "find": "\"Knower\" vs \"Thinker\" mind",
+        "includeNext": 1
+      }
     },
     {
       "id": "r2-05",
@@ -47,7 +63,10 @@
       "summary": "Shorten the breath technique paragraph",
       "before": "Long how-to covering deep breaths → nose point → distractions → visuals → jhana twice.",
       "after": "Keep the personal results (absorption nights, body-deforming scare). Compress technique to ~3 sentences, or move the how-to into a short footnote-style aside.",
-      "rationale": "It's useful but denser than the rest of the post and overlaps with what you already said about Samatha."
+      "rationale": "It's useful but denser than the rest of the post and overlaps with what you already said about Samatha.",
+      "locate": {
+        "find": "In terms of technique, what worked for me"
+      }
     },
     {
       "id": "r2-06",
@@ -56,7 +75,11 @@
       "summary": "Promote Stoicism to its own h3 — or cut it",
       "before": "Inline 'Stoicism vs Buddhism, briefly:' with two long bullets.",
       "after": "Option A: h3 'Stoicism vs Buddhism' + keep the two contrasts.\nOption B: cut entirely — it's a side tangent that arrives late and isn't grounded in the monastery week.\nOption C: one sentence in Takeaways: 'Closest Western cousin I've found is Stoicism — reframe judgments vs watch feelings pass.'",
-      "rationale": "You flagged this area as notes. I'd lean Option C unless you want the fuller comparison."
+      "rationale": "You flagged this area as notes. I'd lean Option C unless you want the fuller comparison.",
+      "locate": {
+        "find": "Stoicism vs Buddhism, briefly",
+        "includeNext": 1
+      }
     },
     {
       "id": "r2-07",
@@ -65,7 +88,10 @@
       "summary": "Drop or shrink the Why Buddhism Is True paragraph",
       "before": "Short Wright / modular-mind bridge.",
       "after": "Option A: cut — you didn't list Wright in the Kindle books you actually read at the monastery.\nOption B: keep one sentence if you're reading it now ('started Wright after — modular mind / no CEO-self').",
-      "rationale": "It's the one place that still feels like a TODO from the original draft ('scientific side…'). Your real reading list is now at the bottom."
+      "rationale": "It's the one place that still feels like a TODO from the original draft ('scientific side…'). Your real reading list is now at the bottom.",
+      "locate": {
+        "find": "Why Buddhism Is True"
+      }
     },
     {
       "id": "r2-08",
@@ -74,7 +100,11 @@
       "summary": "Tighten the London checklist into themes",
       "before": "11 bullets.",
       "after": "Group into 4 lines, e.g.:\n• Inputs: less phone/laptop; pickier about podcasts/YT/news\n• Practice: sitting + walking meditation; yoga/sports/hot-cold\n• Food: earlier meals / occasional fasts\n• Life: deep daily project, reading/writing, loving-kindness, community\n(Keep journal re-read as its own line if you want.)",
-      "rationale": "You rejected a hard cut before; grouping keeps the content but reads less like a personal TODO dump."
+      "rationale": "You rejected a hard cut before; grouping keeps the content but reads less like a personal TODO dump.",
+      "locate": {
+        "find": "retain some of the clarity / peace of mind",
+        "includeNext": 1
+      }
     },
     {
       "id": "r2-09",
@@ -83,7 +113,12 @@
       "summary": "Reorder: Meditation experiences before Buddhism textbook",
       "before": "Monastery life → Meditation (mixed how-to + experience) → Buddhism survey → Takeaways.",
       "after": "Monastery life → Meditation experiences (walking, evenings, absorption, body scare) → lighter Buddhism (only what you needed to make sense of it) → Takeaways + books.",
-      "rationale": "Your personal arc is the interesting part. The Four Noble Truths block currently breaks the spell after the best stories."
+      "rationale": "Your personal arc is the interesting part. The Four Noble Truths block currently breaks the spell after the best stories.",
+      "locate": {
+        "find": "Meditation",
+        "matchTag": "H2",
+        "throughHeading": "Buddhism"
+      }
     },
     {
       "id": "r2-10",
@@ -92,7 +127,10 @@
       "summary": "Remove duplicate Walk to be the Knower plug",
       "before": "Quoted + linked in the walking section, then plugged again before the gym-for-the-mind line.",
       "after": "Keep the quote + links once. Drop the later 'The monastery published…' paragraph (or keep the gym metaphor and lose only the book sentence).",
-      "rationale": "Same book, same dual links, twice."
+      "rationale": "Same book, same dual links, twice.",
+      "locate": {
+        "find": "The monastery published"
+      }
     },
     {
       "id": "r2-11",
@@ -101,7 +139,10 @@
       "summary": "Slightly tighten the opening (optional)",
       "before": "Long first paragraph: no experience → amazing → base state → Little Book of Clarity → recommend everyone.",
       "after": "Two shorter paras: (1) where/how long + no prior experience + how it felt. (2) Clarity = Capacity − Contamination + recommendation.",
-      "rationale": "Opening is good but one long block. Split = easier skim without changing voice."
+      "rationale": "Opening is good but one long block. Split = easier skim without changing voice.",
+      "locate": {
+        "find": "I spent 8 days at Wat Pa Tam Wua"
+      }
     },
     {
       "id": "r2-12",
@@ -110,7 +151,10 @@
       "summary": "Soft-land the China contrast",
       "before": "Shanghai paragraph jumps to bath houses / Taobao as 'opposite of Buddhism'.",
       "after": "Keep the contrast but one beat less list-y — e.g. one concrete image (24h bath house) + 'consumerism at full volume' instead of stacking examples.",
-      "rationale": "Funny and true; slightly baggy. Easy reject if you like the energy."
+      "rationale": "Funny and true; slightly baggy. Easy reject if you like the energy.",
+      "locate": {
+        "find": "I flew to Shanghai to explore China"
+      }
     }
   ]
 }
