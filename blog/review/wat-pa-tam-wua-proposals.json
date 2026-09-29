@@ -1,93 +1,67 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 5 (structural pass)",
-  "updated": "2026-09-28",
-  "notes": "Applied your highlights + a full coherence rewrite: no trailing …, phone/cafe rules said once, alms in prose, Clarity book after the monastery, knower via walking, books linked with Siddhartha later. Below are the remaining structural / phrasing calls I’d push if this were my draft.",
+  "title": "Wat Pa Tam Wua — round 6 (post r5)",
+  "updated": "2026-09-29",
+  "notes": "Applied r5 decisions + new highlights: Option B opening, only Eight Precepts, schedule intro, Avatar world, shared-room line, body-deformation rewrite, Buddhism bridge, Stoicism one-liner (no h3), Hesse quotes dropped into one Kalama paragraph, Satipatthana as prose, Glass Bead Game removed, Next up science list. Remaining calls below.",
   "proposals": [
     {
-      "id": "r5-01",
-      "type": "structure",
-      "section": "Buddhism",
-      "summary": "Trim the textbook block further",
-      "before": "Four Noble Truths + Eightfold Path + three characteristics + Satipatthana — still a lot of list density after a personal essay.",
-      "after": "Option A: keep Truths + characteristics; fold Eightfold into one sentence under Magga; move Satipatthana into Meditation (it’s practice, not doctrine).\nOption B: keep as-is for readers who want the map.",
-      "rationale": "After the rewrite, Buddhism is still the section most likely to feel like notes. Satipatthana especially belongs next to the walking/sitting practice.",
-      "locate": {
-        "find": "The Noble Eightfold Path:",
-        "includeNext": 1
-      }
-    },
-    {
-      "id": "r5-02",
-      "type": "structure",
-      "section": "Takeaways",
-      "summary": "Move Stoicism earlier or cut it",
-      "before": "Stoicism h3 sits between neuroscience and China — two hard topic jumps.",
-      "after": "Option A: one sentence after the ‘rational people’ para (‘Closest Western cousin I’ve found is Stoicism: revise judgments vs watch feelings pass.’) and drop the h3.\nOption B: keep the h3 but put it right after the Buddhist-philosophy paragraph.\nOption C: keep current.",
-      "rationale": "It’s good content in a slightly awkward slot. I’d take A for flow.",
-      "locate": {
-        "find": "Stoicism vs Buddhism",
-        "matchTag": "H3"
-      }
-    },
-    {
-      "id": "r5-03",
-      "type": "cut",
+      "id": "r6-01",
+      "type": "tone",
       "section": "Meditation",
-      "summary": "Shorten the technique paragraph a notch",
-      "before": "Still the longest single paragraph in the post.",
-      "after": "Keep the sequence (deep breaths → nose point → less distraction → visuals → absorption) but drop one clause — e.g. the ‘at home this happens a lot’ contrast, or merge the two ‘deeper state’ sentences.",
-      "rationale": "You wanted the detail kept; this is the residual readability issue on mobile.",
+      "summary": "Evening chanting line — pick a phrasing",
+      "before": "Those evenings were hard to beat — and over six hours after the last meal, the mind is clear.",
+      "after": "Currently A. Alternatives:\nA: ‘Those evenings were hard to beat’ (in post now)\nB: ‘Those evenings were the high point of the day’\nC: ‘The atmosphere was hard to beat’\nD: ‘Nothing else in the day quite matched it’\nE: keep something closer to the original casual tone",
+      "rationale": "You asked for alternatives to ‘The vibes were 10/10’. A is the default; swap if another feels more like you.",
       "locate": {
-        "find": "What worked for me technically"
+        "find": "Those evenings were hard to beat"
       }
     },
     {
-      "id": "r5-04",
-      "type": "rewrite",
-      "section": "Intro",
-      "summary": "Tighten ‘amazing’ opening?",
-      "before": "The monastery was amazing — I've never felt as much inner peace and clarity.",
-      "after": "Option A: keep (your voice).\nOption B: ‘The monastery gave me more inner peace and clarity than I’ve felt before.’ — same claim, less review-speak.",
-      "rationale": "‘Amazing’ is fine in speech; on the page it’s the softest word left in the intro. Easy reject.",
+      "id": "r6-02",
+      "type": "cut",
+      "section": "Buddhism",
+      "summary": "Hesse quotes — keep dropped, or put one short line back?",
+      "before": "Dropped both Siddhartha blockquotes; Kalama + ‘ordinary vs lived wisdom’ now share one paragraph.",
+      "after": "Option A: leave as-is (Siddhartha stays on the reading list).\nOption B: one short inline line — e.g. Hesse’s ‘Wisdom cannot be passed on’ — without the second quote.",
+      "rationale": "You asked whether the two paragraphs + quotes were redundant. I’d leave them out; easy to restore one line if you miss it.",
       "locate": {
-        "find": "The monastery was amazing"
+        "find": "There's ordinary wisdom"
       }
     },
     {
-      "id": "r5-05",
+      "id": "r6-03",
       "type": "structure",
-      "section": "Takeaways",
-      "summary": "Split science books from monastery books",
-      "before": "One long mixed list (monastery PDFs + Hesse + neuroscience).",
-      "after": "Two short lists: ‘At the monastery’ and ‘Since / reading now’ — or keep one list but with those as bold subheads inside the ul context via two paragraphs.",
-      "rationale": "The list got long after adding Kindle science titles. Grouping helps skimming.",
+      "section": "Buddhism / Meditation",
+      "summary": "Satipatthana — stay in Buddhism or move to Meditation?",
+      "before": "Now prose under Buddhism, after Kalama. Still doctrine-adjacent; the content is practice.",
+      "after": "Option A: keep in Buddhism (current).\nOption B: move the paragraph to the end of Meditation, just before the gym / bridge lines.",
+      "rationale": "Bullets are gone. Remaining question is flow — practice next to practice, or map next to map.",
       "locate": {
-        "find": "Reading list from this stretch"
+        "find": "Four Foundations of Mindfulness"
       }
     },
     {
-      "id": "r5-06",
+      "id": "r6-04",
       "type": "tone",
       "section": "Monastery life",
-      "summary": "Avatar comparison — keep or swap?",
-      "before": "it feels a bit like Avatar.",
-      "after": "Keep, or swap for something less pop-culture (‘like a film set between two limestone walls’). Your call — grammar is fine now.",
-      "rationale": "Cleared the grammar issue; only asking if the reference still feels right to you.",
+      "summary": "Avatar line — settle wording",
+      "before": "It feels like being in an Avatar world.",
+      "after": "Option A: keep current.\nOption B: ‘…it feels like waking up inside an Avatar world.’\nOption C: drop the film reference — ‘…surreal in a way photos don’t quite capture.’",
+      "rationale": "Applied your suggested direction; last polish on the exact sentence.",
       "locate": {
-        "find": "it feels a bit like Avatar"
+        "find": "It feels like being in an Avatar world"
       }
     },
     {
-      "id": "r5-07",
-      "type": "add",
-      "section": "Meditation",
-      "summary": "One-line bridge into Buddhism",
-      "before": "Meditation ends on the gym metaphor; Buddhism opens cold with Theravada taxonomy.",
-      "after": "Add after the gym line: ‘A lot of what I was feeling only made sense once I had a bit of the Buddhist map — still learning, so treat the next section as notes.’",
-      "rationale": "Connects the experiential half to the conceptual half without another heading.",
+      "id": "r6-05",
+      "type": "structure",
+      "section": "Takeaways",
+      "summary": "Wright paragraph vs Next up list — any duplication bother?",
+      "before": "Why Buddhism Is True is discussed in prose and listed again under Next up.",
+      "after": "Option A: keep (prose = why it clicked; list = queue).\nOption B: shorten the prose to one sentence and let the list carry titles.",
+      "rationale": "Same pattern as before with Siddhartha/quotes. Fine either way; flagging in case the double mention feels heavy.",
       "locate": {
-        "find": "gym for the mind"
+        "find": "I've started on the scientific side"
       }
     }
   ]
