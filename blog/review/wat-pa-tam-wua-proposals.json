@@ -1,19 +1,43 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 7",
+  "title": "Wat Pa Tam Wua — round 8",
   "updated": "2026-09-29",
-  "notes": "Applied r6 (kept A options) + highlights: exchange, dropped vibe line, West popularity phrasing, Stoicism difference, rebirth paragraph tightened. You can now edit the preview directly — select text → Edit, or turn on Edit mode and change paragraphs in place. Export includes an edits[] array.",
+  "notes": "Applied your edits[] + highlights: Takeaways rewrites, Pali/Sanskrit footnote, paper links, checklist cuts, metta gloss, fuller science/China/London transitions. Language style sheet updated from this round — please skim /blog/review/language-style.md. r7 still pending if you want Option B on Stoicism / rebirth.",
   "proposals": [
+    {
+      "id": "r8-01",
+      "type": "tone",
+      "section": "Takeaways",
+      "summary": "metta wording — keep, swap, or drop?",
+      "before": "metta (wishing others well)",
+      "after": "Option A: keep Pali + gloss (current).\nOption B: plain English only — ‘being kinder to people’ / ‘goodwill toward others’.\nOption C: drop from the London list.",
+      "rationale": "You asked for alternatives to loving-kindness. A keeps the practice name; B matches the ‘plain English’ style rule.",
+      "locate": {
+        "find": "metta (wishing others well)"
+      }
+    },
+    {
+      "id": "r8-02",
+      "type": "structure",
+      "section": "Buddhism",
+      "summary": "Pali / Sanskrit note — keep as link-note?",
+      "before": "Short note under the Theravada intro explaining Dhamma/kamma vs Dharma/karma.",
+      "after": "Option A: keep.\nOption B: fold into the first Buddhism paragraph in one sentence.\nOption C: drop — readers can live with the mix.",
+      "rationale": "You asked for consistency + a footnote. Easy reject if it feels pedantic.",
+      "locate": {
+        "find": "A note on spelling"
+      }
+    },
     {
       "id": "r7-01",
       "type": "tone",
       "section": "Takeaways",
-      "summary": "Stoicism one-liner — ok as-is?",
-      "before": "Closest Western cousin I've found is Stoicism — both aim to cool impulsive reactions, but a Stoic rewrites the judgment while a Buddhist watches the feeling pass without becoming it.",
-      "after": "Option A: keep.\nOption B: shorter — ‘Closest Western cousin: Stoicism. Same cool-the-impulse idea; Stoics rewrite the judgment, Buddhists watch the feeling pass.’",
-      "rationale": "You asked to name a difference; flagging in case you want it tighter via Edit mode instead.",
+      "summary": "Stoicism one-liner — still ok?",
+      "before": "The closest Western cousin I've found is Stoicism — both aim to cool impulsive reactions, but a Stoic rewrites the judgment while a Buddhist watches the feeling pass without becoming it.",
+      "after": "Option A: keep.\nOption B: shorter — ‘The closest Western cousin: Stoicism. Same cool-the-impulse idea; Stoics rewrite the judgment, Buddhists watch the feeling pass.’",
+      "rationale": "Still pending from r7; left after your edit-mode pass.",
       "locate": {
-        "find": "Closest Western cousin I've found is Stoicism"
+        "find": "The closest Western cousin I've found is Stoicism"
       }
     },
     {
@@ -23,7 +47,7 @@
       "summary": "Rebirth / don’t-need-everything line",
       "before": "Like a lot of people in the West, I can't get behind rebirth, kamma, and parts of the broader world-view in the Dhamma — and you don't need to accept every part for the practice to be useful.",
       "after": "Option A: keep.\nOption B: swap order — ‘You don’t need to accept every part of the Dhamma for the practice to be useful. Like a lot of people in the West, I leave rebirth, kamma, and some of the broader world-view.’",
-      "rationale": "Applied your note; easy reject if the voice feels off — or just edit it in the preview.",
+      "rationale": "Still pending from r7.",
       "locate": {
         "find": "Like a lot of people in the West"
       }
