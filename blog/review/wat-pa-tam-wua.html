@@ -319,11 +319,22 @@
       padding: 3px 8px;
       cursor: pointer;
     }
+    .inline-comment.edit-card { background: #f4faf4; }
+    .inline-comment.edit-card .quote { border-left-color: #9ccc9c; }
+    .inline-comment .after {
+      font-size: 0.85rem;
+      color: #37352f;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      border-left: 3px solid #9ccc9c;
+      padding-left: 8px;
+      margin-bottom: 6px;
+    }
     .comment-composer {
       display: none;
       position: fixed;
       z-index: 40;
-      width: min(340px, calc(100vw - 24px));
+      width: min(380px, calc(100vw - 24px));
       background: #fff;
       border: 1px solid #d3d1cb;
       border-radius: 10px;
@@ -331,6 +342,14 @@
       padding: 12px;
     }
     .comment-composer.open { display: block; }
+    .comment-composer .composer-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #b4b4b0;
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
     .comment-composer .quote {
       font-size: 0.75rem;
       color: #55534e;
@@ -351,6 +370,10 @@
       font-size: 0.85rem;
       resize: vertical;
     }
+    .comment-composer.mode-edit textarea#composerNote { min-height: 48px; }
+    .comment-composer.mode-edit textarea#composerReplace { min-height: 88px; }
+    .comment-composer .replace-wrap { display: none; margin-bottom: 8px; }
+    .comment-composer.mode-edit .replace-wrap { display: block; }
     .comment-composer .actions {
       display: flex;
       gap: 6px;
@@ -367,6 +390,21 @@
       cursor: pointer;
     }
     .comment-composer .actions button.primary {
+      background: #37352f;
+      color: #fff;
+      border-color: #37352f;
+    }
+    .preview-bar .edit-toggle {
+      font: inherit;
+      font-size: 0.75rem;
+      border: 1px solid #d3d1cb;
+      background: #fff;
+      color: #37352f;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .preview-bar .edit-toggle.on {
       background: #37352f;
       color: #fff;
       border-color: #37352f;
@@ -394,23 +432,34 @@
       <div class="panel-tabs">
         <button type="button" class="active" data-tab="proposals">Proposals</button>
         <button type="button" data-tab="comments">Highlights <span id="commentCount"></span></button>
+        <button type="button" data-tab="edits">Edits <span id="editCount"></span></button>
       </div>
       <div class="panel-pane active" id="pane-proposals">
         <div class="proposal-list" id="list"></div>
       </div>
       <div class="panel-pane" id="pane-comments">
-        <p class="comments-hint">In the preview on the right: select any text → click <strong>Comment</strong> → write feedback. Those highlights export with the decisions JSON.</p>
+        <p class="comments-hint">Select text in the preview → <strong>Comment</strong> for feedback, or <strong>Edit</strong> to rewrite it. Edits apply live in the preview and export in the JSON.</p>
         <div id="commentsList"></div>
+      </div>
+      <div class="panel-pane" id="pane-edits">
+        <p class="comments-hint">Your direct text replacements. Turn on <strong>Edit mode</strong> in the preview bar to click any paragraph and rewrite it in place.</p>
+        <div id="editsList"></div>
       </div>
       <div class="toolbar">
         <button type="button" id="exportBtn">Copy decisions JSON</button>
         <button type="button" id="downloadBtn">Download decisions</button>
         <button type="button" id="resetBtn">Reset all</button>
-        <p class="export-note">After you decide, copy/download the JSON and paste it back in chat (or say “apply approved proposals”). Style sheet: <a href="/blog/review/language-style.md" target="_blank">language-style.md</a>.</p>
+        <p class="export-note">Paste the JSON back in chat (includes decisions, highlights, and edits). Style sheet: <a href="/blog/review/language-style.md" target="_blank">language-style.md</a>.</p>
       </div>
     </aside>
     <div class="comment-composer" id="composer">
+      <div class="composer-label" id="composerModeLabel">Comment</div>
       <div class="quote" id="composerQuote"></div>
+      <div class="replace-wrap">
+        <div class="composer-label">Replace with</div>
+        <textarea id="composerReplace" placeholder="New wording…"></textarea>
+      </div>
+      <div class="composer-label" id="composerNoteLabel">Note</div>
       <textarea id="composerNote" placeholder="What’s wrong / how to change this…"></textarea>
       <div class="actions">
         <button type="button" class="primary" id="composerSave">Save comment</button>
@@ -420,6 +469,7 @@
     <section class="preview">
       <div class="preview-bar">
         <span class="title">Live preview</span>
+        <button type="button" class="edit-toggle" id="editModeBtn" title="Click paragraphs in the preview to edit them">Edit mode</button>
         <span class="locate-status" id="locateStatus"></span>
         <a id="openPost" href="/blog/wat-pa-tam-wua.html" target="_blank">Open post ↗</a>
       </div>
@@ -430,6 +480,7 @@
   <script>
     const STORAGE_KEY = 'wat-pa-tam-wua-review-v1';
     const COMMENTS_KEY = 'wat-pa-tam-wua-inline-comments-v1';
+    const EDITS_KEY = 'wat-pa-tam-wua-inline-edits-v1';
     const HIGHLIGHT_STYLE_ID = 'review-highlight-style';
     const listEl = document.getElementById('list');
     const statsEl = document.getElementById('stats');
@@ -437,17 +488,28 @@
     const frameEl = document.getElementById('frame');
     const locateStatusEl = document.getElementById('locateStatus');
     const commentsListEl = document.getElementById('commentsList');
+    const editsListEl = document.getElementById('editsList');
     const commentCountEl = document.getElementById('commentCount');
+    const editCountEl = document.getElementById('editCount');
     const composerEl = document.getElementById('composer');
     const composerQuoteEl = document.getElementById('composerQuote');
     const composerNoteEl = document.getElementById('composerNote');
+    const composerReplaceEl = document.getElementById('composerReplace');
+    const composerModeLabelEl = document.getElementById('composerModeLabel');
+    const composerNoteLabelEl = document.getElementById('composerNoteLabel');
+    const composerSaveEl = document.getElementById('composerSave');
+    const editModeBtn = document.getElementById('editModeBtn');
     let proposals = [];
     let decisions = {};
     let inlineComments = [];
+    let inlineEdits = [];
     let activeId = null;
     let frameReady = false;
     let pendingQuote = '';
+    let composerMode = 'comment'; // comment | edit
+    let editMode = false;
     let selectionPopup = null;
+    let blockOriginals = new WeakMap();
 
     function loadDecisions() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
@@ -459,6 +521,11 @@
       catch { return []; }
     }
 
+    function loadEdits() {
+      try { return JSON.parse(localStorage.getItem(EDITS_KEY) || '[]'); }
+      catch { return []; }
+    }
+
     function saveDecisions() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
       renderStats();
@@ -467,6 +534,12 @@
     function saveComments() {
       localStorage.setItem(COMMENTS_KEY, JSON.stringify(inlineComments));
       renderComments();
+    }
+
+    function saveEdits() {
+      localStorage.setItem(EDITS_KEY, JSON.stringify(inlineEdits));
+      renderEdits();
+      renderStats();
     }
 
     function statusOf(id) {
@@ -485,8 +558,10 @@
         <span class="stat"><strong>${counts.rejected || 0}</strong> rejected</span>
         <span class="stat"><strong>${counts.commented || 0}</strong> feedback</span>
         <span class="stat"><strong>${inlineComments.length}</strong> highlights</span>
+        <span class="stat"><strong>${inlineEdits.length}</strong> edits</span>
       `;
       commentCountEl.textContent = inlineComments.length ? `(${inlineComments.length})` : '';
+      editCountEl.textContent = inlineEdits.length ? `(${inlineEdits.length})` : '';
     }
 
     function setStatus(id, status) {
@@ -532,6 +607,13 @@
           note: c.note,
           createdAt: c.createdAt,
         })),
+        edits: inlineEdits.map(e => ({
+          id: e.id,
+          before: e.before,
+          after: e.after,
+          note: e.note || '',
+          createdAt: e.createdAt,
+        })),
       };
     }
 
@@ -571,26 +653,77 @@
       renderStats();
     }
 
-    function openComposer(quote, clientX, clientY) {
+    function renderEdits() {
+      editsListEl.innerHTML = '';
+      if (!inlineEdits.length) {
+        const empty = document.createElement('p');
+        empty.className = 'comments-hint';
+        empty.textContent = 'No edits yet.';
+        editsListEl.appendChild(empty);
+        renderStats();
+        return;
+      }
+      inlineEdits.slice().reverse().forEach(e => {
+        const card = document.createElement('article');
+        card.className = 'inline-comment edit-card';
+        card.innerHTML = `
+          <div class="quote">${escapeHtml(e.before)}</div>
+          <div class="after">${escapeHtml(e.after)}</div>
+          ${e.note ? `<div class="note">${escapeHtml(e.note)}</div>` : ''}
+          <div class="meta">
+            <button type="button" data-act="jump">Show in post</button>
+            <button type="button" data-act="delete">Delete</button>
+          </div>
+        `;
+        card.addEventListener('click', (ev) => {
+          const act = ev.target.closest('button')?.dataset.act;
+          if (act === 'delete') {
+            ev.stopPropagation();
+            // try reverse in preview if current text still matches after
+            applyTextReplaceInFrame(e.after, e.before);
+            inlineEdits = inlineEdits.filter(x => x.id !== e.id);
+            saveEdits();
+            return;
+          }
+          jumpToQuote(e.after || e.before);
+        });
+        editsListEl.appendChild(card);
+      });
+      renderStats();
+    }
+
+    function openComposer(quote, clientX, clientY, mode = 'comment') {
       pendingQuote = quote;
+      composerMode = mode;
+      composerEl.classList.toggle('mode-edit', mode === 'edit');
+      composerModeLabelEl.textContent = mode === 'edit' ? 'Edit selection' : 'Comment';
+      composerNoteLabelEl.textContent = mode === 'edit' ? 'Note (optional)' : 'Note';
+      composerSaveEl.textContent = mode === 'edit' ? 'Apply edit' : 'Save comment';
       composerQuoteEl.textContent = quote;
       composerNoteEl.value = '';
+      composerNoteEl.placeholder = mode === 'edit'
+        ? 'Optional note…'
+        : 'What’s wrong / how to change this…';
+      composerReplaceEl.value = mode === 'edit' ? quote : '';
       composerEl.classList.add('open');
       const pad = 12;
-      const w = composerEl.offsetWidth || 340;
-      const h = composerEl.offsetHeight || 180;
+      const w = composerEl.offsetWidth || 380;
+      const h = composerEl.offsetHeight || 220;
       let left = clientX + 12;
       let top = clientY + 12;
       if (left + w > window.innerWidth - pad) left = window.innerWidth - w - pad;
       if (top + h > window.innerHeight - pad) top = Math.max(pad, clientY - h - 12);
       composerEl.style.left = `${Math.max(pad, left)}px`;
       composerEl.style.top = `${Math.max(pad, top)}px`;
-      composerNoteEl.focus();
+      if (mode === 'edit') composerReplaceEl.focus();
+      else composerNoteEl.focus();
     }
 
     function closeComposer() {
       composerEl.classList.remove('open');
+      composerEl.classList.remove('mode-edit');
       pendingQuote = '';
+      composerMode = 'comment';
       hideSelectionPopup();
     }
 
@@ -601,30 +734,129 @@
     function ensureSelectionPopup(doc) {
       if (selectionPopup && selectionPopup.isConnected) return selectionPopup;
       ensureHighlightStyles(doc);
-      const btn = doc.createElement('button');
-      btn.type = 'button';
-      btn.id = 'review-comment-popup';
-      btn.textContent = 'Comment';
-      btn.style.cssText = `
+      const wrap = doc.createElement('div');
+      wrap.id = 'review-comment-popup';
+      wrap.style.cssText = `
         position: absolute; z-index: 9999; display: none;
         font: 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #37352f; color: #fff; border: 0; border-radius: 6px;
-        padding: 6px 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+        background: #37352f; color: #fff; border-radius: 6px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.18); overflow: hidden;
       `;
-      doc.body.appendChild(btn);
-      selectionPopup = btn;
-      btn.addEventListener('mousedown', (e) => e.preventDefault());
-      btn.addEventListener('click', (e) => {
+      wrap.innerHTML = `
+        <button type="button" data-act="comment" style="font:inherit;background:transparent;color:#fff;border:0;padding:6px 10px;cursor:pointer;">Comment</button>
+        <button type="button" data-act="edit" style="font:inherit;background:rgba(255,255,255,0.12);color:#fff;border:0;border-left:1px solid rgba(255,255,255,0.2);padding:6px 10px;cursor:pointer;">Edit</button>
+      `;
+      doc.body.appendChild(wrap);
+      selectionPopup = wrap;
+      wrap.addEventListener('mousedown', (e) => e.preventDefault());
+      wrap.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const act = e.target.closest('button')?.dataset.act;
         const quote = pendingQuote || getFrameSelectionText();
-        if (!quote) return;
-        const rect = btn.getBoundingClientRect();
+        if (!quote || !act) return;
+        const rect = wrap.getBoundingClientRect();
         const frameRect = frameEl.getBoundingClientRect();
-        openComposer(quote, frameRect.left + rect.left, frameRect.top + rect.bottom);
+        openComposer(quote, frameRect.left + rect.left, frameRect.top + rect.bottom, act === 'edit' ? 'edit' : 'comment');
         hideSelectionPopup();
       });
-      return btn;
+      return wrap;
+    }
+
+    function applyTextReplaceInFrame(before, after) {
+      const doc = frameDoc();
+      if (!doc || !before || before === after) return false;
+      const body = doc.querySelector('.post-body') || doc.body;
+      const walker = doc.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const idx = node.nodeValue.indexOf(before);
+        if (idx === -1) continue;
+        const text = node.nodeValue;
+        node.nodeValue = text.slice(0, idx) + after + text.slice(idx + before.length);
+        return true;
+      }
+      // fallback: try normalized whitespace collapse match on element text via HTML rewrite of first match
+      const candidates = candidateElements(doc);
+      for (const el of candidates) {
+        const raw = el.textContent || '';
+        if (!raw.includes(before)) continue;
+        // Prefer text-only elements without nested structure for safety
+        if (el.children.length === 0) {
+          el.textContent = raw.replace(before, after);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function recordEdit(before, after, note = '') {
+      if (!before || before === after) return null;
+      const edit = {
+        id: `e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        before,
+        after,
+        note: note || '',
+        createdAt: new Date().toISOString(),
+      };
+      inlineEdits.push(edit);
+      applyTextReplaceInFrame(before, after);
+      saveEdits();
+      return edit;
+    }
+
+    function setEditMode(on) {
+      editMode = !!on;
+      editModeBtn.classList.toggle('on', editMode);
+      editModeBtn.textContent = editMode ? 'Edit mode on' : 'Edit mode';
+      const doc = frameDoc();
+      if (!doc) return;
+      ensureHighlightStyles(doc);
+      const blocks = candidateElements(doc).filter(el => ['P', 'LI', 'H2', 'H3', 'BLOCKQUOTE'].includes(el.tagName));
+      blocks.forEach(el => {
+        if (editMode) {
+          if (!blockOriginals.has(el)) blockOriginals.set(el, el.textContent);
+          el.contentEditable = 'true';
+          el.spellcheck = true;
+          el.style.outline = '1px dashed transparent';
+          el.addEventListener('focus', onBlockFocus);
+          el.addEventListener('blur', onBlockBlur);
+        } else {
+          el.contentEditable = 'false';
+          el.style.outline = '';
+          el.removeEventListener('focus', onBlockFocus);
+          el.removeEventListener('blur', onBlockBlur);
+        }
+      });
+      setLocateStatus(editMode ? true : null, editMode ? 'Edit mode: click a paragraph and rewrite it' : '');
+    }
+
+    function onBlockFocus(e) {
+      const el = e.currentTarget;
+      el.style.outline = '2px solid #9ccc9c';
+      el.style.outlineOffset = '3px';
+      if (!blockOriginals.has(el)) blockOriginals.set(el, el.textContent);
+    }
+
+    function onBlockBlur(e) {
+      const el = e.currentTarget;
+      el.style.outline = '1px dashed transparent';
+      const before = blockOriginals.get(el);
+      const after = el.textContent;
+      if (before != null && after != null && before !== after) {
+        // Record as whole-block edit; preview already shows the new text
+        const edit = {
+          id: `e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          before,
+          after,
+          note: '',
+          createdAt: new Date().toISOString(),
+        };
+        inlineEdits.push(edit);
+        blockOriginals.set(el, after);
+        saveEdits();
+        document.querySelector('[data-tab="edits"]')?.click();
+      }
     }
 
     function getFrameSelectionText() {
@@ -649,10 +881,10 @@
       const range = sel.getRangeAt(0);
       const rect = range.getBoundingClientRect();
       const top = rect.top + doc.documentElement.scrollTop - 36;
-      const left = rect.left + doc.documentElement.scrollLeft + rect.width / 2 - 36;
+      const left = rect.left + doc.documentElement.scrollLeft + rect.width / 2 - 70;
       btn.style.top = `${Math.max(8, top)}px`;
       btn.style.left = `${Math.max(8, left)}px`;
-      btn.style.display = 'block';
+      btn.style.display = 'flex';
     }
 
     function jumpToQuote(quote) {
@@ -683,6 +915,14 @@
     });
 
     document.getElementById('composerSave').addEventListener('click', () => {
+      if (composerMode === 'edit') {
+        const after = composerReplaceEl.value;
+        if (!pendingQuote || after === pendingQuote) return;
+        recordEdit(pendingQuote, after, composerNoteEl.value.trim());
+        closeComposer();
+        document.querySelector('[data-tab="edits"]')?.click();
+        return;
+      }
       const note = composerNoteEl.value.trim();
       if (!pendingQuote || !note) return;
       inlineComments.push({
@@ -696,6 +936,7 @@
       document.querySelector('[data-tab="comments"]')?.click();
     });
     document.getElementById('composerCancel').addEventListener('click', closeComposer);
+    editModeBtn.addEventListener('click', () => setEditMode(!editMode));
 
     function renderList() {
       listEl.innerHTML = '';
@@ -799,6 +1040,11 @@
           100% { background: rgba(255, 214, 102, 0.28); }
         }
         ::selection { background: rgba(255, 214, 102, 0.55); }
+        [contenteditable="true"]:hover {
+          outline: 1px dashed rgba(61, 122, 61, 0.45) !important;
+          outline-offset: 3px;
+          cursor: text;
+        }
       `;
       doc.head.appendChild(style);
     }
@@ -935,17 +1181,21 @@
     frameEl.addEventListener('load', () => {
       frameReady = true;
       selectionPopup = null;
+      blockOriginals = new WeakMap();
       const doc = frameDoc();
       if (doc) {
         ensureHighlightStyles(doc);
         ensureSelectionPopup(doc);
+        // re-apply saved edits onto fresh HTML so preview matches export
+        inlineEdits.forEach(e => applyTextReplaceInFrame(e.before, e.after));
         doc.addEventListener('mouseup', () => setTimeout(onFrameSelection, 10));
         doc.addEventListener('keyup', () => setTimeout(onFrameSelection, 10));
         doc.addEventListener('scroll', hideSelectionPopup, true);
         doc.addEventListener('mousedown', (e) => {
-          if (e.target && e.target.id === 'review-comment-popup') return;
+          if (e.target && (e.target.id === 'review-comment-popup' || e.target.closest?.('#review-comment-popup'))) return;
           hideSelectionPopup();
         });
+        if (editMode) setEditMode(true);
       }
       highlightActiveProposal();
     });
@@ -971,17 +1221,22 @@
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
-      if (!confirm('Clear all approve/reject/feedback decisions and highlights?')) return;
+      if (!confirm('Clear all approve/reject/feedback decisions, highlights, and edits?')) return;
       decisions = {};
       inlineComments = [];
+      inlineEdits = [];
       saveDecisions();
       saveComments();
+      saveEdits();
       renderList();
+      frameEl.contentWindow?.location.reload();
     });
 
     decisions = loadDecisions();
     inlineComments = loadComments();
+    inlineEdits = loadEdits();
     renderComments();
+    renderEdits();
     fetch('./wat-pa-tam-wua-proposals.json')
       .then(r => r.json())
       .then(data => {

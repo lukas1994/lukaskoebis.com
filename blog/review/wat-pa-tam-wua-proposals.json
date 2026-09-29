@@ -1,67 +1,31 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 6 (post r5)",
+  "title": "Wat Pa Tam Wua — round 7",
   "updated": "2026-09-29",
-  "notes": "Applied r5 decisions + new highlights: Option B opening, only Eight Precepts, schedule intro, Avatar world, shared-room line, body-deformation rewrite, Buddhism bridge, Stoicism one-liner (no h3), Hesse quotes dropped into one Kalama paragraph, Satipatthana as prose, Glass Bead Game removed, Next up science list. Remaining calls below.",
+  "notes": "Applied r6 (kept A options) + highlights: exchange, dropped vibe line, West popularity phrasing, Stoicism difference, rebirth paragraph tightened. You can now edit the preview directly — select text → Edit, or turn on Edit mode and change paragraphs in place. Export includes an edits[] array.",
   "proposals": [
     {
-      "id": "r6-01",
+      "id": "r7-01",
       "type": "tone",
-      "section": "Meditation",
-      "summary": "Evening chanting line — pick a phrasing",
-      "before": "Those evenings were hard to beat — and over six hours after the last meal, the mind is clear.",
-      "after": "Currently A. Alternatives:\nA: ‘Those evenings were hard to beat’ (in post now)\nB: ‘Those evenings were the high point of the day’\nC: ‘The atmosphere was hard to beat’\nD: ‘Nothing else in the day quite matched it’\nE: keep something closer to the original casual tone",
-      "rationale": "You asked for alternatives to ‘The vibes were 10/10’. A is the default; swap if another feels more like you.",
-      "locate": {
-        "find": "Those evenings were hard to beat"
-      }
-    },
-    {
-      "id": "r6-02",
-      "type": "cut",
-      "section": "Buddhism",
-      "summary": "Hesse quotes — keep dropped, or put one short line back?",
-      "before": "Dropped both Siddhartha blockquotes; Kalama + ‘ordinary vs lived wisdom’ now share one paragraph.",
-      "after": "Option A: leave as-is (Siddhartha stays on the reading list).\nOption B: one short inline line — e.g. Hesse’s ‘Wisdom cannot be passed on’ — without the second quote.",
-      "rationale": "You asked whether the two paragraphs + quotes were redundant. I’d leave them out; easy to restore one line if you miss it.",
-      "locate": {
-        "find": "There's ordinary wisdom"
-      }
-    },
-    {
-      "id": "r6-03",
-      "type": "structure",
-      "section": "Buddhism / Meditation",
-      "summary": "Satipatthana — stay in Buddhism or move to Meditation?",
-      "before": "Now prose under Buddhism, after Kalama. Still doctrine-adjacent; the content is practice.",
-      "after": "Option A: keep in Buddhism (current).\nOption B: move the paragraph to the end of Meditation, just before the gym / bridge lines.",
-      "rationale": "Bullets are gone. Remaining question is flow — practice next to practice, or map next to map.",
-      "locate": {
-        "find": "Four Foundations of Mindfulness"
-      }
-    },
-    {
-      "id": "r6-04",
-      "type": "tone",
-      "section": "Monastery life",
-      "summary": "Avatar line — settle wording",
-      "before": "It feels like being in an Avatar world.",
-      "after": "Option A: keep current.\nOption B: ‘…it feels like waking up inside an Avatar world.’\nOption C: drop the film reference — ‘…surreal in a way photos don’t quite capture.’",
-      "rationale": "Applied your suggested direction; last polish on the exact sentence.",
-      "locate": {
-        "find": "It feels like being in an Avatar world"
-      }
-    },
-    {
-      "id": "r6-05",
-      "type": "structure",
       "section": "Takeaways",
-      "summary": "Wright paragraph vs Next up list — any duplication bother?",
-      "before": "Why Buddhism Is True is discussed in prose and listed again under Next up.",
-      "after": "Option A: keep (prose = why it clicked; list = queue).\nOption B: shorten the prose to one sentence and let the list carry titles.",
-      "rationale": "Same pattern as before with Siddhartha/quotes. Fine either way; flagging in case the double mention feels heavy.",
+      "summary": "Stoicism one-liner — ok as-is?",
+      "before": "Closest Western cousin I've found is Stoicism — both aim to cool impulsive reactions, but a Stoic rewrites the judgment while a Buddhist watches the feeling pass without becoming it.",
+      "after": "Option A: keep.\nOption B: shorter — ‘Closest Western cousin: Stoicism. Same cool-the-impulse idea; Stoics rewrite the judgment, Buddhists watch the feeling pass.’",
+      "rationale": "You asked to name a difference; flagging in case you want it tighter via Edit mode instead.",
       "locate": {
-        "find": "I've started on the scientific side"
+        "find": "Closest Western cousin I've found is Stoicism"
+      }
+    },
+    {
+      "id": "r7-02",
+      "type": "tone",
+      "section": "Takeaways",
+      "summary": "Rebirth / don’t-need-everything line",
+      "before": "Like a lot of people in the West, I can't get behind rebirth, kamma, and parts of the broader world-view in the Dhamma — and you don't need to accept every part for the practice to be useful.",
+      "after": "Option A: keep.\nOption B: swap order — ‘You don’t need to accept every part of the Dhamma for the practice to be useful. Like a lot of people in the West, I leave rebirth, kamma, and some of the broader world-view.’",
+      "rationale": "Applied your note; easy reject if the voice feels off — or just edit it in the preview.",
+      "locate": {
+        "find": "Like a lot of people in the West"
       }
     }
   ]
