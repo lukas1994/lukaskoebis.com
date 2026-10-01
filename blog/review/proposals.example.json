@@ -1,0 +1,20 @@
+{
+  "post": "/blog/your-post.html",
+  "title": "Draft review — round 1",
+  "updated": "YYYY-MM-DD",
+  "notes": "Copy this file to something like your-post-proposals.json, point the review UI at it with ?post=/blog/your-post.html&proposals=./your-post-proposals.json, and replace the sample proposal below.",
+  "proposals": [
+    {
+      "id": "r1-01",
+      "type": "rewrite",
+      "section": "Intro",
+      "summary": "Sample proposal — replace me",
+      "before": "Current wording…",
+      "after": "Proposed wording…",
+      "rationale": "Why this change helps.",
+      "locate": {
+        "find": "A distinctive phrase from the paragraph"
+      }
+    }
+  ]
+}

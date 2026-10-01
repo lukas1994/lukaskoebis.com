@@ -70,6 +70,5 @@ Derived from homepage bio, Health, Mountain King (2026), Scaling (2022), and the
 6. Does the next paragraph need a bridge, or does it jump topics cold?
 
 ## Open questions for Lukas
-- Prefer `BC` always (done for this post) — confirm for any future history mentions.
-- Casual bits like `10/10` / `chill guy` OK in personal posts? (Currently softened in places.)
+- Prefer `BC` always — confirm for any future history mentions.
 - Any words you hate that aren’t listed above?

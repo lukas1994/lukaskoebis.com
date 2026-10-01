@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Review: Wat Pa Tam Wua – Lukas Koebis</title>
+  <title>Post review – Lukas Koebis</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="stylesheet" href="../../style.css" />
   <style>
@@ -425,7 +425,7 @@
   <div class="review-shell">
     <aside class="panel">
       <div class="panel-header">
-        <h1>Edit proposals</h1>
+        <h1>Post review</h1>
         <p id="intro">Loading…</p>
         <div class="stats" id="stats"></div>
       </div>
@@ -449,7 +449,7 @@
         <button type="button" id="exportBtn">Copy decisions JSON</button>
         <button type="button" id="downloadBtn">Download decisions</button>
         <button type="button" id="resetBtn">Reset all</button>
-        <p class="export-note">Paste the JSON back in chat (includes decisions, highlights, and edits). Style sheet: <a href="/blog/review/language-style.md" target="_blank">language-style.md</a>.</p>
+        <p class="export-note">Paste the JSON back in chat (includes decisions, highlights, and edits). Open with <code>?post=/blog/your-post.html&amp;proposals=./your-proposals.json</code>. Style sheet: <a href="./language-style.md" target="_blank">language-style.md</a>. Starter file: <a href="./proposals.example.json" target="_blank">proposals.example.json</a>.</p>
       </div>
     </aside>
     <div class="comment-composer" id="composer">
@@ -471,17 +471,25 @@
         <span class="title">Live preview</span>
         <button type="button" class="edit-toggle" id="editModeBtn" title="Click paragraphs in the preview to edit them">Edit mode</button>
         <span class="locate-status" id="locateStatus"></span>
-        <a id="openPost" href="/blog/wat-pa-tam-wua.html" target="_blank">Open post ↗</a>
+        <a id="openPost" href="#" target="_blank">Open post ↗</a>
       </div>
-      <iframe id="frame" title="Post preview" src="/blog/wat-pa-tam-wua.html"></iframe>
+      <iframe id="frame" title="Post preview" src="about:blank"></iframe>
     </section>
   </div>
 
   <script>
-    const STORAGE_KEY = 'wat-pa-tam-wua-review-v1';
-    const COMMENTS_KEY = 'wat-pa-tam-wua-inline-comments-v1';
-    const EDITS_KEY = 'wat-pa-tam-wua-inline-edits-v1';
+    const params = new URLSearchParams(location.search);
+    const POST_PATH = params.get('post') || '/blog/your-post.html';
+    const PROPOSALS_URL = params.get('proposals') || './proposals.example.json';
+    const slug = POST_PATH.replace(/^\/+|\/$/g, '').replace(/[^\w.-]+/g, '-') || 'post';
+    const STORAGE_KEY = `review-decisions:${slug}`;
+    const COMMENTS_KEY = `review-comments:${slug}`;
+    const EDITS_KEY = `review-edits:${slug}`;
     const HIGHLIGHT_STYLE_ID = 'review-highlight-style';
+
+    document.getElementById('openPost').href = POST_PATH;
+    document.getElementById('frame').src = POST_PATH;
+    document.title = `Review: ${POST_PATH} – Lukas Koebis`;
     const listEl = document.getElementById('list');
     const statsEl = document.getElementById('stats');
     const introEl = document.getElementById('intro');
@@ -592,7 +600,7 @@
 
     function exportPayload() {
       return {
-        post: '/blog/wat-pa-tam-wua.html',
+        post: POST_PATH,
         exportedAt: new Date().toISOString(),
         decisions: proposals.map(p => ({
           id: p.id,
@@ -1215,7 +1223,7 @@
       const blob = new Blob([JSON.stringify(exportPayload(), null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'wat-pa-tam-wua-decisions.json';
+      a.download = `${slug}-decisions.json`;
       a.click();
       URL.revokeObjectURL(a.href);
     });
@@ -1237,17 +1245,21 @@
     inlineEdits = loadEdits();
     renderComments();
     renderEdits();
-    fetch('./wat-pa-tam-wua-proposals.json')
-      .then(r => r.json())
+    fetch(PROPOSALS_URL)
+      .then(r => {
+        if (!r.ok) throw new Error(`${r.status} loading ${PROPOSALS_URL}`);
+        return r.json();
+      })
       .then(data => {
         proposals = data.proposals || [];
-        introEl.textContent = data.notes || '';
+        introEl.textContent = data.notes || `Reviewing ${POST_PATH}. Add proposals in ${PROPOSALS_URL}.`;
         activeId = proposals[0]?.id || null;
         renderList();
         highlightActiveProposal();
       })
       .catch(err => {
-        introEl.textContent = 'Failed to load proposals: ' + err.message;
+        introEl.textContent = 'Failed to load proposals: ' + err.message + ' — copy proposals.example.json and pass ?proposals=./your-file.json';
+        renderList();
       });
   </script>
 </body>
