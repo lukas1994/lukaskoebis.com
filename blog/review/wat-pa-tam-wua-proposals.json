@@ -1,43 +1,55 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 9",
+  "title": "Wat Pa Tam Wua — round 10 (holistic)",
   "updated": "2026-10-01",
-  "notes": "Applied your edits[] + decisions/highlights: footnote for Pali/Sanskrit, Eightfold folded under Magga, wisdom/Kalama/Satipatthana flow, monk-gym bridge, Takeaways difference + rebirth Option B, helping people, Wright as ‘He's arguing’. Language style sheet updated. Hard-refresh if the preview caches.",
+  "notes": "Applied r9 + latest edits/highlights. Below are the remaining holistic calls — not nitpicks on single words.",
   "proposals": [
     {
-      "id": "r9-01",
-      "type": "tone",
-      "section": "Takeaways",
-      "summary": "‘He's arguing’ — keep, or mark it as your takeaway?",
-      "before": "He's arguing that the \"self\" isn't a CEO — more like competing modules…",
-      "after": "Option A: keep (fair to Wright; not overclaiming proof).\nOption B: ‘The claim that landed for me is that the \"self\" isn't a CEO…’ — clearer that it’s your read.",
-      "rationale": "You asked whether ‘proven’ was right — A avoids that. B if you want ownership of the takeaway.",
-      "locate": {
-        "find": "He's arguing that the"
-      }
-    },
-    {
-      "id": "r9-02",
-      "type": "tone",
-      "section": "Takeaways",
-      "summary": "‘consumerism at its max’ — keep?",
-      "before": "consumerism at its max",
-      "after": "Option A: keep.\nOption B: ‘consumerism cranked all the way up’.\nOption C: ‘maximum consumerism’.",
-      "rationale": "You asked if ‘at its max’ is a phrase — it’s understandable. Swap if it still feels off.",
-      "locate": {
-        "find": "consumerism at its max"
-      }
-    },
-    {
-      "id": "r9-03",
+      "id": "r10-01",
       "type": "structure",
-      "section": "Buddhism",
-      "summary": "Footnote placement OK?",
-      "before": "Superscript 1 after the Theravada sentence → Notes at end of post.",
-      "after": "Option A: keep.\nOption B: put the marker on the first ‘Dhamma’ instead.",
-      "rationale": "You asked for a real footnote with a jump to the end — done. Easy reject on placement.",
+      "section": "Buddhism → Takeaways",
+      "summary": "Bridge mentions science, but science lands later",
+      "before": "…once I read more about Buddhism and the science behind meditation. I'm still learning, so treat the next section as notes. [then Buddhism doctrine]",
+      "after": "Option A: keep.\nOption B: ‘…once I read more about Buddhism. I'm still learning, so treat the next section as notes.’ — move science entirely to Takeaways.\nOption C: split the bridge — short Buddhism lead-in here; science sentence at the start of the Wright paragraph only.",
+      "rationale": "Right now the bridge promises science, then you get Four Noble Truths. Slight bait-and-switch.",
       "locate": {
-        "find": "many other forms of Buddhism exist too"
+        "find": "read more about Buddhism and the science behind meditation"
+      }
+    },
+    {
+      "id": "r10-02",
+      "type": "structure",
+      "section": "Takeaways",
+      "summary": "China paragraph — keep, cut, or one sentence?",
+      "before": "Shanghai / bath house / maximum consumerism sits between Wright and the London checklist.",
+      "after": "Option A: keep (contrast is the point).\nOption B: one sentence — ‘After the monastery, Shanghai felt like maximum consumerism (another post) — hard to keep a quiet routine.’\nOption C: cut; London checklist can stand alone.",
+      "rationale": "It's vivid, but it's the only non-monastery anecdote and it interrupts the mind → science → routine arc. Your call on whether the contrast earns its space.",
+      "locate": {
+        "find": "China is really impressive"
+      }
+    },
+    {
+      "id": "r10-03",
+      "type": "tone",
+      "section": "Buddhism",
+      "summary": "‘reached enlightenment’ — hedge or keep?",
+      "before": "He spent years there and reached enlightenment when he turned to mindfulness of the mind.",
+      "after": "Option A: keep (matches what the monk taught).\nOption B: ‘…and, in the version we were taught, reached enlightenment when he turned to mindfulness of the mind.’\nOption C: softer — ‘…and that’s when the breakthrough came, in the telling we got.’",
+      "rationale": "You asked if it’s true. Historically debated; attributing it to the monastery’s teaching is the safest if you want accuracy without a lecture.",
+      "locate": {
+        "find": "reached enlightenment when he turned"
+      }
+    },
+    {
+      "id": "r10-04",
+      "type": "structure",
+      "section": "Whole post",
+      "summary": "Ready to merge soon, or one more polish pass?",
+      "before": "Post is coherent: experience → practice → map → takeaways/lists.",
+      "after": "Option A: ship-shaped after r10 decisions — freeze prose, only fix bugs.\nOption B: one more pass focused only on cutting ~10–15% (technique para + reading lists are the longest remaining blocks).",
+      "rationale": "Holistic: the remaining risk is length/repetition, not missing content. Technique paragraph is still the densest mobile read.",
+      "locate": {
+        "find": "What worked for me technically"
       }
     }
   ]

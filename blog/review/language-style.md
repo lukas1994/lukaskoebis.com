@@ -25,7 +25,9 @@ Derived from homepage bio, Health, Mountain King (2026), Scaling (2022), and the
 - When a doctrine list has a nested list (e.g. Eightfold Path under Magga), fold the nested one into the parent item instead of stacking two bullet blocks.
 - Specific numbers and names beat vague adjectives (`8 days`, `Route 1095`, `60min walking`).
 - One idea per stretch: don’t make the same point in two sections.
-- Topic transitions need a full bridging sentence (`Weird experiences aside…`, `The way you're supposed to know for yourself is practice.`).
+- Topic transitions need a full bridging sentence (`Unique mental states aside…`, `The way you're supposed to know for yourself is practice.`).
+- Don’t promise a topic in a bridge sentence if the next section is something else (e.g. don’t lead with “science” into a doctrine section).
+- Prefer `exercise` over `work out` in this post’s register; `helping people` over Buddhist jargon in checklists.
 - End with an open invitation or next step when it fits — short, not salesy. Prefer `Please reach out if…` over clipped `Reach out if…` when the close is a real ask.
 - Footnotes: use a superscript link to a Notes section at the end of the post — not a grey aside mid-flow.
 
