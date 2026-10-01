@@ -1,55 +1,31 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 10 (holistic)",
+  "title": "Wat Pa Tam Wua — round 11",
   "updated": "2026-10-01",
-  "notes": "Applied r9 + latest edits/highlights. Below are the remaining holistic calls — not nitpicks on single words.",
+  "notes": "Applied your r10 answers: science dropped from Buddhism bridge; China cut; London = after travel; reading lists moved to footnote 2; enlightenment line hedged as ‘in the version we were taught’. Technique paragraph kept. Remaining: confirm the hedge and whether footnote lists feel dense enough / too dense.",
   "proposals": [
     {
-      "id": "r10-01",
-      "type": "structure",
-      "section": "Buddhism → Takeaways",
-      "summary": "Bridge mentions science, but science lands later",
-      "before": "…once I read more about Buddhism and the science behind meditation. I'm still learning, so treat the next section as notes. [then Buddhism doctrine]",
-      "after": "Option A: keep.\nOption B: ‘…once I read more about Buddhism. I'm still learning, so treat the next section as notes.’ — move science entirely to Takeaways.\nOption C: split the bridge — short Buddhism lead-in here; science sentence at the start of the Wright paragraph only.",
-      "rationale": "Right now the bridge promises science, then you get Four Noble Truths. Slight bait-and-switch.",
-      "locate": {
-        "find": "read more about Buddhism and the science behind meditation"
-      }
-    },
-    {
-      "id": "r10-02",
-      "type": "structure",
-      "section": "Takeaways",
-      "summary": "China paragraph — keep, cut, or one sentence?",
-      "before": "Shanghai / bath house / maximum consumerism sits between Wright and the London checklist.",
-      "after": "Option A: keep (contrast is the point).\nOption B: one sentence — ‘After the monastery, Shanghai felt like maximum consumerism (another post) — hard to keep a quiet routine.’\nOption C: cut; London checklist can stand alone.",
-      "rationale": "It's vivid, but it's the only non-monastery anecdote and it interrupts the mind → science → routine arc. Your call on whether the contrast earns its space.",
-      "locate": {
-        "find": "China is really impressive"
-      }
-    },
-    {
-      "id": "r10-03",
+      "id": "r11-01",
       "type": "tone",
       "section": "Buddhism",
-      "summary": "‘reached enlightenment’ — hedge or keep?",
-      "before": "He spent years there and reached enlightenment when he turned to mindfulness of the mind.",
-      "after": "Option A: keep (matches what the monk taught).\nOption B: ‘…and, in the version we were taught, reached enlightenment when he turned to mindfulness of the mind.’\nOption C: softer — ‘…and that’s when the breakthrough came, in the telling we got.’",
-      "rationale": "You asked if it’s true. Historically debated; attributing it to the monastery’s teaching is the safest if you want accuracy without a lecture.",
+      "summary": "Enlightenment hedge — keep?",
+      "before": "He spent years there and, in the version we were taught, reached enlightenment when he turned to mindfulness of the mind.",
+      "after": "Option A: keep the hedge (current).\nOption B: drop the hedge — ‘…and reached enlightenment when he turned to mindfulness of the mind.’\nOption C: softer still — ‘…and that’s when the breakthrough came, in the telling we got.’",
+      "rationale": "Point 4 explained in chat: not doubting the monk, just marking that this is the monastery’s account of the Buddha’s story. Easy reject if you want the stronger line.",
       "locate": {
-        "find": "reached enlightenment when he turned"
+        "find": "in the version we were taught"
       }
     },
     {
-      "id": "r10-04",
+      "id": "r11-02",
       "type": "structure",
-      "section": "Whole post",
-      "summary": "Ready to merge soon, or one more polish pass?",
-      "before": "Post is coherent: experience → practice → map → takeaways/lists.",
-      "after": "Option A: ship-shaped after r10 decisions — freeze prose, only fix bugs.\nOption B: one more pass focused only on cutting ~10–15% (technique para + reading lists are the longest remaining blocks).",
-      "rationale": "Holistic: the remaining risk is length/repetition, not missing content. Technique paragraph is still the densest mobile read.",
+      "section": "Notes",
+      "summary": "Reading-list footnote — OK as one note?",
+      "before": "Both monastery books and Next up live in footnote 2 (linked from the Wright paragraph).",
+      "after": "Option A: keep.\nOption B: two footnotes (monastery = 2, science = 3).\nOption C: put them back in the main text as short lists.",
+      "rationale": "Footnotes get long with many links; split if it feels cramped on mobile.",
       "locate": {
-        "find": "What worked for me technically"
+        "find": "Books from the monastery stay"
       }
     }
   ]
