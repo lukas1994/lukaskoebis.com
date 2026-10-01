@@ -1,55 +1,43 @@
 {
   "post": "/blog/wat-pa-tam-wua.html",
-  "title": "Wat Pa Tam Wua — round 8",
-  "updated": "2026-09-29",
-  "notes": "Applied your edits[] + highlights: Takeaways rewrites, Pali/Sanskrit footnote, paper links, checklist cuts, metta gloss, fuller science/China/London transitions. Language style sheet updated from this round — please skim /blog/review/language-style.md. r7 still pending if you want Option B on Stoicism / rebirth.",
+  "title": "Wat Pa Tam Wua — round 9",
+  "updated": "2026-10-01",
+  "notes": "Applied your edits[] + decisions/highlights: footnote for Pali/Sanskrit, Eightfold folded under Magga, wisdom/Kalama/Satipatthana flow, monk-gym bridge, Takeaways difference + rebirth Option B, helping people, Wright as ‘He's arguing’. Language style sheet updated. Hard-refresh if the preview caches.",
   "proposals": [
     {
-      "id": "r8-01",
+      "id": "r9-01",
       "type": "tone",
       "section": "Takeaways",
-      "summary": "metta wording — keep, swap, or drop?",
-      "before": "metta (wishing others well)",
-      "after": "Option A: keep Pali + gloss (current).\nOption B: plain English only — ‘being kinder to people’ / ‘goodwill toward others’.\nOption C: drop from the London list.",
-      "rationale": "You asked for alternatives to loving-kindness. A keeps the practice name; B matches the ‘plain English’ style rule.",
+      "summary": "‘He's arguing’ — keep, or mark it as your takeaway?",
+      "before": "He's arguing that the \"self\" isn't a CEO — more like competing modules…",
+      "after": "Option A: keep (fair to Wright; not overclaiming proof).\nOption B: ‘The claim that landed for me is that the \"self\" isn't a CEO…’ — clearer that it’s your read.",
+      "rationale": "You asked whether ‘proven’ was right — A avoids that. B if you want ownership of the takeaway.",
       "locate": {
-        "find": "metta (wishing others well)"
+        "find": "He's arguing that the"
       }
     },
     {
-      "id": "r8-02",
+      "id": "r9-02",
+      "type": "tone",
+      "section": "Takeaways",
+      "summary": "‘consumerism at its max’ — keep?",
+      "before": "consumerism at its max",
+      "after": "Option A: keep.\nOption B: ‘consumerism cranked all the way up’.\nOption C: ‘maximum consumerism’.",
+      "rationale": "You asked if ‘at its max’ is a phrase — it’s understandable. Swap if it still feels off.",
+      "locate": {
+        "find": "consumerism at its max"
+      }
+    },
+    {
+      "id": "r9-03",
       "type": "structure",
       "section": "Buddhism",
-      "summary": "Pali / Sanskrit note — keep as link-note?",
-      "before": "Short note under the Theravada intro explaining Dhamma/kamma vs Dharma/karma.",
-      "after": "Option A: keep.\nOption B: fold into the first Buddhism paragraph in one sentence.\nOption C: drop — readers can live with the mix.",
-      "rationale": "You asked for consistency + a footnote. Easy reject if it feels pedantic.",
+      "summary": "Footnote placement OK?",
+      "before": "Superscript 1 after the Theravada sentence → Notes at end of post.",
+      "after": "Option A: keep.\nOption B: put the marker on the first ‘Dhamma’ instead.",
+      "rationale": "You asked for a real footnote with a jump to the end — done. Easy reject on placement.",
       "locate": {
-        "find": "A note on spelling"
-      }
-    },
-    {
-      "id": "r7-01",
-      "type": "tone",
-      "section": "Takeaways",
-      "summary": "Stoicism one-liner — still ok?",
-      "before": "The closest Western cousin I've found is Stoicism — both aim to cool impulsive reactions, but a Stoic rewrites the judgment while a Buddhist watches the feeling pass without becoming it.",
-      "after": "Option A: keep.\nOption B: shorter — ‘The closest Western cousin: Stoicism. Same cool-the-impulse idea; Stoics rewrite the judgment, Buddhists watch the feeling pass.’",
-      "rationale": "Still pending from r7; left after your edit-mode pass.",
-      "locate": {
-        "find": "The closest Western cousin I've found is Stoicism"
-      }
-    },
-    {
-      "id": "r7-02",
-      "type": "tone",
-      "section": "Takeaways",
-      "summary": "Rebirth / don’t-need-everything line",
-      "before": "Like a lot of people in the West, I can't get behind rebirth, kamma, and parts of the broader world-view in the Dhamma — and you don't need to accept every part for the practice to be useful.",
-      "after": "Option A: keep.\nOption B: swap order — ‘You don’t need to accept every part of the Dhamma for the practice to be useful. Like a lot of people in the West, I leave rebirth, kamma, and some of the broader world-view.’",
-      "rationale": "Still pending from r7.",
-      "locate": {
-        "find": "Like a lot of people in the West"
+        "find": "many other forms of Buddhism exist too"
       }
     }
   ]
