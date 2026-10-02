@@ -10,10 +10,11 @@
     .map-wrap {
       margin-top: 32px;
       position: relative;
+      overflow: hidden;
     }
     .map-container {
-      width: calc(100% + 48px);
-      margin-left: -24px;
+      width: calc(100% + (2 * var(--page-pad)));
+      margin-left: calc(-1 * var(--page-pad));
       position: relative;
     }
     .map-container svg {
