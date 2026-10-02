@@ -7,7 +7,19 @@ const navLinks = [
   { href: '/music.html', label: 'Music' },
 ];
 
+const header = document.createElement('header');
+header.className = 'site-nav';
+
+const toggle = document.createElement('button');
+toggle.type = 'button';
+toggle.className = 'nav-toggle';
+toggle.setAttribute('aria-expanded', 'false');
+toggle.setAttribute('aria-controls', 'nav-menu');
+toggle.setAttribute('aria-label', 'Menu');
+toggle.innerHTML = '<span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>';
+
 const nav = document.createElement('nav');
+nav.id = 'nav-menu';
 const path = location.pathname;
 
 navLinks.forEach(({ href, label }) => {
@@ -21,4 +33,11 @@ navLinks.forEach(({ href, label }) => {
   nav.appendChild(a);
 });
 
-document.body.prepend(nav);
+toggle.addEventListener('click', () => {
+  const open = header.classList.toggle('is-open');
+  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+header.appendChild(toggle);
+header.appendChild(nav);
+document.body.prepend(header);
