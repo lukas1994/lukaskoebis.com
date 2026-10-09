@@ -1,11 +1,12 @@
-/* A deliberately small, host-authoritative heads-up Hold'em game. WebRTC carries
-   game messages directly between browsers; PeerJS is only used to find the peer. */
+/* A deliberately small, host-authoritative heads-up Hold'em game. The relay
+   forwards live messages only; no game data is persisted outside the host tab. */
 (() => {
   const $ = (id) => document.getElementById(id);
   const suits = ["♠", "♥", "♦", "♣"], ranks = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"];
   const params = new URLSearchParams(location.search);
   const table = params.get("table");
-  let peer, conn, seat = table ? 1 : 0, hostState, viewState, tableCode;
+  const relayOrigin = "wss://headsup-relay.lukas-koebis.workers.dev";
+  let relay, seat = table ? 1 : 0, hostState, viewState, tableCode;
 
   const card = (c, hidden = false) => {
     if (!c) return '<div class="card empty"></div>';
@@ -15,8 +16,7 @@
   };
   const money = (n) => n.toLocaleString("en-GB");
   const status = (text) => { $("connection-status").textContent = text; };
-  const randomCode = () => Array.from(crypto.getRandomValues(new Uint32Array(2))).map(n => n.toString(36)).join("").slice(0, 8);
-  const peerId = (code) => `lk-headsup-${code}`;
+  const randomCode = () => crypto.randomUUID().replaceAll("-", "");
 
   function makeDeck() { return ranks.flatMap(r => suits.map(s => ({r,s}))).sort(() => crypto.getRandomValues(new Uint32Array(1))[0] / 2**32 - .5); }
   function blankGame() { return { hand: 0, dealer: 0, stacks:[1000,1000], board:[], hole:[[],[]], street:"waiting", pot:0, contrib:[0,0], currentBet:0, turn:null, actions:0, lastAction:"Waiting for opponent…", result:null }; }
@@ -27,7 +27,8 @@
     s.forSeat = forSeat;
     return s;
   }
-  function sendState() { viewState = publicState(0); render(); if (conn?.open) conn.send({type:"state", state:publicState(1)}); }
+  function send(message) { if (relay?.readyState === WebSocket.OPEN) relay.send(JSON.stringify(message)); }
+  function sendState() { viewState = publicState(0); render(); send({type:"state", state:publicState(1)}); }
   function setConnected(text) { $("connection-pill").textContent = text; }
 
   function startHand() {
@@ -90,18 +91,23 @@
   }
 
   function setupHost() {
-    tableCode=randomCode(); const url=new URL(location); url.searchParams.set("table",tableCode); $("share-link").value=url.href; $("share-box").hidden=false; status("Creating your table…"); peer=new Peer(peerId(tableCode));
-    peer.on("open",()=>{status("Table ready — waiting for your opponent."); hostState=blankGame(); setConnected("Waiting for player");}); peer.on("connection", c=>{if(conn?.open){c.close();return;} conn=c; wireConnection(true);}); peer.on("error",e=>status(`Couldn’t create table: ${e.type}. Try again.`));
+    tableCode=randomCode(); const url=new URL(location); url.searchParams.set("table",tableCode); $("share-link").value=url.href; $("share-box").hidden=false; hostState=blankGame(); status("Creating your table…"); connectRelay(tableCode, true);
   }
   function setupGuest() {
-    $("host-options").hidden=true; $("join-options").hidden=false; $("table-code").textContent=table; status("Connecting to table…"); peer=new Peer(); peer.on("open",()=>{conn=peer.connect(peerId(table),{reliable:true}); wireConnection(false);}); peer.on("error",e=>status(`Couldn’t join this table (${e.type}). Ask the host for a fresh link.`));
+    $("host-options").hidden=true; $("join-options").hidden=false; $("table-code").textContent=table; status("Connecting to table…"); connectRelay(table, false);
   }
-  function wireConnection(isHost) {
-    conn.on("open",()=>{setConnected("Connected"); status(isHost?"Opponent joined — dealing…":"Connected — waiting for the host to deal."); if(isHost) startHand();});
-    conn.on("data",data=>{ if(data.type==="state"&&!isHost){viewState=data.state; render();} else if(data.type==="action"&&isHost) act(1,data.action,data.total); else if(data.type==="new"&&isHost) startHand(); });
-    conn.on("close",()=>{setConnected("Opponent left"); $("actions").hidden=true; $("game-status").textContent="Connection closed — this table is over.";}); conn.on("error",()=>status("Connection hiccup — reload and use a new table link."));
+  function connectRelay(code, isHost) {
+    relay = new WebSocket(`${relayOrigin}/table/${encodeURIComponent(code)}`);
+    relay.addEventListener("open", () => { setConnected(isHost ? "Waiting for player" : "Connected"); status(isHost ? "Table ready — waiting for your opponent." : "Connected — waiting for the host to deal."); });
+    relay.addEventListener("message", (event) => {
+      let data; try { data=JSON.parse(event.data); } catch { return; }
+      if (data.type === "presence") { if (isHost && data.count === 2 && !hostState.hand) startHand(); return; }
+      if(data.type==="state"&&!isHost){viewState=data.state; render();} else if(data.type==="action"&&isHost) act(1,data.action,data.total); else if(data.type==="new"&&isHost) startHand();
+    });
+    relay.addEventListener("close", () => { setConnected("Opponent left"); $("actions").hidden=true; if ($("game-status")) $("game-status").textContent="Connection closed — this table is over."; });
+    relay.addEventListener("error", () => status("Couldn’t reach the relay. Reload and try again."));
   }
-  function localAction(action,total){ if(seat===0) act(0,action,total); else conn?.send({type:"action",action,total}); }
+  function localAction(action,total){ if(seat===0) act(0,action,total); else send({type:"action",action,total}); }
   $("create-table").addEventListener("click",setupHost); $("copy-link").addEventListener("click",async()=>{await navigator.clipboard.writeText($("share-link").value); $("copy-link").textContent="Copied"; setTimeout(()=>$("copy-link").textContent="Copy",1500);}); $("fold").onclick=()=>localAction("fold"); $("check-call").onclick=()=>localAction("call"); $("raise-toggle").onclick=()=>$("raise-box").hidden=!$("raise-box").hidden; $("raise").oninput=updateRaise; $("raise-submit").onclick=()=>{localAction("raise",+$("raise").value); $("raise-box").hidden=true;}; $("new-hand").onclick=()=>startHand();
   if(table) setupGuest();
 })();
