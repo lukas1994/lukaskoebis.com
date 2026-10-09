@@ -11,40 +11,38 @@ export default {
 };
 
 export class PokerTable {
-  constructor() {
-    this.clients = new Set();
+  constructor(state) {
+    this.state = state;
   }
 
   fetch(request) {
     if (request.headers.get("Upgrade") !== "websocket") {
       return new Response("WebSocket upgrade required", { status: 426 });
     }
-    if (this.clients.size >= 2) return new Response("Table is full", { status: 409 });
+    if (this.state.getWebSockets().length >= 2) return new Response("Table is full", { status: 409 });
 
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
-    server.accept();
-    this.clients.add(server);
-    this.broadcast({ type: "presence", count: this.clients.size });
-
-    server.addEventListener("message", (event) => {
-      // The relay has no game knowledge and never persists payloads.
-      for (const other of this.clients) {
-        if (other !== server) {
-          try { other.send(event.data); } catch { this.clients.delete(other); }
-        }
-      }
-    });
-    const remove = () => { this.clients.delete(server); this.broadcast({ type: "presence", count: this.clients.size }); };
-    server.addEventListener("close", remove);
-    server.addEventListener("error", remove);
+    // Hibernation keeps sockets alive without billing idle object duration.
+    this.state.acceptWebSocket(server);
+    this.broadcast({ type: "presence", count: this.state.getWebSockets().length });
     return new Response(null, { status: 101, webSocket: client });
+  }
+
+  webSocketMessage(socket, message) {
+    // The relay has no game knowledge and never persists payloads.
+    for (const other of this.state.getWebSockets()) if (other !== socket) other.send(message);
+  }
+
+  webSocketClose(socket) {
+    const clients = this.state.getWebSockets();
+    const update = JSON.stringify({ type: "presence", count: clients.length - 1 });
+    for (const other of clients) if (other !== socket) other.send(update);
+    socket.close(1000, "Table connection closed");
   }
 
   broadcast(message) {
     const data = JSON.stringify(message);
-    for (const client of this.clients) {
-      try { client.send(data); } catch { this.clients.delete(client); }
-    }
+    for (const client of this.state.getWebSockets()) client.send(data);
   }
 }
