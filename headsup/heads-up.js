@@ -76,10 +76,14 @@
     const mine=s.forSeat, opp=1-mine; $("your-stack").textContent=`${money(s.stacks[mine])} chips`; $("opponent-stack").textContent=`${money(s.stacks[opp])} chips`; $("your-role").textContent=s.dealer===mine?"D · SB":"BB"; $("opponent-role").textContent=s.dealer===opp?"D · SB":"BB";
     $("your-cards").innerHTML=(s.hole[mine]||[]).map(c=>card(c)).join("") || card(null)+card(null); $("opponent-cards").innerHTML=(s.hole[opp]||[]).map(c=>card(c, !s.result)).join("") || card(null)+card(null);
     $("board").innerHTML=[...s.board,...Array(5-s.board.length).fill(null)].map(c=>card(c)).join(""); $("pot").textContent=money(s.pot); $("you-bet").textContent=s.contrib[mine]?`Bet ${money(s.contrib[mine])}`:""; $("opponent-bet").textContent=s.contrib[opp]?`Bet ${money(s.contrib[opp])}`:"";
-    $("game-status").textContent=statusForViewer(s,mine); $("game-status").className="game-status"+(s.result?" winner":""); const mineTurn=s.turn===mine&&!s.result; $("actions").hidden=!mineTurn; $("new-hand").hidden=!(s.result && seat===0);
+    $("game-status").textContent=statusForViewer(s,mine); $("game-status").className="game-status"+(s.result?" winner":""); const mineTurn=s.turn===mine&&!s.result; $("actions").hidden=!mineTurn; const canDeal=Boolean(s.result && seat===0); $("new-hand").hidden=!canDeal; $("new-hand").disabled=!canDeal;
     if(mineTurn) { const call=Math.max(0,s.currentBet-s.contrib[mine]); $("check-call").textContent=call?`Call ${money(call)}`:"Check"; const min=s.currentBet?s.currentBet+10:10, max=s.contrib[mine]+s.stacks[mine]; $("raise").min=Math.min(min,max); $("raise").max=max; $("raise").value=Math.min(Math.max(min, $("raise").value||min),max); $("raise").disabled=max<min; $("raise-toggle").disabled=max<min; updateRaise(); }
   }
-  function updateRaise(){ $("raise-value").textContent=money(+( $("raise").value||0)); }
+  function updateRaise(){
+    const value=money(+($("raise").value||0));
+    $("raise-value").textContent=value;
+    $("raise-submit").textContent=`Bet / raise ${value}`;
+  }
 
   function statusForViewer(s, mine) {
     if (s.result) {
@@ -108,6 +112,6 @@
     relay.addEventListener("error", () => status("Couldn’t reach the relay. Reload and try again."));
   }
   function localAction(action,total){ if(seat===0) act(0,action,total); else send({type:"action",action,total}); }
-  $("create-table").addEventListener("click",setupHost); $("copy-link").addEventListener("click",async()=>{await navigator.clipboard.writeText($("share-link").value); $("copy-link").textContent="Copied"; setTimeout(()=>$("copy-link").textContent="Copy",1500);}); $("fold").onclick=()=>localAction("fold"); $("check-call").onclick=()=>localAction("call"); $("raise-toggle").onclick=()=>$("raise-box").hidden=!$("raise-box").hidden; $("raise").oninput=updateRaise; $("raise-submit").onclick=()=>{localAction("raise",+$("raise").value); $("raise-box").hidden=true;}; $("new-hand").onclick=()=>startHand();
+  $("create-table").addEventListener("click",setupHost); $("copy-link").addEventListener("click",async()=>{await navigator.clipboard.writeText($("share-link").value); $("copy-link").textContent="Copied"; setTimeout(()=>$("copy-link").textContent="Copy",1500);}); $("fold").onclick=()=>localAction("fold"); $("check-call").onclick=()=>localAction("call"); $("raise-toggle").onclick=()=>$("raise-box").hidden=!$("raise-box").hidden; $("raise").oninput=updateRaise; $("raise-submit").onclick=()=>{localAction("raise",+$("raise").value); $("raise-box").hidden=true;}; $("new-hand").onclick=()=>{if(seat===0&&hostState?.result)startHand();};
   if(table) setupGuest();
 })();
