@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123c2e">
+  <title>Heads Up — Texas Hold'em</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="heads-up.css">
+</head>
+<body>
+  <main class="table-shell">
+    <header>
+      <a class="back" href="/">lukaskoebis.com</a>
+      <h1>Heads Up</h1>
+      <p class="subtitle">Texas Hold’em · 2 players · browser-to-browser</p>
+    </header>
+
+    <section id="lobby" class="panel lobby">
+      <div id="host-options">
+        <p>Start a table, then send the link to your opponent. Nothing is stored; closing the host tab ends the game.</p>
+        <button id="create-table" class="primary">Create table</button>
+      </div>
+      <div id="join-options" hidden>
+        <p>Joining table <strong id="table-code"></strong>…</p>
+        <p class="muted">Keep this tab open while you play.</p>
+      </div>
+      <p id="connection-status" class="status" aria-live="polite"></p>
+      <div id="share-box" hidden>
+        <label for="share-link">Send this link to your opponent</label>
+        <div class="copy-row"><input id="share-link" readonly><button id="copy-link">Copy</button></div>
+      </div>
+    </section>
+
+    <section id="game" hidden>
+      <div class="game-meta">
+        <span id="connection-pill" class="pill">Connecting</span>
+        <span id="hand-label">Hand —</span>
+      </div>
+      <div class="poker-table">
+        <section class="player opponent" id="opponent-panel">
+          <div class="player-info"><span class="role" id="opponent-role"></span><strong id="opponent-name">Opponent</strong><span id="opponent-stack"></span></div>
+          <div class="cards" id="opponent-cards"></div>
+          <div class="bet" id="opponent-bet"></div>
+        </section>
+
+        <section class="board-zone">
+          <div class="pot">Pot <strong id="pot">0</strong></div>
+          <div class="cards board" id="board"></div>
+          <p id="game-status" class="game-status" aria-live="polite"></p>
+        </section>
+
+        <section class="player you" id="you-panel">
+          <div class="bet" id="you-bet"></div>
+          <div class="cards" id="your-cards"></div>
+          <div class="player-info"><span class="role" id="your-role"></span><strong>You</strong><span id="your-stack"></span></div>
+        </section>
+      </div>
+
+      <section id="actions" class="actions" hidden>
+        <button id="fold" class="fold">Fold</button>
+        <button id="check-call" class="primary">Check</button>
+        <button id="raise-toggle">Bet / raise</button>
+        <div id="raise-box" class="raise-box" hidden>
+          <label>To <output id="raise-value"></output><input id="raise" type="range"></label>
+          <button id="raise-submit" class="primary">Confirm</button>
+        </div>
+      </section>
+      <button id="new-hand" class="new-hand" hidden>Deal next hand</button>
+      <p class="rules">Blinds 5 / 10 · starting stack 1,000 · no cash, no accounts.</p>
+    </section>
+  </main>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="heads-up.js"></script>
+</body>
+</html>
