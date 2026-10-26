@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diving – Lukas Koebis</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <style>
+    :root { --sea: #2f6f8f; --sea-light: #e6eff3; }
+
+    .hero-loop {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      border-radius: 4px;
+      margin-top: 28px;
+      background: #f7f7f5;
+    }
+
+    .stats {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px 12px;
+    }
+    .stat .num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1;
+      color: #37352f;
+    }
+    .stat .num small { font-size: 0.875rem; color: #787774; margin-left: 2px; }
+    .stat .label { font-size: 0.8125rem; color: #b4b4b0; margin-top: 4px; }
+
+    #map {
+      height: 340px;
+      border-radius: 4px;
+      background: #f7f7f5;
+      z-index: 0;
+    }
+    .map-legend { margin-top: 8px; font-size: 0.75rem; color: #b4b4b0; display: flex; gap: 16px; }
+    .map-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+
+    .loop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .loop-grid figure { margin: 0; position: relative; }
+    .loop-grid figure:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+    .loop-grid video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-radius: 2px; background: #f7f7f5; }
+    .loop-grid figcaption {
+      position: absolute; left: 8px; bottom: 6px;
+      font-size: 0.75rem; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .trip { margin-top: 48px; }
+    .trip:first-of-type { margin-top: 0; }
+    .trip-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-bottom: 4px; }
+    .trip-header h3 { font-size: 1.0625rem; font-weight: 600; color: #37352f; }
+    .trip-header span { font-size: 0.8125rem; color: #b4b4b0; }
+
+    .trip-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 10px; }
+    .trip-photos:has(img:nth-child(3)) { grid-template-columns: repeat(3, 1fr); }
+    .trip-photos:has(img:only-child) { grid-template-columns: 1fr; }
+    .trip-clips { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 10px; }
+    .trip-clips:has(video:only-child) { grid-template-columns: 1fr; }
+    .trip-clips:has(video:nth-child(3)) video:first-child { grid-column: 1 / -1; }
+    .trip-clips video { width: 100%; aspect-ratio: 16/9; display: block; border-radius: 2px; background: #000; }
+    .trip-photos img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border-radius: 2px; background: #f7f7f5; }
+
+    .dive {
+      padding: 20px 0;
+      border-bottom: 1px solid #f1f1ef;
+      scroll-margin-top: 24px;
+    }
+    .dive:last-child { border-bottom: none; }
+    .dive.flash { animation: flash 1.6s ease; }
+    @keyframes flash { 0%, 40% { background: var(--sea-light); } 100% { background: transparent; } }
+    .dive-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .dive-site { font-size: 0.9375rem; font-weight: 500; color: #37352f; }
+    .dive-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: #b4b4b0; }
+    .dive-meta {
+      margin-top: 4px;
+      display: flex; flex-wrap: wrap; gap: 4px 16px;
+      font-size: 0.8125rem; color: #787774;
+    }
+    .dive-meta b { font-family: 'IBM Plex Mono', monospace; font-weight: 500; color: #37352f; }
+    .dive-notes { margin-top: 8px; font-size: 0.875rem; }
+
+    .profile { width: 100%; height: auto; display: block; margin-top: 12px; overflow: visible; }
+    .profile .area { fill: var(--sea-light); }
+    .profile .line { fill: none; stroke: var(--sea); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+    .profile .grid { stroke: #f1f1ef; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .profile text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #b4b4b0; }
+    .profile .clip-mark { fill: var(--sea); opacity: 0.25; cursor: pointer; }
+    .profile .clip-mark:hover, .profile .clip-mark.on { opacity: 0.6; }
+    .profile .cursor { fill: var(--sea); stroke: #fff; stroke-width: 2; display: none; }
+    .profile .cursor-line { stroke: var(--sea); stroke-width: 1; stroke-dasharray: 2 3; display: none; vector-effect: non-scaling-stroke; }
+
+    .player { margin-top: 12px; }
+    .player video { width: 100%; aspect-ratio: 16/9; display: block; border-radius: 2px; background: #000; }
+    .thumbs { display: flex; gap: 4px; margin-top: 6px; overflow-x: auto; scrollbar-width: thin; }
+    .thumbs button {
+      flex: 0 0 auto; width: 84px; padding: 0; border: none; background: none; cursor: pointer;
+      border-radius: 2px; overflow: hidden; opacity: 0.55; transition: opacity 0.12s; outline-offset: 1px;
+    }
+    .thumbs button.on, .thumbs button:hover { opacity: 1; }
+    .thumbs img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+
+    .badge {
+      font-size: 0.6875rem; color: #787774; background: #f1f1ef;
+      padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: 1px; font-weight: 400;
+    }
+
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      #map { height: 260px; }
+      .loop-grid { grid-template-columns: 1fr; }
+      .profile text { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <script src="nav.js"></script>
+
+
+  <video class="hero-loop" id="hero" autoplay muted loop playsinline></video>
+
+  <div class="stats" id="stats"></div>
+
+  <section>
+    <h2>Dive sites</h2>
+    <div id="map"></div>
+    <div class="map-legend">
+      <span><i style="background:var(--sea)"></i>Logged with a dive computer</span>
+      <span><i style="border:1.5px solid #787774"></i>Earlier</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Highlights</h2>
+    <div class="loop-grid" id="loops"></div>
+  </section>
+
+  <section>
+    <h2>Logbook</h2>
+    <div id="logbook"></div>
+  </section>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    // Clips, loops and posters live on Cloudflare R2 (clips/, loops/, posters/); locally they come from a gitignored mirror.
+    const VIDEO_BASE = ['localhost', '127.0.0.1'].includes(location.hostname)
+      ? '/video-local/' : 'https://video.lukaskoebis.com/';
+
+    const HERO_LOOP = 'loop-swarm';
+    const hero = document.getElementById('hero');
+    hero.poster = `${VIDEO_BASE}loops/${HERO_LOOP}.jpg`;
+    hero.src = `${VIDEO_BASE}loops/${HERO_LOOP}.mp4`;
+    // Highlights, in display order.
+    const LOOP_ORDER = ['loop-nemo-on-blue2', 'loop-xxx-mini-swarm', 'loop-turtle', 'loop-sand-hiding-fish'];
+
+    const fmtDate = iso => new Date(iso.slice(0, 19)).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const fmtTime = iso => iso.slice(11, 16);
+    const mins = s => Math.round(s / 60);
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    fetch('data/dives.json').then(r => r.json()).then(render);
+
+    function render(data) {
+      const logged = data.logged;
+      const earlierCount = data.earlier.reduce((n, e) => n + e.dives, 0);
+      const countries = new Set([...logged.map(d => d.country), ...data.earlier.map(e => e.country)]);
+      const hours = logged.reduce((n, d) => n + d.duration_s, 0) / 3600;
+      const deepest = Math.max(...logged.map(d => d.max_depth_m));
+
+      document.getElementById('stats').innerHTML = [
+        [logged.length + earlierCount, 'dives'],
+        [hours.toFixed(1) + '<small>h</small>', 'logged underwater'],
+        [deepest.toFixed(1) + '<small>m</small>', 'deepest dive'],
+        [countries.size, 'countries'],
+      ].map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="label">${l}</div></div>`).join('');
+
+      renderMap(logged, data.earlier);
+      renderLoops(logged);
+      renderLogbook(logged, data.earlier);
+    }
+
+    function renderMap(logged, earlier) {
+      const map = L.map('map', { scrollWheelZoom: false, worldCopyJump: true, attributionControl: true });
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri', maxZoom: 16,
+      }).addTo(map);
+
+      const pts = [];
+      earlier.forEach(e => {
+        L.circleMarker(e.latlon, { radius: 5, color: '#787774', weight: 1.5, fillOpacity: 0 })
+          .bindTooltip(`${e.place} · ${e.when}`).addTo(map);
+        pts.push(e.latlon);
+      });
+      logged.forEach(d => {
+        const p = d.pos;
+        if (!p) return;
+        L.circleMarker(p, { radius: 5, color: '#fff', weight: 1, fillColor: '#2f6f8f', fillOpacity: 1 })
+          .bindTooltip(`${d.site} · ${fmtDate(d.start_local)} · ${d.max_depth_m} m`)
+          .on('click', () => jumpTo(d.id))
+          .addTo(map);
+        pts.push(p);
+      });
+      map.fitBounds(pts, { padding: [24, 24] });
+    }
+
+    function jumpTo(id) {
+      const el = document.getElementById('dive-' + id);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+    }
+
+    function renderLoops(logged) {
+      const loops = logged.flatMap(d => d.loops.map(l => ({ l, d }))).filter(x => x.l !== HERO_LOOP)
+        .sort((a, b) => LOOP_ORDER.indexOf(a.l) - LOOP_ORDER.indexOf(b.l));
+      document.getElementById('loops').innerHTML = loops.map(({ l, d }) => `
+        <figure>
+          <video src="${VIDEO_BASE}loops/${l}.mp4" poster="${VIDEO_BASE}loops/${l}.jpg" autoplay muted loop playsinline></video>
+          <figcaption>${esc(d.site)}</figcaption>
+        </figure>`).join('');
+    }
+
+    function renderLogbook(logged, earlier) {
+      const trips = {};
+      [...logged].reverse().forEach(d => {
+        const key = `${d.region}, ${d.country}|${d.start_local.slice(0, 7)}`;
+        (trips[key] = trips[key] || []).push(d);
+      });
+      const root = document.getElementById('logbook');
+      Object.entries(trips).forEach(([key, dives]) => {
+        const [name] = key.split('|');
+        const trip = document.createElement('div');
+        trip.className = 'trip';
+        const month = new Date(dives[0].start_local.slice(0, 19)).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+        trip.innerHTML = `<div class="trip-header"><h3>${esc(name)}</h3><span>${month} · ${dives.length} dives${dives[0].operator ? ' · ' + esc(dives[0].operator) : ''}</span></div>`;
+        dives.forEach(d => trip.appendChild(diveCard(d)));
+        root.appendChild(trip);
+      });
+      // Trips from before the dive computer: no profiles, just where and how many.
+      [...earlier].reverse().forEach(e => {
+        const trip = document.createElement('div');
+        trip.className = 'trip';
+        trip.innerHTML = `<div class="trip-header"><h3>${esc(e.place)}, ${esc(e.country)}</h3><span>${new Date('1 ' + e.when).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} · ${e.dives} dives${e.operator ? ' · ' + esc(e.operator) : ''}${e.note ? ' · ' + esc(e.note) : ''}</span></div>`
+          + (e.photos ? `<div class="trip-photos">${e.photos.map(p => `<img loading="lazy" src="img/diving/photos/${p}" alt="">`).join('')}</div>` : '')
+          + (e.clips ? `<div class="trip-clips">${e.clips.map(c =>
+              `<video controls playsinline preload="none" poster="${VIDEO_BASE}posters/${c}.jpg" src="${VIDEO_BASE}clips/${c}.mp4"></video>`).join('')}</div>` : '');
+        root.appendChild(trip);
+      });
+    }
+
+    function diveCard(d) {
+      const el = document.createElement('article');
+      el.className = 'dive';
+      el.id = 'dive-' + d.id;
+      const night = +d.start_local.slice(11, 13) >= 17 && !/night/i.test(d.site);
+      el.innerHTML = `
+        <div class="dive-head">
+          <div class="dive-site">${esc(d.site)}${night ? '<span class="badge">night</span>' : ''}</div>
+          <div class="dive-date">${fmtDate(d.start_local)} · ${fmtTime(d.start_local)}</div>
+        </div>
+        <div class="dive-meta">
+          <span><b>${d.max_depth_m}</b> m max</span>
+          <span><b>${d.avg_depth_m}</b> m avg</span>
+          <span><b>${mins(d.duration_s)}</b> min</span>
+          <span><b>${d.min_temp_c}</b>°C</span>
+        </div>
+        ${profileSvg(d)}
+        ${d.notes ? `<p class="dive-notes">${esc(d.notes)}</p>` : ''}
+        ${d.photos.length ? `<div class="trip-photos">${d.photos.map(p => `<img loading="lazy" src="img/diving/photos/${p}" alt="">`).join('')}</div>` : ''}`;
+      if (d.clips.length) el.appendChild(player(d, el));
+      return el;
+    }
+
+    // Depth profile: x = seconds into the dive, y = depth (down is deeper).
+    const W = 600, H = 150, PAD_L = 28, PAD_T = 14, PAD_B = 18;
+    function scales(d) {
+      const maxD = Math.ceil(d.max_depth_m / 5) * 5;
+      const dur = d.duration_s;
+      return {
+        maxD, dur,
+        x: t => PAD_L + (t / dur) * (W - PAD_L),
+        y: m => PAD_T + (m / maxD) * (H - PAD_T - PAD_B),
+      };
+    }
+    function profileSvg(d) {
+      const { maxD, dur, x, y } = scales(d);
+      const { t, depth } = d.profile;
+      const line = t.map((ti, i) => `${i ? 'L' : 'M'}${x(ti).toFixed(1)},${y(depth[i]).toFixed(1)}`).join('');
+      const area = `${line}L${x(t[t.length - 1]).toFixed(1)},${y(0)}L${x(0)},${y(0)}Z`;
+      const step = maxD > 20 ? 10 : 5;
+      let grid = '';
+      for (let m = 0; m <= maxD; m += step) {
+        grid += `<line class="grid" x1="${PAD_L}" x2="${W}" y1="${y(m)}" y2="${y(m)}"/><text x="${PAD_L - 6}" y="${y(m) + 3}" text-anchor="end">${m}</text>`;
+      }
+      for (let mi = 10; mi * 60 < dur * 0.95; mi += 10) {
+        grid += `<text x="${x(mi * 60)}" y="${H - 4}" text-anchor="middle">${mi}′</text>`;
+      }
+      const clips = d.clips.map((c, i) =>
+        `<rect class="clip-mark" data-i="${i}" x="${x(c.offset_s)}" y="0" width="${Math.max(3, x(c.offset_s + c.duration_s) - x(c.offset_s))}" height="6" rx="1"><title>${esc(c.caption)}</title></rect>`).join('');
+      return `<svg class="profile" viewBox="0 0 ${W} ${H}" role="img" aria-label="Depth profile, max ${d.max_depth_m} m over ${mins(dur)} minutes">
+        ${grid}<path class="area" d="${area}"/><path class="line" d="${line}"/>${clips}
+        <line class="cursor-line" y1="0" y2="${H - PAD_B}"/><circle class="cursor" r="4.5"/>
+      </svg>`;
+    }
+
+    function depthAt(d, sec) {
+      const { t, depth } = d.profile;
+      let i = 1;
+      while (i < t.length - 1 && t[i] < sec) i++;
+      const f = Math.min(1, Math.max(0, (sec - t[i - 1]) / ((t[i] - t[i - 1]) || 1)));
+      return depth[i - 1] + f * (depth[i] - depth[i - 1]);
+    }
+
+    function player(d, card) {
+      const wrap = document.createElement('div');
+      wrap.className = 'player';
+      wrap.innerHTML = `
+        <video controls playsinline preload="none"></video>
+        ${d.clips.length > 1 ? `<div class="thumbs">${d.clips.map((c, i) =>
+          `<button type="button" data-i="${i}" aria-label="${esc(c.caption)}"><img loading="lazy" src="${VIDEO_BASE}posters/${c.id}.jpg" alt=""></button>`).join('')}</div>` : ''}`;
+      const video = wrap.querySelector('video');
+      const svg = card.querySelector('.profile');
+      const cursor = svg.querySelector('.cursor'), cline = svg.querySelector('.cursor-line');
+      const { x, y } = scales(d);
+      let cur = 0;
+
+      function select(i, play) {
+        cur = i;
+        const c = d.clips[i];
+        video.poster = `${VIDEO_BASE}posters/${c.id}.jpg`;
+        video.src = `${VIDEO_BASE}clips/${c.id}.mp4`;
+        wrap.querySelectorAll('.thumbs button').forEach(b => b.classList.toggle('on', +b.dataset.i === i));
+        svg.querySelectorAll('.clip-mark').forEach(r => r.classList.toggle('on', +r.dataset.i === i));
+        moveCursor(0);
+        if (play) video.play();
+      }
+      // Keep a marker on the depth profile in sync with the clip.
+      function moveCursor(t) {
+        const sec = d.clips[cur].offset_s + t;
+        const px = x(sec), py = y(depthAt(d, sec));
+        cursor.setAttribute('cx', px); cursor.setAttribute('cy', py);
+        cline.setAttribute('x1', px); cline.setAttribute('x2', px);
+        cursor.style.display = cline.style.display = 'block';
+      }
+      video.addEventListener('timeupdate', () => moveCursor(video.currentTime));
+      video.addEventListener('ended', () => { if (cur < d.clips.length - 1) select(cur + 1, true); });
+      wrap.querySelectorAll('.thumbs button').forEach(b => b.addEventListener('click', () => select(+b.dataset.i, true)));
+      svg.querySelectorAll('.clip-mark').forEach(r => r.addEventListener('click', () => select(+r.dataset.i, true)));
+      select(0, false);
+      return wrap;
+    }
+  </script>
+</body>
+</html>

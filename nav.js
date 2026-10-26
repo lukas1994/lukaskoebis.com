@@ -3,6 +3,7 @@ const navLinks = [
   { href: '/investments.html', label: 'Investments' },
   { href: '/photography.html', label: 'Photography' },
   { href: '/travel.html', label: 'Travel' },
+  { href: '/diving.html', label: 'Diving' },
   { href: '/health.html', label: 'Health' },
   { href: '/music.html', label: 'Music' },
 ];
