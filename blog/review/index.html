@@ -60,6 +60,7 @@
       flex: 1;
     }
     .proposal {
+      user-select: text;
       border: 1px solid #ecebe7;
       border-radius: 8px;
       padding: 12px;
@@ -647,6 +648,7 @@
           </div>
         `;
         card.addEventListener('click', (e) => {
+          if (String(window.getSelection?.() || '').length) return;
           const act = e.target.closest('button')?.dataset.act;
           if (act === 'delete') {
             e.stopPropagation();
@@ -684,6 +686,7 @@
           </div>
         `;
         card.addEventListener('click', (ev) => {
+          if (String(window.getSelection?.() || '').length) return;
           const act = ev.target.closest('button')?.dataset.act;
           if (act === 'delete') {
             ev.stopPropagation();
@@ -985,6 +988,8 @@
         `;
         card.addEventListener('click', (e) => {
           if (e.target.closest('button') || e.target.closest('textarea')) return;
+          if (String(window.getSelection?.() || '').length) return; // finishing a text selection isn't a click
+          if (activeId === p.id && e.target.closest('.detail, .rationale')) return; // clicks inside an open card keep it open
           activeId = activeId === p.id ? null : p.id;
           renderList();
           highlightActiveProposal();
